@@ -1,6 +1,7 @@
 .item {
   display: flex;
   gap: 20px;
+  margin: 20px;
 }
 
 .button {
@@ -41,4 +42,20 @@
   margin: 0 auto;
   width: 200px;
   height: auto;
+}
+
+.pagination {
+  display: flex;
+  gap: 5px;
+  margin: 20px;
+}
+
+.page {
+  text-decoration: none;
+  color: black;
+}
+
+.activePage {
+  text-decoration: none;
+  color: orange;
 }
