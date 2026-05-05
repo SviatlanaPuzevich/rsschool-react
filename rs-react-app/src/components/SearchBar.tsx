@@ -6,6 +6,7 @@ interface SearchInputProps {
   query: string;
   onSearch: () => void;
   onQueryChange: (value: string) => void;
+  onError: () => void;
 }
 
 class SearchBar extends React.Component<SearchInputProps> {
@@ -23,6 +24,9 @@ class SearchBar extends React.Component<SearchInputProps> {
           placeholder="Enter pokemon name..."
         />
         <Button value="Search" onClick={this.props.onSearch} />
+        <button onClick={this.props.onError} className={styles.errorButton}>
+          Generate Exception
+        </button>
       </section>
     );
   }

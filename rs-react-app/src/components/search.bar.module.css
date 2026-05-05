@@ -29,6 +29,8 @@
 
 .section {
   margin: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 .imgContainer {
@@ -58,4 +60,18 @@
 .activePage {
   text-decoration: none;
   color: orange;
+}
+
+.errorButton {
+  background-color: red;
+  color: white;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
 }

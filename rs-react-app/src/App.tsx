@@ -2,6 +2,7 @@ import { Component } from 'react';
 import SearchBar from './components/SearchBar.tsx';
 import SearchResult from './components/SearchResult';
 import { type Pokemon } from './types.ts';
+import ErrorBoundary from './ErrorBoundary.tsx';
 
 interface AppState {
   query: string;
@@ -9,6 +10,7 @@ interface AppState {
   foundPokemons: Pokemon[];
   loaded: boolean;
   error: string | null;
+  generateError: boolean;
 }
 
 class App extends Component<{}, AppState> {
@@ -17,6 +19,7 @@ class App extends Component<{}, AppState> {
     pokemons: [],
     foundPokemons: [],
     loaded: false,
+    generateError: false,
     error: null,
   };
 
@@ -81,24 +84,38 @@ class App extends Component<{}, AppState> {
     });
   };
 
+  handleErrorGeneration = () => {
+    this.setState({
+      generateError: true,
+    });
+  };
+
   render() {
     const { query, error, loaded, foundPokemons } = this.state;
     return (
-      <>
+      <div style={{ margin: '20px' }}>
         <h1>Pokemon search</h1>
         <SearchBar
           onQueryChange={this.handleQueryChange}
           query={query}
           onSearch={this.handleSearchSubmit}
+          onError={this.handleErrorGeneration}
         />
-        <section>
-          {!loaded && <p>Loading...</p>}
+        <ErrorBoundary>
+          <section>
+            {!loaded && <p>Loading...</p>}
 
-          {error && <p>{error}</p>}
+            {error && <p>{error}</p>}
 
-          {loaded && !error && <SearchResult pokemons={foundPokemons} />}
-        </section>
-      </>
+            {loaded && !error && (
+              <SearchResult
+                pokemons={foundPokemons}
+                error={this.state.generateError}
+              />
+            )}
+          </section>
+        </ErrorBoundary>
+      </div>
     );
   }
 }
