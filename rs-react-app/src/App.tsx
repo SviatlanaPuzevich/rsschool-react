@@ -5,64 +5,69 @@ import { type Pokemon } from './types.ts';
 
 interface AppState {
   query: string;
-  pokemons: Pokemon[] | null;
+  pokemons: Pokemon[];
+  foundPokemons: Pokemon[];
+  loaded: boolean;
 }
 
 class App extends Component<{}, AppState> {
   state: AppState = {
     query: localStorage.getItem('query') || '',
     pokemons: [],
+    foundPokemons: [],
+    loaded: false,
   };
 
-  handleSearchSubmit = async () => {
-    const queryState: string = this.state.query.trim().toLowerCase();
-
-    if (!queryState) return;
-    //save query to localstorage
-    localStorage.setItem('query', this.state.query);
-
+  async componentDidMount() {
+    const query: string = this.state.query.trim().toLowerCase();
     try {
-      const pokemonResponse = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${queryState}`
-      );
-      console.log(pokemonResponse);
-
-      if (!pokemonResponse.ok) {
-        this.setState({
-          query: '',
-          pokemons: null,
-        });
-        throw new Error('Pokemon not found');
-      }
-
-      const pokemonData = await pokemonResponse.json();
-
-      const abilitiesResponse = await fetch(
-        `https://pokeapi.co/api/v2/pokemon-species/${queryState}`
+      const response = await fetch(
+        'https://pokeapi.co/api/v2/pokemon?limit=1500'
       );
 
-      const abilities = await abilitiesResponse.json();
+      const pokemonsData = await response.json();
+      const pokemons: Pokemon[] = pokemonsData.results.map(
+        (item: { name: string; url: string }) => {
+          const parts = item.url.split('/');
 
-      const englishDescription = abilities.flavor_text_entries.find(
-        (entry: any) => entry.language.name === 'en'
+          const id = parts[parts.length - 2];
+          const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+          return {
+            id,
+            name: item.name,
+            image,
+            abilities: '',
+          };
+        }
       );
-
-      const pokemon: Pokemon = {
-        name: pokemonData.name,
-        image: pokemonData.sprites.front_default,
-        abilities: englishDescription?.flavor_text || 'No description',
-      };
-
-      console.log(pokemon);
-
-      this.setState({ ...this.state, pokemons: [pokemon] });
-    } catch (error) {
-      console.error(error);
+      const filteredPokemon = query
+        ? pokemons.filter((item) => item.name.startsWith(query))
+        : pokemons;
+      this.setState({
+        query,
+        pokemons,
+        foundPokemons: filteredPokemon,
+        loaded: true,
+      });
+    } catch (e) {
+      console.error('Failed to fetch pokemons:', e);
+      this.setState({ loaded: true });
     }
+  }
+
+  handleSearchSubmit = () => {
+    const query = this.state.query.trim().toLowerCase();
+    console.log(query);
+    localStorage.setItem('query', this.state.query);
+    const filteredPokemon = query
+      ? this.state.pokemons.filter((item) => item.name.startsWith(query))
+      : this.state.pokemons;
+    this.setState({ ...this.state, foundPokemons: filteredPokemon });
   };
 
   handleQueryChange = (value: string) => {
     this.setState({
+      ...this.state,
       query: value,
     });
   };
@@ -77,7 +82,11 @@ class App extends Component<{}, AppState> {
           onSearch={this.handleSearchSubmit}
         />
         <section>
-          <SearchResult pokemons={this.state.pokemons} />
+          {this.state.loaded ? (
+            <SearchResult pokemons={this.state.foundPokemons} />
+          ) : (
+            <div>Loading...</div>
+          )}
         </section>
       </>
     );

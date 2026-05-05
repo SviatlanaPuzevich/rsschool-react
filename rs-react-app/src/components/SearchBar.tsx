@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './Button.tsx';
+import styles from './search.bar.module.css';
 
 interface SearchInputProps {
   query: string;
@@ -14,7 +15,7 @@ class SearchBar extends React.Component<SearchInputProps> {
 
   render() {
     return (
-      <section>
+      <section className={styles.section}>
         <input
           type="text"
           onChange={this.handleChange}

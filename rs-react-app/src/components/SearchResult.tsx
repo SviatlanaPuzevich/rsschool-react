@@ -1,33 +1,33 @@
 import { Component } from 'react';
 import type { Pokemon } from '../types.ts';
+import styles from './search.bar.module.css';
 
 interface Props {
-  pokemons: Pokemon[] | null | undefined;
+  pokemons: Pokemon[];
 }
 
 class SearchResult extends Component<Props> {
   render() {
-    if (this.props.pokemons === null) {
+    if (this.props.pokemons.length === 0) {
       return <div>No such pokemon</div>;
     }
-
-    if (this.props.pokemons.length === 0) {
-      return <div>Try to search something</div>;
-    }
     return (
-      <ul>
+      <div>
+        <h2>List of pokemons</h2>
         {this.props.pokemons.map((item: Pokemon) => (
-          <li key={item.name}>
-            {item.name}
-            <img
-              src={item.image}
-              alt={item.name}
-              style={{ width: '200px', height: 'auto' }}
-            />
-            {item.abilities}
-          </li>
+          <div key={item.id} className={styles.item}>
+            <figure className={styles.imgContainer}>
+              <img
+                className={styles.pokemonImg}
+                src={item.image}
+                alt={item.name}
+              />
+              <figcaption>{item.name}</figcaption>
+            </figure>
+            <div>{item.abilities}</div>
+          </div>
         ))}
-      </ul>
+      </div>
     );
   }
 }
