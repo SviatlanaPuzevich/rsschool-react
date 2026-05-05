@@ -8,6 +8,7 @@ interface AppState {
   pokemons: Pokemon[];
   foundPokemons: Pokemon[];
   loaded: boolean;
+  error: string | null;
 }
 
 class App extends Component<{}, AppState> {
@@ -16,9 +17,14 @@ class App extends Component<{}, AppState> {
     pokemons: [],
     foundPokemons: [],
     loaded: false,
+    error: null,
   };
 
   async componentDidMount() {
+    this.setState({
+      loaded: false,
+      error: null,
+    });
     const query: string = this.state.query.trim().toLowerCase();
     try {
       const response = await fetch(
@@ -51,7 +57,10 @@ class App extends Component<{}, AppState> {
       });
     } catch (e) {
       console.error('Failed to fetch pokemons:', e);
-      this.setState({ loaded: true });
+      this.setState({
+        loaded: true,
+        error: 'Can not load pokemons. Please try to reload',
+      });
     }
   }
 
@@ -73,20 +82,21 @@ class App extends Component<{}, AppState> {
   };
 
   render() {
+    const { query, error, loaded, foundPokemons } = this.state;
     return (
       <>
         <h1>Pokemon search</h1>
         <SearchBar
           onQueryChange={this.handleQueryChange}
-          query={this.state.query}
+          query={query}
           onSearch={this.handleSearchSubmit}
         />
         <section>
-          {this.state.loaded ? (
-            <SearchResult pokemons={this.state.foundPokemons} />
-          ) : (
-            <div>Loading...</div>
-          )}
+          {!loaded && <p>Loading...</p>}
+
+          {error && <p>{error}</p>}
+
+          {loaded && !error && <SearchResult pokemons={foundPokemons} />}
         </section>
       </>
     );
