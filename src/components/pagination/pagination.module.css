@@ -1,0 +1,15 @@
+.pagination {
+  display: flex;
+  gap: 5px;
+  margin: 20px;
+}
+
+.page {
+  text-decoration: none;
+  color: black;
+}
+
+.activePage {
+  text-decoration: none;
+  color: orange;
+}

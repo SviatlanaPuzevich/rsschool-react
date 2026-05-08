@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import type { Pokemon } from '../types.ts';
-import styles from './search.bar.module.css';
-import Pagination from './Pagination.tsx';
+import type { Pokemon } from '../../types.ts';
+import styles from './search.result.module.css';
+import Pagination from '../pagination/Pagination.tsx';
+import PokemonCard from '../pokemonCard/pokemonCard.tsx';
 
 interface Props {
   pokemons: Pokemon[];
@@ -13,6 +14,7 @@ interface State {
 }
 
 const POKEMON_PAGE_SIZE = 10;
+const POKEMON_COLUMN_COUNT = 3;
 
 class SearchResult extends Component<Props, State> {
   state: State = {
@@ -43,30 +45,23 @@ class SearchResult extends Component<Props, State> {
       return <div>No such pokemon</div>;
     }
 
-    const pagesCount = Math.ceil(pokemons.length / POKEMON_PAGE_SIZE);
+    const pagesCount = Math.ceil(
+      pokemons.length / (POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT)
+    );
 
-    const startIndex = (currentPage - 1) * POKEMON_PAGE_SIZE;
+    const startIndex =
+      (currentPage - 1) * POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT;
     const currentPokemons = pokemons.slice(
       startIndex,
-      startIndex + POKEMON_PAGE_SIZE
+      startIndex + POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT
     );
 
     return (
       <>
-        <div>
-          <h2>List of pokemons</h2>
+        <h2>List of pokemons</h2>
+        <div className={styles['container']}>
           {currentPokemons.map((item: Pokemon) => (
-            <div key={item.id} className={styles.item}>
-              <figure className={styles.imgContainer}>
-                <img
-                  className={styles.pokemonImg}
-                  src={item.image}
-                  alt={item.name}
-                />
-                <figcaption className={styles.caption}>{item.name}</figcaption>
-              </figure>
-              {item.abilities && <div>{item.abilities}</div>}
-            </div>
+            <PokemonCard pokemon={item} />
           ))}
         </div>
         <Pagination

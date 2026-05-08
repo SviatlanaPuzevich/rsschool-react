@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './Button.tsx';
+import Button from '../button/Button.tsx';
 import styles from './search.bar.module.css';
 
 interface SearchInputProps {
@@ -16,17 +16,24 @@ class SearchBar extends React.Component<SearchInputProps> {
 
   render() {
     return (
-      <section className={styles.section}>
+      <section className={styles.container}>
         <input
+          id="query"
           type="text"
           onChange={this.handleChange}
           value={this.props.query}
           placeholder="Enter pokemon name..."
         />
-        <Button value="Search" onClick={this.props.onSearch} />
-        <button onClick={this.props.onError} className={styles.errorButton}>
-          Generate Exception
-        </button>
+        <Button
+          value="Search"
+          onClick={this.props.onSearch}
+          buttonType="primary"
+        />
+        <Button
+          onClick={this.props.onError}
+          value="Generate Exception"
+          buttonType="danger"
+        />
       </section>
     );
   }
