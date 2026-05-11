@@ -13,3 +13,16 @@
   text-decoration: none;
   color: orange;
 }
+
+.button {
+  align-items: center;
+  border: none;
+  text-transform: uppercase;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover {
+  cursor: pointer;
+}

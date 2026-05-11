@@ -61,7 +61,7 @@ class SearchResult extends Component<Props, State> {
         <h2>List of pokemons</h2>
         <div className={styles['container']}>
           {currentPokemons.map((item: Pokemon) => (
-            <PokemonCard pokemon={item} />
+            <PokemonCard pokemon={item} key={item.id} />
           ))}
         </div>
         <Pagination
