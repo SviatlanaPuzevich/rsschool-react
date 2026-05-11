@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import SearchResult from './SearchResult.tsx';
+import type { Pokemon } from '../../types.ts';
 
 describe('SearchResult element', () => {
   it('should render No such pokemon if there are no pokemons', () => {
@@ -12,7 +13,7 @@ describe('SearchResult element', () => {
 });
 
 describe('Navigation buttons', () => {
-  const mockPokemons = Array.from({ length: 45 }, (_, index) => ({
+  const mockPokemons: Pokemon[] = Array.from({ length: 45 }, (_, index) => ({
     id: index,
     name: `pokemon-${index + 1}`,
     image: `https://example.com/pokemon-${index + 1}.png`,
