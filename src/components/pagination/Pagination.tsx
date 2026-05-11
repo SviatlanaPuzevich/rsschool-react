@@ -38,6 +38,7 @@ class Pagination extends React.Component<Props> {
           disabled={currentPage === 1}
           className={styles.button}
           onClick={(e) => this.handlePageChange(e, currentPage - 1)}
+          aria-label="back to previous page"
         >
           &lt;
         </button>
@@ -57,6 +58,7 @@ class Pagination extends React.Component<Props> {
           disabled={currentPage === count}
           className={styles.button}
           onClick={(e) => this.handlePageChange(e, currentPage + 1)}
+          aria-label="forward to next page"
         >
           &gt;
         </button>

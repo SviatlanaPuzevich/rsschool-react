@@ -2,7 +2,7 @@ import { Component } from 'react';
 import type { Pokemon } from '../../types.ts';
 import styles from './search.result.module.css';
 import Pagination from '../pagination/Pagination.tsx';
-import PokemonCard from '../pokemonCard/pokemonCard.tsx';
+import PokemonCard from '../pokemonCard/PokemonCard.tsx';
 
 interface Props {
   pokemons: Pokemon[];
@@ -36,10 +36,6 @@ class SearchResult extends Component<Props, State> {
   render() {
     const { pokemons, error } = this.props;
     const { currentPage } = this.state;
-
-    if (error) {
-      throw new Error('This error was generated');
-    }
 
     if (pokemons.length === 0) {
       return <div>No such pokemon</div>;

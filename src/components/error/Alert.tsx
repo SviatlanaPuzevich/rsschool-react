@@ -4,12 +4,12 @@ import styles from './error.module.css';
 interface Props {
   show: boolean;
   message?: string;
-  onClose: (hide: boolean) => void;
+  onClose: () => void;
 }
 
 class Alert extends React.Component<Props> {
   render() {
-    const { message = 'Something went wrong', show } = this.props;
+    const { message = 'Something went wrong', show, onClose } = this.props;
     if (!show) return null;
 
     return (
@@ -17,7 +17,7 @@ class Alert extends React.Component<Props> {
         <div className={styles.alert__content}>{message}</div>
         <button
           className={styles.alert__close}
-          onClick={this.onClose}
+          onClick={onClose}
           aria-label="Close alert"
         >
           ×
