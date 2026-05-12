@@ -3,7 +3,7 @@ import styles from './search.page.module.css';
 import SearchBar from '../components/searchBar/SearchBar.tsx';
 import SearchResult from '../components/searchResult/SearchResult.tsx';
 import type { Pokemon } from '../types.ts';
-import ErrorBoundary from '../ErrorBoundary.tsx';
+import ErrorBoundary from '../components/errorBoundary/ErrorBoundary.tsx';
 import Alert from '../components/error/Alert.tsx';
 
 interface State {

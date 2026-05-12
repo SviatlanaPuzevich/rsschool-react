@@ -37,6 +37,10 @@ class SearchResult extends Component<Props, State> {
     const { pokemons, error } = this.props;
     const { currentPage } = this.state;
 
+    if (error) {
+      throw new Error('This error was generated');
+    }
+
     if (pokemons.length === 0) {
       return <div>No such pokemon</div>;
     }
