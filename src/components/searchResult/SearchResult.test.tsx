@@ -1,6 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import SearchResult from './SearchResult.tsx';
 import type { Pokemon } from '../../types.ts';
+import userEvent from '@testing-library/user-event';
 
 describe('SearchResult element', () => {
   it('should render No such pokemon if there are no pokemons', () => {
@@ -19,7 +20,8 @@ describe('Navigation buttons', () => {
     image: `https://example.com/pokemon-${index + 1}.png`,
   }));
 
-  it('should navigate between pages correctl', () => {
+  it('should navigate between pages correct', async () => {
+    const user = userEvent.setup();
     render(<SearchResult pokemons={mockPokemons} />);
 
     const nextButton = screen.getByRole('button', {
@@ -29,13 +31,13 @@ describe('Navigation buttons', () => {
       name: /back to previous page/i,
     });
 
-    fireEvent.click(nextButton);
+    await user.click(nextButton);
 
     expect(screen.queryByText('pokemon-1')).not.toBeInTheDocument();
 
     expect(screen.getByText('pokemon-40')).toBeInTheDocument();
 
-    fireEvent.click(prevButton);
+    await user.click(prevButton);
 
     expect(screen.queryByText('pokemon-1')).toBeInTheDocument();
   });

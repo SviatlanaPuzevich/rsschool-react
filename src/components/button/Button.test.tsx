@@ -1,9 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 import Button from './Button.tsx';
 
 describe('Button Component', () => {
-
   it('should render the button with correct value', () => {
     render(<Button value="Click me" onClick={() => {}} buttonType="primary" />);
 
@@ -12,8 +12,9 @@ describe('Button Component', () => {
     expect(buttonElement).toBeInTheDocument();
   });
 
-  it('should call onClick handler when clicked', () => {
+  it('should call onClick handler when clicked', async () => {
     const handleClick = vi.fn();
+    const user = userEvent.setup();
 
     render(
       <Button buttonType="primary" value="Submit" onClick={handleClick} />
@@ -21,7 +22,7 @@ describe('Button Component', () => {
 
     const buttonElement = screen.getByText(/submit/i);
 
-    fireEvent.click(buttonElement);
+    await user.click(buttonElement);
 
     expect(handleClick).toHaveBeenCalledTimes(1);
   });

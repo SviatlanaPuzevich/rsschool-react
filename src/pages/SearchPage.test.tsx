@@ -1,6 +1,7 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import SearchPage from './SearchPage';
 import { vi } from 'vitest';
+import userEvent from '@testing-library/user-event';
 
 const mockPokemonData = {
   results: [
@@ -23,45 +24,53 @@ describe('SearchBar Component', async () => {
   it('renders search input and search button', async () => {
     render(<SearchPage />);
 
-    expect(await screen.getByRole('textbox')).toBeInTheDocument();
+    expect(await screen.findByRole('textbox')).toBeInTheDocument();
     expect(
-      await screen.getByRole('button', { name: /search/i })
+      await screen.findByRole('button', { name: /search/i })
     ).toBeInTheDocument();
   });
 
   it('displays previously saved search term from localStorage on mount', async () => {
-    localStorage.setItem('query', 'Pikachu');
+    localStorage.setItem('query', 'pikachu');
     render(<SearchPage />);
 
-    const input = (await screen.getByRole('textbox')) as HTMLInputElement;
-    expect(input.value).toBe('Pikachu');
+    const input = await screen.findByRole('textbox') as HTMLInputElement;
+
+    expect(input.value).toBe('pikachu');
   });
 
   it('shows empty input when no saved term exists', async () => {
     render(<SearchPage />);
 
-    const input = (await screen.getByRole('textbox')) as HTMLInputElement;
+    const input = await screen.findByRole('textbox') as HTMLInputElement;
+
     expect(input.value).toBe('');
   });
 
   it('updates input value when user types', async () => {
-    render(<SearchPage />);
-    const input = (await screen.getByRole('textbox')) as HTMLInputElement;
+    const user = userEvent.setup();
 
-    fireEvent.change(input, { target: { value: 'bulbasaur' } });
+    render(<SearchPage />);
+
+    const input = await screen.findByRole('textbox') as HTMLInputElement;
+
+    await user.type(input, 'bulbasaur');
+
     expect(input.value).toBe('bulbasaur');
   });
 });
 
 describe('Error Boundary Component', async () => {
   it('catches and handles JavaScript errors in child components', async () => {
+    const user = userEvent.setup();
+
     render(<SearchPage />);
 
     const generateErrorButton = await screen.findByText(/Generate Exception/i);
 
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    fireEvent.click(generateErrorButton);
+    await user.click(generateErrorButton);
 
     expect(
       screen.getByText(/Here is test for error boundary/, {
@@ -73,11 +82,12 @@ describe('Error Boundary Component', async () => {
   });
 
   it('should log an error to the console', async () => {
+    const user = userEvent.setup();
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     render(<SearchPage />);
     const btn = screen.getByText(/Generate Exception/i);
-    fireEvent.click(btn);
+    await user.click(btn);
 
     await waitFor(() => {
       expect(consoleSpy).toHaveBeenCalled();
