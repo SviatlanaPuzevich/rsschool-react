@@ -85,4 +85,35 @@ describe('Error Boundary Component', async () => {
 
     consoleSpy.mockRestore();
   });
+
+});
+
+describe('Alert Component', async () => {
+  it('shows error message when server request fails', async () => {
+    global.fetch = vi.fn().mockRejectedValue(
+        new Error('Server error')
+    );
+
+    render(<SearchPage />);
+
+    expect(
+        await screen.findByText(
+            /can not load pokemons\. please try to reload/i
+        )
+    ).toBeInTheDocument();
+  });
+});
+
+describe('On the search page', async () => {
+  it('shows loading message while data is loading', () => {
+    global.fetch = vi.fn(
+        () =>
+            new Promise(() => {
+            })
+    );
+
+    render(<SearchPage />);
+
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  });
 });
