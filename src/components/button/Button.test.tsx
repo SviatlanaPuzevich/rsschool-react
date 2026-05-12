@@ -14,7 +14,9 @@ describe('Button Component', () => {
   it('should call onClick handler when clicked', () => {
     const handleClick = vi.fn();
 
-    render(<Button value="Submit" onClick={handleClick} />);
+    render(
+      <Button buttonType="primary" value="Submit" onClick={handleClick} />
+    );
 
     const buttonElement = screen.getByText(/submit/i);
 

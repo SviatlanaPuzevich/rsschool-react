@@ -16,7 +16,7 @@ interface State {
   showError: boolean;
 }
 
-class SearchPage extends React.Component<{}, State> {
+class SearchPage extends React.Component<object, State> {
   state: State = {
     query: localStorage.getItem('query') || '',
     pokemons: [],
@@ -63,11 +63,11 @@ class SearchPage extends React.Component<{}, State> {
         foundPokemons: filteredPokemon,
         loaded: true,
       });
-    } catch (e) {
+    } catch (e: Error) {
       this.setState({
         loaded: true,
         showError: true,
-        error: 'Can not load pokemons. Please try to reload',
+        error: e.message || 'Can not load pokemons. Please try to reload',
       });
     }
   }
