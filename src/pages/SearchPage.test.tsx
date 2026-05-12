@@ -101,7 +101,7 @@ describe('Alert Component', async () => {
 
 describe('On the search page', async () => {
   it('shows loading message while data is loading', () => {
-    global.fetch = vi.fn(() => new Promise(() => {}));
+    global.fetch = vi.fn(() => new Promise<Response>(() => {}));
 
     render(<SearchPage />);
 

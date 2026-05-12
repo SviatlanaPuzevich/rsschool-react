@@ -63,11 +63,11 @@ class SearchPage extends React.Component<object, State> {
         foundPokemons: filteredPokemon,
         loaded: true,
       });
-    } catch (e: Error) {
+    } catch (e: unknown) {
       this.setState({
         loaded: true,
         showError: true,
-        error: e.message || 'Can not load pokemons. Please try to reload',
+        error: 'Can not load pokemons. Please try to reload',
       });
     }
   }

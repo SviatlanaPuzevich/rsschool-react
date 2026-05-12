@@ -3,7 +3,7 @@ import styles from './error.module.css';
 
 interface Props {
   show: boolean;
-  message?: string;
+  message?: string | null;
   onClose: () => void;
 }
 
