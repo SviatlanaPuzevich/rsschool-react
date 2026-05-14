@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './search.page.module.css';
-import SearchBar from '../components/searchBar/SearchBar.tsx';
-import SearchResult from '../components/searchResult/SearchResult.tsx';
-import type { Pokemon } from '../types.ts';
-import ErrorBoundary from '../components/errorBoundary/ErrorBoundary.tsx';
-import Alert from '../components/error/Alert.tsx';
-import { buildURLToImage, getIdFromURL } from '../utils/pokemonsHelper.ts';
-import { ERROR_MESSAGE, LOADING } from '../constants/messages.ts';
+import SearchBar from '../../components/searchBar/SearchBar.tsx';
+import SearchResult from '../../components/searchResult/SearchResult.tsx';
+import type { Pokemon } from '../../types.ts';
+import ErrorBoundary from '../../components/errorBoundary/ErrorBoundary.tsx';
+import Alert from '../../components/error/Alert.tsx';
+import { buildURLToImage, getIdFromURL } from '../../utils/pokemonsHelper.ts';
+import { ERROR_MESSAGE, LOADING } from '../../constants/messages.ts';
 
 interface State {
   query: string;

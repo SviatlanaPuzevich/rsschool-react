@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import SearchPage from './SearchPage';
+import SearchPage from './SearchPage.tsx';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { ERROR_MESSAGE, LOADING } from '../constants/messages.ts';
+import { ERROR_MESSAGE, LOADING } from '../../constants/messages.ts';
 
 const mockPokemonData = {
   results: [
