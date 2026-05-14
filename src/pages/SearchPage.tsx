@@ -5,6 +5,8 @@ import SearchResult from '../components/searchResult/SearchResult.tsx';
 import type { Pokemon } from '../types.ts';
 import ErrorBoundary from '../components/errorBoundary/ErrorBoundary.tsx';
 import Alert from '../components/error/Alert.tsx';
+import { buildURLToImage, getIdFromURL } from '../utils/pokemonsHelper.ts';
+import { ERROR_MESSAGE, LOADING } from '../constants/messages.ts';
 
 interface State {
   query: string;
@@ -42,10 +44,8 @@ class SearchPage extends React.Component<object, State> {
       const pokemonsData = await response.json();
       const pokemons: Pokemon[] = pokemonsData.results.map(
         (item: { name: string; url: string }) => {
-          const parts = item.url.split('/');
-
-          const id = parts[parts.length - 2];
-          const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+          const id = getIdFromURL(item.url);
+          const image = buildURLToImage(id);
           return {
             id,
             name: item.name,
@@ -67,7 +67,7 @@ class SearchPage extends React.Component<object, State> {
       this.setState({
         loaded: true,
         showError: true,
-        error: 'Can not load pokemons. Please try to reload',
+        error: e instanceof Error ? e.message : ERROR_MESSAGE.NOT_LOADED,
       });
     }
   }
@@ -113,7 +113,7 @@ class SearchPage extends React.Component<object, State> {
             onError={this.handleErrorGeneration}
           />
           <section className={styles.result}>
-            {!loaded && <p>Loading...</p>}
+            {!loaded && <p>{LOADING}</p>}
 
             {showError && (
               <Alert

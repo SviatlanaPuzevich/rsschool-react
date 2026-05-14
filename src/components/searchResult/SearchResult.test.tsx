@@ -2,25 +2,36 @@ import { render, screen } from '@testing-library/react';
 import SearchResult from './SearchResult.tsx';
 import type { Pokemon } from '../../types.ts';
 import userEvent from '@testing-library/user-event';
+import {
+  POKEMON_PAGE_SIZE,
+  POKEMON_COLUMN_COUNT,
+} from '../../constants/layout.ts';
+import { SEARCH_RESULT } from '../../constants/messages.ts';
 
 describe('SearchResult element', () => {
   it('should render No such pokemon if there are no pokemons', () => {
     render(<SearchResult pokemons={[]} />);
 
-    const paginationElement = screen.queryByText(/No such pokemon/i);
+    const paginationElement = screen.queryByText(SEARCH_RESULT.NOT_FOUND);
 
     expect(paginationElement).toBeInTheDocument();
   });
 });
 
 describe('Navigation buttons', () => {
-  const mockPokemons: Pokemon[] = Array.from({ length: 45 }, (_, index) => ({
-    id: index,
-    name: `pokemon-${index + 1}`,
-    image: `https://example.com/pokemon-${index + 1}.png`,
-  }));
+  const countPokemons = 2 * POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT;
+  const mockPokemons: Pokemon[] = Array.from(
+    { length: countPokemons },
+    (_, index) => ({
+      id: index,
+      name: `pokemon-${index + 1}`,
+      image: `https://example.com/pokemon-${index + 1}.png`,
+    })
+  );
 
   it('should navigate between pages correct', async () => {
+    const pokemonNameOnFirstPage = 'pokemon-1';
+    const pokemonNameOnSecondPage = `pokemon-${POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT + 1}`;
     const user = userEvent.setup();
     render(<SearchResult pokemons={mockPokemons} />);
 
@@ -33,12 +44,12 @@ describe('Navigation buttons', () => {
 
     await user.click(nextButton);
 
-    expect(screen.queryByText('pokemon-1')).not.toBeInTheDocument();
+    expect(screen.queryByText(pokemonNameOnFirstPage)).not.toBeInTheDocument();
 
-    expect(screen.getByText('pokemon-40')).toBeInTheDocument();
+    expect(screen.getByText(pokemonNameOnSecondPage)).toBeInTheDocument();
 
     await user.click(prevButton);
 
-    expect(screen.queryByText('pokemon-1')).toBeInTheDocument();
+    expect(screen.queryByText(pokemonNameOnFirstPage)).toBeInTheDocument();
   });
 });

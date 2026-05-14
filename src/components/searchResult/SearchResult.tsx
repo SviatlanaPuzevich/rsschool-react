@@ -3,6 +3,12 @@ import type { Pokemon } from '../../types.ts';
 import styles from './search.result.module.css';
 import Pagination from '../pagination/Pagination.tsx';
 import PokemonCard from '../pokemonCard/PokemonCard.tsx';
+import {
+  FIRST_PAGE,
+  POKEMON_PAGE_SIZE,
+  POKEMON_COLUMN_COUNT,
+} from '../../constants/layout.ts';
+import { SEARCH_RESULT } from '../../constants/messages.ts';
 
 interface Props {
   pokemons: Pokemon[];
@@ -13,17 +19,14 @@ interface State {
   currentPage: number;
 }
 
-const POKEMON_PAGE_SIZE = 10;
-const POKEMON_COLUMN_COUNT = 3;
-
 class SearchResult extends Component<Props, State> {
   state: State = {
-    currentPage: 1,
+    currentPage: FIRST_PAGE,
   };
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.pokemons !== this.props.pokemons) {
-      this.setState({ currentPage: 1 });
+      this.setState({ currentPage: FIRST_PAGE });
     }
   }
 
@@ -42,7 +45,7 @@ class SearchResult extends Component<Props, State> {
     }
 
     if (pokemons.length === 0) {
-      return <div>No such pokemon</div>;
+      return <div>{SEARCH_RESULT.NOT_FOUND}</div>;
     }
 
     const pagesCount = Math.ceil(

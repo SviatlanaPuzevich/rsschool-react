@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import SearchPage from './SearchPage';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
+import { ERROR_MESSAGE, LOADING } from '../constants/messages.ts';
 
 const mockPokemonData = {
   results: [
@@ -34,7 +35,7 @@ describe('SearchBar Component', async () => {
     localStorage.setItem('query', 'pikachu');
     render(<SearchPage />);
 
-    const input = await screen.findByRole('textbox') as HTMLInputElement;
+    const input = (await screen.findByRole('textbox')) as HTMLInputElement;
 
     expect(input.value).toBe('pikachu');
   });
@@ -42,7 +43,7 @@ describe('SearchBar Component', async () => {
   it('shows empty input when no saved term exists', async () => {
     render(<SearchPage />);
 
-    const input = await screen.findByRole('textbox') as HTMLInputElement;
+    const input = (await screen.findByRole('textbox')) as HTMLInputElement;
 
     expect(input.value).toBe('');
   });
@@ -52,7 +53,7 @@ describe('SearchBar Component', async () => {
 
     render(<SearchPage />);
 
-    const input = await screen.findByRole('textbox') as HTMLInputElement;
+    const input = (await screen.findByRole('textbox')) as HTMLInputElement;
 
     await user.type(input, 'bulbasaur');
 
@@ -73,9 +74,7 @@ describe('Error Boundary Component', async () => {
     await user.click(generateErrorButton);
 
     expect(
-      screen.getByText(/Here is test for error boundary/, {
-        exact: false,
-      })
+      await screen.findByText(ERROR_MESSAGE.BOUNDARY_ERROR)
     ).toBeInTheDocument();
 
     spy.mockRestore();
@@ -103,9 +102,7 @@ describe('Alert Component', async () => {
 
     render(<SearchPage />);
 
-    expect(
-      await screen.findByText(/can not load pokemons\. please try to reload/i)
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Server error')).toBeInTheDocument();
   });
 });
 
@@ -115,6 +112,6 @@ describe('On the search page', async () => {
 
     render(<SearchPage />);
 
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    expect(screen.getByText(LOADING)).toBeInTheDocument();
   });
 });

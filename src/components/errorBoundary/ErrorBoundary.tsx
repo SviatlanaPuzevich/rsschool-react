@@ -1,4 +1,5 @@
 import React, { type ErrorInfo, type ReactNode } from 'react';
+import { ERROR_MESSAGE } from '../../constants/messages.ts';
 
 interface Props {
   children: ReactNode;
@@ -24,12 +25,7 @@ class ErrorBoundary extends React.Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <div>
-          Here is test for error boundary. Instead of pokemon items you can see
-          this text. Reload page to continue
-        </div>
-      );
+      return <div>{ERROR_MESSAGE.BOUNDARY_ERROR}</div>;
     }
 
     return this.props.children;
