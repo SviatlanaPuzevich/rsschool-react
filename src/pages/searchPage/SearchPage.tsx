@@ -4,8 +4,8 @@ import SearchBar from '../../components/searchBar/SearchBar.tsx';
 import SearchResult from '../../components/searchResult/SearchResult.tsx';
 import type { Pokemon } from '../../types.ts';
 import Alert from '../../components/error/Alert.tsx';
-import { buildURLToImage, getIdFromURL } from '../../utils/pokemonsHelper.ts';
 import { ERROR_MESSAGE, LOADING } from '../../constants/messages.ts';
+import { pokemonService } from '../../services/pokemon.ts';
 
 const SearchPage = () => {
   const [query, setQuery] = useState<string>(
@@ -27,25 +27,9 @@ const SearchPage = () => {
     const fetchData = async () => {
       setLoaded(false);
       try {
-        const response = await fetch(
-          'https://pokeapi.co/api/v2/pokemon?limit=1500'
-        );
-        if (!response.ok) throw new Error('Failed to fetch');
+        const allPokemons = await pokemonService.getAll();
 
-        const data = await response.json();
-        const mapped: Pokemon[] = data.results.map(
-          (item: { name: string; url: string }) => {
-            const id = getIdFromURL(item.url);
-            return {
-              id,
-              name: item.name,
-              image: buildURLToImage(id),
-              abilities: '',
-            };
-          }
-        );
-
-        setPokemons(mapped);
+        setPokemons(allPokemons);
         setLoaded(true);
       } catch (e: unknown) {
         setError(e instanceof Error ? e.message : ERROR_MESSAGE.SERVER_ERROR);

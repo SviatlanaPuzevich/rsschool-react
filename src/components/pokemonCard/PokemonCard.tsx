@@ -1,22 +1,47 @@
 import styles from './pokemon.card.module.css';
-import type { Pokemon } from '../../types.ts';
+import type { PokemonDetails } from '../../types.ts';
+import { useEffect, useState } from 'react';
+import { pokemonService } from '../../services/pokemon.ts';
+import { ERROR_MESSAGE, LOADING } from '../../constants/messages.ts';
+import Alert from '../error/Alert.tsx';
+import { useParams } from 'react-router-dom';
 
-interface Props {
-  pokemon: Pokemon;
-}
+const PokemonCard = () => {
+  const { pokemonId } = useParams<{ pokemonId: string }>();
+  const [details, setDetails] = useState<PokemonDetails>([]);
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoaded(false);
+      try {
+        const details = await pokemonService.getById(pokemonId);
 
-const PokemonCard = ({ pokemon }: Props) => {
+        setDetails(details);
+        setLoaded(true);
+      } catch (e: unknown) {
+        setError(e instanceof Error ? e.message : ERROR_MESSAGE.SERVER_ERROR);
+        setLoaded(true);
+      }
+    };
+
+    fetchData();
+  }, [pokemonId]);
+
+  if (error) {
+    return <Alert message={error} />;
+  }
+
+  if (!loaded) {
+    return <p>{LOADING}</p>;
+  }
+
   return (
     <div className={styles.item}>
-      <figure className={styles.imgContainer}>
-        <img
-          className={styles.pokemonImg}
-          src={pokemon.image}
-          alt={pokemon.name}
-        />
-        <figcaption className={styles.caption}>{pokemon.name}</figcaption>
-      </figure>
-      {pokemon.abilities && <div>{pokemon.abilities}</div>}
+      <audio controls src={details.soundUrl} />
+      <div>Abilities: {details.abilities.join(',')}</div>
+      <div>Weight: {details.weight}</div>
+      <div>Height: {details.height}</div>
     </div>
   );
 };

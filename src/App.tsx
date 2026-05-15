@@ -4,9 +4,10 @@ import MainLayout from './layouts/main/MainLayout.tsx';
 import SearchPage from './pages/searchPage/SearchPage.tsx';
 import AboutPage from './pages/about/AboutPage.tsx';
 import NotFoundPage from './pages/notFound/NotFoundPage.tsx';
-import { BASE_ROUTE, HOME, ABOUT } from './constants/routing.ts';
+import { BASE_ROUTE, ABOUT } from './constants/routing.ts';
 import EmptyLayout from './layouts/empty/EmptyLayout.tsx';
 import ErrorBoundary from './components/errorBoundary/ErrorBoundary.tsx';
+import PokemonCard from './components/pokemonCard/PokemonCard.tsx';
 
 class App extends Component {
   render() {
@@ -15,7 +16,9 @@ class App extends Component {
         <BrowserRouter>
           <Routes>
             <Route element={<MainLayout />}>
-              <Route path={BASE_ROUTE + HOME} element={<SearchPage />} />
+              <Route path={BASE_ROUTE + '/:page'} element={<SearchPage />}>
+                <Route path="?/:pokemonId" element={<PokemonCard />} />
+              </Route>
               <Route path={BASE_ROUTE + ABOUT} element={<AboutPage />} />
             </Route>
             <Route element={<EmptyLayout />}>
