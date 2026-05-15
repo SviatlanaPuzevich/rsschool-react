@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../button/Button.tsx';
 import styles from './search.bar.module.css';
 
@@ -6,37 +6,36 @@ interface SearchInputProps {
   query: string;
   onSearch: () => void;
   onQueryChange: (value: string) => void;
-  onError: () => void;
 }
 
-class SearchBar extends React.Component<SearchInputProps> {
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.onQueryChange(e.target.value);
+const SearchBar = ({ query, onSearch, onQueryChange }: SearchInputProps) => {
+  const [generateError, setGenerateError] = useState<boolean>(false);
+
+  if (generateError) {
+    throw new Error('This error was generated');
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onQueryChange(e.target.value);
   };
 
-  render() {
-    return (
-      <section className={styles.container}>
-        <input
-          id="query"
-          type="text"
-          onChange={this.handleChange}
-          value={this.props.query}
-          placeholder="Enter pokemon name..."
-        />
-        <Button
-          value="Search"
-          onClick={this.props.onSearch}
-          buttonType="primary"
-        />
-        <Button
-          onClick={this.props.onError}
-          value="Generate Exception"
-          buttonType="danger"
-        />
-      </section>
-    );
-  }
-}
+  return (
+    <section className={styles.container}>
+      <input
+        id="query"
+        type="text"
+        onChange={handleChange}
+        value={query}
+        placeholder="Enter pokemon name..."
+      />
+      <Button value="Search" onClick={onSearch} buttonType="primary" />
+      <Button
+        onClick={() => setGenerateError(true)}
+        value="Generate Exception"
+        buttonType="danger"
+      />
+    </section>
+  );
+};
 
 export default SearchBar;

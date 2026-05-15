@@ -1,30 +1,27 @@
-import React from 'react';
 import styles from './error.module.css';
+import { useState } from 'react';
 
 interface Props {
-  show: boolean;
-  message?: string | null;
-  onClose: () => void;
+  message: string | null;
 }
 
-class Alert extends React.Component<Props> {
-  render() {
-    const { message = 'Something went wrong', show, onClose } = this.props;
-    if (!show) return null;
+const Alert = ({ message }: Props) => {
+  const [close, setClose] = useState<boolean>(false);
 
-    return (
-      <div className={`${styles.alert} ${styles['alert--error']}`}>
-        <div className={styles.alert__content}>{message}</div>
-        <button
-          className={styles.alert__close}
-          onClick={onClose}
-          aria-label="Close alert"
-        >
-          ×
-        </button>
-      </div>
-    );
-  }
-}
+  if (message === null || close) return null;
+
+  return (
+    <div className={`${styles.alert} ${styles['alert--error']}`}>
+      <div className={styles.alert__content}>{message}</div>
+      <button
+        className={styles.alert__close}
+        onClick={() => setClose(true)}
+        aria-label="Close alert"
+      >
+        ×
+      </button>
+    </div>
+  );
+};
 
 export default Alert;
