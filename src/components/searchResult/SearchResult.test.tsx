@@ -3,7 +3,7 @@ import SearchResult from './SearchResult.tsx';
 import type { Pokemon } from '../../types.ts';
 import userEvent from '@testing-library/user-event';
 import {
-  POKEMON_PAGE_SIZE,
+  POKEMON_NUMBER_ON_PAGE,
   POKEMON_COLUMN_COUNT,
 } from '../../constants/layout.ts';
 import { SEARCH_RESULT } from '../../constants/messages.ts';
@@ -19,7 +19,7 @@ describe('SearchResult element', () => {
 });
 
 describe('Navigation buttons', () => {
-  const countPokemons = 2 * POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT;
+  const countPokemons = 2 * POKEMON_NUMBER_ON_PAGE * POKEMON_COLUMN_COUNT;
   const mockPokemons: Pokemon[] = Array.from(
     { length: countPokemons },
     (_, index) => ({
@@ -31,7 +31,7 @@ describe('Navigation buttons', () => {
 
   it('should navigate between pages correct', async () => {
     const pokemonNameOnFirstPage = 'pokemon-1';
-    const pokemonNameOnSecondPage = `pokemon-${POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT + 1}`;
+    const pokemonNameOnSecondPage = `pokemon-${POKEMON_NUMBER_ON_PAGE * POKEMON_COLUMN_COUNT + 1}`;
     const user = userEvent.setup();
     render(<SearchResult pokemons={mockPokemons} />);
 

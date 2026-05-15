@@ -1,14 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import Pagination from './Pagination.tsx';
-import { vi } from 'vitest';
 
 describe('Pagination element', () => {
   it('should not render if count of pages equals 1', () => {
-    const handleChange = vi.fn();
-
-    render(
-      <Pagination count={1} currentPage={1} onPageChange={handleChange} />
-    );
+    render(<Pagination count={1} />);
 
     const paginationElement = screen.queryByText('1');
 
@@ -16,11 +11,7 @@ describe('Pagination element', () => {
   });
 
   it('should render navigation buttons if count of pages more than one ', () => {
-    const handleChange = vi.fn();
-
-    render(
-      <Pagination count={3} currentPage={2} onPageChange={handleChange} />
-    );
+    render(<Pagination count={3} />);
 
     const navigationButtons = screen.getAllByRole('button');
 
@@ -28,11 +19,7 @@ describe('Pagination element', () => {
   });
 
   it('should render first 5 pages if count of pages more or equals 5 ', () => {
-    const handleChange = vi.fn();
-
-    render(
-      <Pagination count={6} currentPage={2} onPageChange={handleChange} />
-    );
+    render(<Pagination count={6} />);
 
     const paginationElements = screen.getAllByRole('link');
 
@@ -40,11 +27,7 @@ describe('Pagination element', () => {
   });
 
   it('should render disabled forward button if the current page is the last page ', () => {
-    const handleChange = vi.fn();
-
-    render(
-      <Pagination count={6} currentPage={6} onPageChange={handleChange} />
-    );
+    render(<Pagination count={6} />);
 
     const nextButton = screen.getByRole('button', {
       name: /forward to next page/i,
@@ -54,11 +37,7 @@ describe('Pagination element', () => {
   });
 
   it('should render disabled back button if the current page is the first page ', () => {
-    const handleChange = vi.fn();
-
-    render(
-      <Pagination count={20} currentPage={1} onPageChange={handleChange} />
-    );
+    render(<Pagination count={20} />);
 
     const nextButton = screen.getByRole('button', {
       name: /back to previous page/i,

@@ -1,13 +1,12 @@
 import type { Pokemon } from '../../types.ts';
 import styles from './search.result.module.css';
 import Pagination from '../pagination/Pagination.tsx';
-import PokemonCard from '../pokemonCard/PokemonCard.tsx';
 import {
-  POKEMON_PAGE_SIZE,
-  POKEMON_COLUMN_COUNT,
+  POKEMON_NUMBER_ON_PAGE,
 } from '../../constants/layout.ts';
 import { SEARCH_RESULT } from '../../constants/messages.ts';
 import { useParams } from 'react-router-dom';
+import PokemonItem from "../pokemonItem/PokemonItem.tsx";
 
 interface Props {
   pokemons: Pokemon[];
@@ -22,14 +21,14 @@ const SearchResult = ({ pokemons }: Props) => {
   }
 
   const pagesCount = Math.ceil(
-    pokemons.length / (POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT)
+    pokemons.length / POKEMON_NUMBER_ON_PAGE
   );
 
   const startIndex =
-    (currentPage - 1) * POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT;
+    (currentPage - 1) * POKEMON_NUMBER_ON_PAGE ;
   const currentPokemons = pokemons.slice(
     startIndex,
-    startIndex + POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT
+    startIndex + POKEMON_NUMBER_ON_PAGE
   );
 
   return (
@@ -37,7 +36,7 @@ const SearchResult = ({ pokemons }: Props) => {
       <h2>List of pokemons</h2>
       <div className={styles.container}>
         {currentPokemons.map((item: Pokemon) => (
-          <PokemonCard pokemon={item} key={item.id} />
+          <PokemonItem pokemon={item} key={item.id} />
         ))}
       </div>
       <Pagination count={pagesCount} />
