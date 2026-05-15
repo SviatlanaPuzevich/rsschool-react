@@ -1,19 +1,16 @@
-import React from 'react';
 import styles from './pagination.module.css';
+import { NavLink, Link, useParams } from 'react-router-dom';
+import { BASE_ROUTE } from '../../constants/routing.ts';
 
 interface Props {
   count: number;
-  currentPage: number;
-  onPageChange: (page: number) => void;
 }
 
-const Pagination = ({ count, currentPage, onPageChange }: Props) => {
-  if (count <= 1) return null;
+const Pagination = ({ count }: Props) => {
+  const params = useParams<{ page: string }>();
+  const currentPage = Number(params.page) || 1;
 
-  const handlePageChange = (event: React.MouseEvent, page: number) => {
-    event.preventDefault();
-    onPageChange(page);
-  };
+  if (count <= 1) return null;
 
   let start = Math.max(1, currentPage - 2);
   let end = Math.min(count, currentPage + 2);
@@ -31,34 +28,31 @@ const Pagination = ({ count, currentPage, onPageChange }: Props) => {
 
   return (
     <div className={styles.pagination}>
-      <button
-        disabled={currentPage === 1}
-        className={styles.button}
-        onClick={(e) => handlePageChange(e, currentPage - 1)}
-        aria-label="back to previous page"
+      <Link
+        to={BASE_ROUTE + `/${currentPage - 1}`}
+        className={`${styles.button} ${currentPage === 1 ? styles.disabled : ''}`}
       >
         &lt;
-      </button>
+      </Link>
 
       {pages.map((page) => (
-        <a
+        <NavLink
           key={page}
-          href="#"
-          className={page === currentPage ? styles.activePage : styles.page}
-          onClick={(e) => handlePageChange(e, page)}
+          to={BASE_ROUTE + `/${page}`}
+          className={({ isActive }: { isActive: boolean }) =>
+            isActive ? `${styles.link} ${styles.activeLink}` : styles.link
+          }
         >
           {page}
-        </a>
+        </NavLink>
       ))}
 
-      <button
-        disabled={currentPage === count}
-        className={styles.button}
-        onClick={(e) => handlePageChange(e, currentPage + 1)}
-        aria-label="forward to next page"
+      <Link
+        to={BASE_ROUTE + `/${currentPage + 1}`}
+        className={`${styles.button} ${currentPage === count ? styles.disabled : ''}`}
       >
         &gt;
-      </button>
+      </Link>
     </div>
   );
 };

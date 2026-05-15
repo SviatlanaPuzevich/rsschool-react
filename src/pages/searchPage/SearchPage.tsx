@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './search.page.module.css';
 import SearchBar from '../../components/searchBar/SearchBar.tsx';
 import SearchResult from '../../components/searchResult/SearchResult.tsx';
@@ -12,17 +12,15 @@ const SearchPage = () => {
     localStorage.getItem('query') || ''
   );
   const [searchQuery, setSearchQuery] = useState(
-      localStorage.getItem('query') || ''
+    localStorage.getItem('query') || ''
   );
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const filteredPokemon = useMemo(() => {
     return searchQuery
-        ? pokemons.filter((item: Pokemon) =>
-            item.name.startsWith(searchQuery)
-        )
-        : pokemons;
+      ? pokemons.filter((item: Pokemon) => item.name.startsWith(searchQuery))
+      : pokemons;
   }, [pokemons, searchQuery]);
 
   useEffect(() => {

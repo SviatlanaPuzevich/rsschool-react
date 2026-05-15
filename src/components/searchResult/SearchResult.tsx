@@ -1,29 +1,25 @@
-import { useState } from 'react';
 import type { Pokemon } from '../../types.ts';
 import styles from './search.result.module.css';
 import Pagination from '../pagination/Pagination.tsx';
 import PokemonCard from '../pokemonCard/PokemonCard.tsx';
 import {
-  FIRST_PAGE,
   POKEMON_PAGE_SIZE,
   POKEMON_COLUMN_COUNT,
 } from '../../constants/layout.ts';
 import { SEARCH_RESULT } from '../../constants/messages.ts';
+import { useParams } from 'react-router-dom';
 
 interface Props {
   pokemons: Pokemon[];
 }
 
 const SearchResult = ({ pokemons }: Props) => {
-  const [currentPage, setCurrentPage] = useState<number>(FIRST_PAGE);
+  const params = useParams<{ page: string }>();
+  const currentPage = Number(params.page) || 1;
 
   if (pokemons.length === 0) {
     return <div>{SEARCH_RESULT.NOT_FOUND}</div>;
   }
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
 
   const pagesCount = Math.ceil(
     pokemons.length / (POKEMON_PAGE_SIZE * POKEMON_COLUMN_COUNT)
@@ -44,11 +40,7 @@ const SearchResult = ({ pokemons }: Props) => {
           <PokemonCard pokemon={item} key={item.id} />
         ))}
       </div>
-      <Pagination
-        count={pagesCount}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
+      <Pagination count={pagesCount} />
     </>
   );
 };

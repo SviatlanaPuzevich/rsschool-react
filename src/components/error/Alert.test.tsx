@@ -5,8 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 describe('Alert Component', () => {
   it('should render the alert with correct message', () => {
-    const handleOnClose = vi.fn();
-    render(<Alert show={true} message="Show Alert" onClose={handleOnClose} />);
+    render(<Alert message="Show Alert" />);
 
     const alertElement = screen.getByText(/show alert/i);
 
@@ -17,7 +16,7 @@ describe('Alert Component', () => {
     const user = userEvent.setup();
     const handleOnClose = vi.fn();
 
-    render(<Alert show={true} message="Close alert" onClose={handleOnClose} />);
+    render(<Alert message="Close alert" />);
 
     const closeButton = screen.getByRole('button', { name: /Close alert/i });
 
@@ -27,11 +26,7 @@ describe('Alert Component', () => {
   });
 
   it('should hide Alert component when show false', () => {
-    const handleOnClose = vi.fn();
-
-    render(
-      <Alert show={false} message="Close alert" onClose={handleOnClose} />
-    );
+    render(<Alert message="Close alert" />);
 
     const alertElement = screen.queryByText(/show alert/i);
 
