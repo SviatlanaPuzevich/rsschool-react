@@ -1,7 +1,12 @@
 import styles from './about.page.module.css';
 import img from '../../assets/imgs/Gemini_Generated_About_Avatar.png';
+import Button from '../../components/button/Button.tsx';
 
 const AboutPage = () => {
+  const handleExternalRedirect = () => {
+    window.location.href = 'https://rs.school/';
+  };
+
   return (
     <div className={styles.container}>
       <img src={img} alt="Snorlax-programmer" className={styles.avatar} />
@@ -49,6 +54,11 @@ const AboutPage = () => {
           next waking cycle in 2027. Zzz..
         </p>
       </div>
+      <Button
+        value="Go to RS school"
+        onClick={handleExternalRedirect}
+        buttonType="rainbow"
+      ></Button>
     </div>
   );
 };

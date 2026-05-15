@@ -1,14 +1,15 @@
 import styles from './main.layout.module.css';
-import { NavLink, Outlet } from 'react-router-dom';
-import { BASE_ROUTE, HOME, ABOUT } from '../../constants/routing.ts';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { BASE_ROUTE, ABOUT } from '../../constants/routing.ts';
 
 const MainLayout = () => {
+  const { page = 1 } = useParams<{ page: string }>();
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <nav className={styles.nav}>
           <NavLink
-            to={BASE_ROUTE + HOME}
+            to={BASE_ROUTE + '/' + page}
             end
             className={({ isActive }: { isActive: boolean }) =>
               isActive ? `${styles.link} ${styles.activeLink}` : styles.link
