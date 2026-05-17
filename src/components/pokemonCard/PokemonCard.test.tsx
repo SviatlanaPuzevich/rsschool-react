@@ -1,20 +1,136 @@
-import { render, screen } from '@testing-library/react';
-import PokemoCard from './PokemonCard.tsx';
-import type { Pokemon } from '../../types.ts';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import PokemonCard from './PokemonCard';
+import { pokemonService } from '../../services/pokemon';
+import { BASE_ROUTE } from '../../constants/routing';
 
-describe('PokenCard element', () => {
-  it('should render the card with correct name and URL', () => {
-    // const pokemon: Pokemon = {
-    //   id: 1,
-    //   name: 'pikachu',
-    //   image: 'url/to/pikachu',
-    // };
-    // render(<PokemoCard pokemon={pokemon} />);
-    //
-    // const caption = screen.getByText(pokemon.name);
-    // const image = screen.getByRole('img');
-    //
-    // expect(caption).toBeInTheDocument();
-    // expect(image).toBeInTheDocument();
+vi.mock('../../services/pokemon', () => ({
+  pokemonService: {
+    getById: vi.fn(),
+  },
+}));
+
+vi.mock('./pokemon.card.module.css', () => ({
+  default: {
+    card: 'card',
+    details: 'details',
+    close: 'close',
+  },
+}));
+
+describe('PokemonCard', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const renderComponent = (route = '/pokemons/1/25') => {
+    return render(
+      <MemoryRouter initialEntries={[route]}>
+        <Routes>
+          <Route path="/pokemons/:page/:pokemonId" element={<PokemonCard />} />
+
+          <Route path="/pokemons/:page" element={<PokemonCard />} />
+        </Routes>
+      </MemoryRouter>
+    );
+  };
+
+  it('renders nothing when pokemonId is undefined', () => {
+    renderComponent('/pokemons/1');
+
+    expect(screen.queryByText(/Abilities:/i)).not.toBeInTheDocument();
+  });
+
+  it('renders loader while loading', () => {
+    vi.mocked(pokemonService.getById).mockReturnValue(new Promise(() => {}));
+
+    renderComponent();
+
+    expect(document.querySelector('audio')).not.toBeInTheDocument();
+  });
+
+  it('renders pokemon details', async () => {
+    vi.mocked(pokemonService.getById).mockResolvedValue({
+      id: 25,
+      name: 'pikachu',
+      soundUrl: 'pikachu.mp3',
+      abilities: ['static', 'lightning-rod'],
+      weight: 60,
+      height: 4,
+    });
+
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('pikachu')).toBeInTheDocument();
+    });
+
+    expect(screen.getByText(/static, lightning-rod/i)).toBeInTheDocument();
+
+    expect(screen.getByText(/Weight:/i)).toBeInTheDocument();
+
+    expect(screen.getByText(/Height:/i)).toBeInTheDocument();
+
+    const audio = document.querySelector('audio');
+
+    expect(audio).toHaveAttribute('src', 'pikachu.mp3');
+  });
+
+  it('renders error message', async () => {
+    vi.mocked(pokemonService.getById).mockRejectedValue(
+      new Error('Server error')
+    );
+
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('Server error')).toBeInTheDocument();
+    });
+  });
+
+  it('calls service with pokemonId', async () => {
+    vi.mocked(pokemonService.getById).mockResolvedValue({
+      id: 25,
+      name: 'pikachu',
+      soundUrl: '',
+      abilities: [],
+      weight: 1,
+      height: 1,
+    });
+
+    renderComponent();
+
+    await waitFor(() => {
+      expect(pokemonService.getById).toHaveBeenCalledWith('25');
+    });
+  });
+
+  it('navigates back to page on close click', async () => {
+    vi.mocked(pokemonService.getById).mockResolvedValue({
+      id: 25,
+      name: 'pikachu',
+      soundUrl: '',
+      abilities: [],
+      weight: 1,
+      height: 1,
+    });
+
+    renderComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText('pikachu')).toBeInTheDocument();
+    });
+
+    const user = userEvent.setup();
+
+    await user.click(
+      screen.getByRole('button', {
+        name: /close pokemon card/i,
+      })
+    );
+
+    expect(window.location.pathname).toBe(`${BASE_ROUTE}/1`);
   });
 });

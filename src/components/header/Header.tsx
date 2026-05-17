@@ -10,7 +10,6 @@ const Header = () => {
       <nav className={styles.nav}>
         <NavLink
           to={`${BASE_ROUTE}/${page}`}
-          end
           className={({ isActive }: { isActive: boolean }) =>
             isActive ? `${styles.link} ${styles.activeLink}` : styles.link
           }

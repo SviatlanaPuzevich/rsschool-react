@@ -4,8 +4,11 @@ import SearchBar from '../../components/searchBar/SearchBar.tsx';
 import SearchResult from '../../components/searchResult/SearchResult.tsx';
 import type { Pokemon } from '../../types.ts';
 import Alert from '../../components/error/Alert.tsx';
-import { ERROR_MESSAGE, LOADING } from '../../constants/messages.ts';
+import { ERROR_MESSAGE } from '../../constants/messages.ts';
 import { pokemonService } from '../../services/pokemon.ts';
+import Loader from '../../components/loader/Loader.tsx';
+import { useNavigate } from 'react-router-dom';
+import { BASE_ROUTE } from '../../constants/routing.ts';
 
 const SearchPage = () => {
   const [query, setQuery] = useState<string>(
@@ -22,6 +25,8 @@ const SearchPage = () => {
       ? pokemons.filter((item: Pokemon) => item.name.startsWith(searchQuery))
       : pokemons;
   }, [pokemons, searchQuery]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +49,7 @@ const SearchPage = () => {
     const normalizedQuery = query.trim().toLowerCase();
     localStorage.setItem('query', normalizedQuery);
     setSearchQuery(normalizedQuery);
+    navigate(BASE_ROUTE + '/1');
   };
 
   return (
@@ -56,7 +62,7 @@ const SearchPage = () => {
         onSearch={handleSearchSubmit}
       />
       <section className={styles.result}>
-        {!loaded && <p>{LOADING}</p>}
+        {!loaded && <Loader />}
 
         {error && <Alert message={error} />}
 

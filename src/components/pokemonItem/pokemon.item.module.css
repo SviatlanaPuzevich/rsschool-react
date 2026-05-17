@@ -5,6 +5,10 @@
   gap: 5px;
 }
 
+.selected {
+  border: 2px solid coral;
+}
+
 .left {
   border-radius: 5px;
   border: 1px solid #ddd;

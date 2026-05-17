@@ -2,18 +2,28 @@ import styles from './pokemon.card.module.css';
 import type { PokemonDetails } from '../../types.ts';
 import { useEffect, useState } from 'react';
 import { pokemonService } from '../../services/pokemon.ts';
-import { ERROR_MESSAGE, LOADING } from '../../constants/messages.ts';
+import { ERROR_MESSAGE } from '../../constants/messages.ts';
 import Alert from '../error/Alert.tsx';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import Loader from '../loader/Loader.tsx';
+import { BASE_ROUTE } from '../../constants/routing.ts';
 
 const PokemonCard = () => {
-  const { pokemonId } = useParams<{ pokemonId: string }>();
-  const [details, setDetails] = useState<PokemonDetails>([]);
+  const navigate = useNavigate();
+  const { pokemonId, page } = useParams<{
+    pokemonId: string | undefined;
+    page: string;
+  }>();
+  const [details, setDetails] = useState<PokemonDetails | null>(null);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchData = async () => {
+      if (!pokemonId) return;
+
       setLoaded(false);
+      setError(null);
       try {
         const details = await pokemonService.getById(pokemonId);
 
@@ -28,20 +38,44 @@ const PokemonCard = () => {
     fetchData();
   }, [pokemonId]);
 
+  const handleCloseClick = () => {
+    navigate(BASE_ROUTE + `/${page}`);
+  };
+
+  if (!details) {
+    return null;
+  }
+
   if (error) {
     return <Alert message={error} />;
   }
 
   if (!loaded) {
-    return <p>{LOADING}</p>;
+    return <Loader />;
   }
 
   return (
-    <div className={styles.item}>
-      <audio controls src={details.soundUrl} />
-      <div>Abilities: {details.abilities.join(',')}</div>
-      <div>Weight: {details.weight}</div>
-      <div>Height: {details.height}</div>
+    <div className={styles.card}>
+      <h3>{details.name}</h3>
+      {details.soundUrl && <audio controls src={details.soundUrl} />}
+      <div className={styles.details}>
+        <div>
+          <b>Abilities:</b> <i>{details.abilities.join(', ')}</i>
+        </div>
+        <div>
+          <b>Weight:</b> <i>{details.weight}</i>
+        </div>
+        <div>
+          <b>Height:</b> <i>{details.height}</i>
+        </div>
+      </div>
+      <button
+        className={styles.close}
+        onClick={handleCloseClick}
+        aria-label="Close pokemon card"
+      >
+        ×
+      </button>
     </div>
   );
 };
