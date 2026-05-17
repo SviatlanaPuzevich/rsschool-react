@@ -2,8 +2,6 @@ export const SEARCH_RESULT = {
   NOT_FOUND: 'No such pokemon',
 };
 
-export const LOADING = 'LOADING ...';
-
 export const ERROR_MESSAGE = {
   GENERATED_ERROR: 'This error was generated',
   SERVER_ERROR: 'Something went wrong.Try to reload',

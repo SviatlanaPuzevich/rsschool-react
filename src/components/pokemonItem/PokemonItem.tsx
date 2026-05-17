@@ -8,10 +8,17 @@ interface Props {
 }
 
 const PokemonItem = ({ pokemon }: Props) => {
-  const { page = 1 } = useParams<{ page: string }>();
+  const { page = 1, pokemonId } = useParams<{
+    page: string;
+    pokemonId: string | undefined;
+  }>();
+  const selected =
+    pokemonId === undefined ? false : Number(pokemonId) === pokemon.id;
 
   return (
-    <div className={styles.item}>
+    <div
+      className={selected ? `${styles.item} ${styles.selected}` : styles.item}
+    >
       <div className={styles.left}>
         <img
           className={styles.pokemonImg}
