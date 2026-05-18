@@ -1,48 +1,96 @@
 import { render, screen } from '@testing-library/react';
-import Pagination from './Pagination.tsx';
+import { describe, it, expect } from 'vitest';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import Pagination from './Pagination';
+import { BASE_ROUTE } from '../../constants/routing';
 
-describe('Pagination element', () => {
-  it('should not render if count of pages equals 1', () => {
-    render(<Pagination count={1} />);
+const renderWithRouter = (
+  ui: React.ReactElement,
+  route = `${BASE_ROUTE}/1`
+) => {
+  return render(
+    <MemoryRouter initialEntries={[route]}>
+      <Routes>
+        <Route path={`${BASE_ROUTE}/:page`} element={ui} />
+      </Routes>
+    </MemoryRouter>
+  );
+};
 
-    const paginationElement = screen.queryByText('1');
+describe('Pagination', () => {
+  it('returns null when count <= 1', () => {
+    const { container } = renderWithRouter(<Pagination count={1} />);
 
-    expect(paginationElement).not.toBeInTheDocument();
+    expect(container.firstChild).toBeNull();
   });
 
-  it('should render navigation buttons if count of pages more than one ', () => {
-    render(<Pagination count={3} />);
+  it('renders pagination links for small range', () => {
+    renderWithRouter(<Pagination count={3} />);
 
-    const navigationButtons = screen.getAllByRole('button');
-
-    expect(navigationButtons).toHaveLength(2);
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
   });
 
-  it('should render first 5 pages if count of pages more or equals 5 ', () => {
-    render(<Pagination count={6} />);
+  it('renders correct range around current page (middle)', () => {
+    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}/5`);
 
-    const paginationElements = screen.getAllByRole('link');
-
-    expect(paginationElements).toHaveLength(5);
+    expect(screen.getByText('3')).toBeInTheDocument();
+    expect(screen.getByText('4')).toBeInTheDocument();
+    expect(screen.getByText('5')).toBeInTheDocument();
+    expect(screen.getByText('6')).toBeInTheDocument();
+    expect(screen.getByText('7')).toBeInTheDocument();
   });
 
-  it('should render disabled forward button if the current page is the last page ', () => {
-    render(<Pagination count={6} />);
+  it('renders correct range near start', () => {
+    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}/2`);
 
-    const nextButton = screen.getByRole('button', {
-      name: /forward to next page/i,
-    });
-
-    expect(nextButton).toBeDisabled();
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
+    expect(screen.getByText('4')).toBeInTheDocument();
+    expect(screen.getByText('5')).toBeInTheDocument();
   });
 
-  it('should render disabled back button if the current page is the first page ', () => {
-    render(<Pagination count={20} />);
+  it('renders correct range near end', () => {
+    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}/9`);
 
-    const nextButton = screen.getByRole('button', {
-      name: /back to previous page/i,
-    });
+    expect(screen.getByText('6')).toBeInTheDocument();
+    expect(screen.getByText('7')).toBeInTheDocument();
+    expect(screen.getByText('8')).toBeInTheDocument();
+    expect(screen.getByText('9')).toBeInTheDocument();
+    expect(screen.getByText('10')).toBeInTheDocument();
+  });
 
-    expect(nextButton).toBeDisabled();
+  it('prev link points to previous page', () => {
+    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}/5`);
+
+    const prev = screen.getByText('<');
+
+    expect(prev).toHaveAttribute('href', `${BASE_ROUTE}/4`);
+  });
+
+  it('next link points to next page', () => {
+    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}/5`);
+
+    const next = screen.getByText('>');
+
+    expect(next).toHaveAttribute('href', `${BASE_ROUTE}/6`);
+  });
+
+  it('prev is disabled on first page', () => {
+    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}/1`);
+
+    const prev = screen.getByText('<');
+
+    expect(prev.className).toMatch(/disabled/);
+  });
+
+  it('next is disabled on last page', () => {
+    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}/10`);
+
+    const next = screen.getByText('>');
+
+    expect(next.className).toMatch(/disabled/);
   });
 });

@@ -42,12 +42,12 @@ const PokemonCard = () => {
     navigate(BASE_ROUTE + `/${page}`);
   };
 
-  if (!details) {
-    return null;
-  }
-
   if (error) {
     return <Alert message={error} />;
+  }
+
+  if (!details) {
+    return null;
   }
 
   if (!loaded) {

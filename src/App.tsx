@@ -17,7 +17,7 @@ class App extends Component {
           <Routes>
             <Route element={<MainLayout />}>
               <Route path={BASE_ROUTE + '/:page'} element={<SearchPage />}>
-                <Route path="?/:pokemonId" element={<PokemonCard />} />
+                <Route path=":pokemonId" element={<PokemonCard />} />
               </Route>
               <Route path={BASE_ROUTE + ABOUT} element={<AboutPage />} />
             </Route>
