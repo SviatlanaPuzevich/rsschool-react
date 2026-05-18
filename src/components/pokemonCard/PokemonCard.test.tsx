@@ -5,6 +5,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import PokemonCard from './PokemonCard';
 import { pokemonService } from '../../services/pokemon';
 import { BASE_ROUTE } from '../../constants/routing';
+import type { PokemonDetails } from '../../types.ts';
 
 vi.mock('../../services/pokemon', () => ({
   pokemonService: {
@@ -19,6 +20,16 @@ vi.mock('./pokemon.card.module.css', () => ({
     close: 'close',
   },
 }));
+
+const mockedNavigate = vi.fn();
+
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => mockedNavigate,
+  };
+});
 
 describe('PokemonCard', () => {
   beforeEach(() => {
@@ -59,7 +70,7 @@ describe('PokemonCard', () => {
       abilities: ['static', 'lightning-rod'],
       weight: 60,
       height: 4,
-    });
+    } as PokemonDetails);
 
     renderComponent();
 
@@ -68,10 +79,8 @@ describe('PokemonCard', () => {
     });
 
     expect(screen.getByText(/static, lightning-rod/i)).toBeInTheDocument();
-
-    expect(screen.getByText(/Weight:/i)).toBeInTheDocument();
-
-    expect(screen.getByText(/Height:/i)).toBeInTheDocument();
+    expect(screen.getByText(/60/i)).toBeInTheDocument();
+    expect(screen.getByText(/4/i)).toBeInTheDocument();
 
     const audio = document.querySelector('audio');
 
@@ -83,11 +92,9 @@ describe('PokemonCard', () => {
       new Error('Server error')
     );
 
-    renderComponent();
+    renderComponent('/pokemons/1/25');
 
-    await waitFor(() => {
-      expect(screen.getByText('Server error')).toBeInTheDocument();
-    });
+    expect(await screen.findByText('Server error')).toBeInTheDocument();
   });
 
   it('calls service with pokemonId', async () => {
@@ -95,7 +102,7 @@ describe('PokemonCard', () => {
       id: 25,
       name: 'pikachu',
       soundUrl: '',
-      abilities: [],
+      abilities: ["v"],
       weight: 1,
       height: 1,
     });
@@ -108,6 +115,7 @@ describe('PokemonCard', () => {
   });
 
   it('navigates back to page on close click', async () => {
+    const user = userEvent.setup();
     vi.mocked(pokemonService.getById).mockResolvedValue({
       id: 25,
       name: 'pikachu',
@@ -119,18 +127,13 @@ describe('PokemonCard', () => {
 
     renderComponent();
 
-    await waitFor(() => {
-      expect(screen.getByText('pikachu')).toBeInTheDocument();
-    });
-
-    const user = userEvent.setup();
-
+    expect(await screen.findByText('pikachu')).toBeInTheDocument();
     await user.click(
       screen.getByRole('button', {
         name: /close pokemon card/i,
       })
     );
 
-    expect(window.location.pathname).toBe(`${BASE_ROUTE}/1`);
+    expect(mockedNavigate).toHaveBeenCalledWith(`${BASE_ROUTE}/1`);
   });
 });
