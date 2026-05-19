@@ -22,7 +22,15 @@ vi.mock('../../services/pokemon.ts', () => ({
 }));
 
 vi.mock('../../components/searchBar/SearchBar.tsx', () => ({
-  default: ({ query, onQueryChange, onSearch }) => (
+  default: ({
+    query,
+    onQueryChange,
+    onSearch,
+  }: {
+    query: string;
+    onQueryChange: (value: string) => void;
+    onSearch: () => void;
+  }) => (
     <div data-testid="search-bar">
       <input
         data-testid="search-input"
@@ -52,10 +60,10 @@ vi.mock('../../components/error/Alert.tsx', () => ({
   ),
 }));
 
-const mockPokemons = [
-  { id: 1, name: 'bulbasaur' },
-  { id: 2, name: 'pikachu' },
-  { id: 3, name: 'charmander' },
+const mockPokemons: Pokemon[] = [
+  { id: 1, name: 'bulbasaur', image: 'bulbasaur.png' },
+  { id: 2, name: 'pikachu', image: 'pikachu.png' },
+  { id: 3, name: 'charmander', image: 'charmander.png' },
 ];
 
 describe('SearchPage Component', () => {

@@ -28,11 +28,11 @@ vi.mock('../pagination/Pagination.tsx', () => ({
 }));
 
 const mockPokemons = [
-  { id: 1, name: 'Bulbasaur' },
-  { id: 2, name: 'Ivysaur' },
-  { id: 3, name: 'Venusaur' },
-  { id: 4, name: 'Charmander' },
-  { id: 5, name: 'Charmeleon' },
+  { id: 1, name: 'Bulbasaur', image: 'bulbasaur.png' },
+  { id: 2, name: 'Ivysaur', image: 'ivysaur.png' },
+  { id: 3, name: 'Venusaur', image: 'venusaur.png' },
+  { id: 4, name: 'Charmander', image: 'charmander.png' },
+  { id: 5, name: 'Charmeleon', image: 'charmeleon.png' },
 ];
 
 const renderWithRouter = (pokemons: Pokemon[], initialPage = 1) => {

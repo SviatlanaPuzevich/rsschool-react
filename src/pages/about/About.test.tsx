@@ -4,7 +4,9 @@ import userEvent from '@testing-library/user-event';
 import AboutPage from './AboutPage';
 
 vi.mock('../../components/button/Button.tsx', () => ({
-  default: ({ value, onClick }) => <button onClick={onClick}>{value}</button>,
+  default: ({ value, onClick }: { value: string; onClick: () => void }) => (
+    <button onClick={onClick}>{value}</button>
+  ),
 }));
 
 describe('AboutPage', () => {
@@ -33,8 +35,14 @@ describe('AboutPage', () => {
   it('redirects to RS school on click', async () => {
     const user = userEvent.setup();
 
-    delete window.location;
-    window.location = { href: '' };
+    const assignMock = vi.fn();
+
+    Object.defineProperty(window, 'location', {
+      value: {
+        assign: assignMock,
+      },
+      writable: true,
+    });
 
     render(<AboutPage />);
 

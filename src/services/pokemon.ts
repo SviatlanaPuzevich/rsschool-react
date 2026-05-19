@@ -1,5 +1,29 @@
 import type { Pokemon, PokemonDetails } from '../types.ts';
 
+type PokemonApiResponse = {
+  id: number;
+  name: string;
+  height: number;
+  weight: number;
+  cries: {
+    latest: string;
+  };
+  abilities: {
+    ability: {
+      name: string;
+    };
+  }[];
+  types: {
+    type: {
+      name: string;
+    };
+  }[];
+};
+
+type AllPokemonsApiResponse = {
+  results: [{ name: string; url: string }];
+};
+
 const BASE_URL = 'https://pokeapi.co/api/v2';
 
 class PokemonService {
@@ -18,9 +42,9 @@ class PokemonService {
       throw new Error('Failed to fetch pokemons');
     }
 
-    const data = await response.json();
+    const data: AllPokemonsApiResponse = await response.json();
 
-    return data.results.map((item: { name: string; url: string }) => {
+    return data.results.map((item) => {
       const id = this.getIdFromURL(item.url);
 
       return {
@@ -39,13 +63,12 @@ class PokemonService {
       throw new Error('Failed to fetch pokemon details');
     }
 
-    const data = await response.json();
+    const data: PokemonApiResponse = await response.json();
 
     return {
       id: data.id,
-      soundUrl: data?.cries?.latest || undefined,
+      soundUrl: data.cries.latest,
       name: data.name,
-      image: this.buildURLToImage(data.id),
       height: data.height,
       weight: data.weight,
 

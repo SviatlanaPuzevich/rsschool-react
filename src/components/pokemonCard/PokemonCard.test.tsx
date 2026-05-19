@@ -102,7 +102,8 @@ describe('PokemonCard', () => {
       id: 25,
       name: 'pikachu',
       soundUrl: '',
-      abilities: ["v"],
+      abilities: ['v'],
+      types: ['static', 'lightning-rod'],
       weight: 1,
       height: 1,
     });
@@ -121,6 +122,7 @@ describe('PokemonCard', () => {
       name: 'pikachu',
       soundUrl: '',
       abilities: [],
+      types: ['static', 'lightning-rod'],
       weight: 1,
       height: 1,
     });
