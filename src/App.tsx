@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/main/MainLayout.tsx';
 import SearchPage from './pages/searchPage/SearchPage.tsx';
@@ -7,8 +6,7 @@ import NotFoundPage from './pages/notFound/NotFoundPage.tsx';
 import EmptyLayout from './layouts/empty/EmptyLayout.tsx';
 import ErrorBoundary from './components/errorBoundary/ErrorBoundary.tsx';
 
-class App extends Component {
-  render() {
+const App = () =>  {
     return (
       <ErrorBoundary>
         <BrowserRouter>
@@ -24,7 +22,6 @@ class App extends Component {
         </BrowserRouter>
       </ErrorBoundary>
     );
-  }
 }
 
 export default App;
