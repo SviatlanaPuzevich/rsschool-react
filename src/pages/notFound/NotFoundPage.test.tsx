@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import NotFoundPage from './NotFoundPage';
-import { BASE_ROUTE } from '../../constants/routing.ts';
+import { BASE_ROUTE, SEARCH } from '../../constants/routing.ts';
 
 vi.mock('react-router-dom', async () => {
   const actual =
@@ -54,6 +54,6 @@ describe('NotFoundPage', () => {
     await user.click(button);
 
     expect(mockNavigate).toHaveBeenCalledTimes(1);
-    expect(mockNavigate).toHaveBeenCalledWith(`${BASE_ROUTE}/1`);
+    expect(mockNavigate).toHaveBeenCalledWith(`${BASE_ROUTE}${SEARCH}/1`);
   });
 });

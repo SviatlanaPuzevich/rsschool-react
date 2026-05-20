@@ -2,7 +2,7 @@ import Button from '../../components/button/Button.tsx';
 import img from '../../assets/imgs/Gemini_Generated_NOT_FOUND.png';
 import styles from './not.found.page.module.css';
 import { useNavigate } from 'react-router-dom';
-import { BASE_ROUTE } from '../../constants/routing.ts';
+import { BASE_ROUTE, SEARCH } from '../../constants/routing.ts';
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const NotFoundPage = () => {
       <Button
         value="Return to home"
         onClick={() => {
-          navigate(BASE_ROUTE + '/1');
+          navigate(`${BASE_ROUTE}${SEARCH}/1`);
         }}
         buttonType="rainbow"
       />
