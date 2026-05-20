@@ -1,6 +1,6 @@
 import styles from './pagination.module.css';
 import { NavLink, Link, useParams } from 'react-router-dom';
-import { BASE_ROUTE } from '../../constants/routing.ts';
+import { BASE_ROUTE, SEARCH } from '../../constants/routing.ts';
 
 interface Props {
   count: number;
@@ -29,7 +29,7 @@ const Pagination = ({ count }: Props) => {
   return (
     <div className={styles.pagination}>
       <Link
-        to={BASE_ROUTE + `/${currentPage - 1}`}
+        to={`${BASE_ROUTE}${SEARCH}/${currentPage - 1}`}
         className={`${styles.button} ${currentPage === 1 ? styles.disabled : ''}`}
       >
         &lt;
@@ -38,7 +38,7 @@ const Pagination = ({ count }: Props) => {
       {pages.map((page) => (
         <NavLink
           key={page}
-          to={BASE_ROUTE + `/${page}`}
+          to={`${BASE_ROUTE}${SEARCH}/${page}`}
           className={({ isActive }: { isActive: boolean }) =>
             isActive ? `${styles.link} ${styles.activeLink}` : styles.link
           }
@@ -48,7 +48,7 @@ const Pagination = ({ count }: Props) => {
       ))}
 
       <Link
-        to={BASE_ROUTE + `/${currentPage + 1}`}
+        to={`${BASE_ROUTE}${SEARCH}/${currentPage + 1}`}
         className={`${styles.button} ${currentPage === count ? styles.disabled : ''}`}
       >
         &gt;

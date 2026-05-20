@@ -9,14 +9,11 @@ import { pokemonService } from '../../services/pokemon.ts';
 import Loader from '../../components/loader/Loader.tsx';
 import { useNavigate } from 'react-router-dom';
 import { BASE_ROUTE } from '../../constants/routing.ts';
+import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 
 const SearchPage = () => {
-  const [query, setQuery] = useState<string>(
-    localStorage.getItem('query') || ''
-  );
-  const [searchQuery, setSearchQuery] = useState(
-    localStorage.getItem('query') || ''
-  );
+  const [query, setQuery] = useLocalStorage<string>('query', '');
+  const [searchQuery, setSearchQuery] = useState(query);
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

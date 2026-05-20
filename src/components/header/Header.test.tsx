@@ -2,13 +2,13 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import Header from './Header';
-import { BASE_ROUTE } from '../../constants/routing';
+import {BASE_ROUTE, SEARCH} from '../../constants/routing';
 
-const renderWithRouter = (initialEntries = [`${BASE_ROUTE}/1`]) => {
+const renderWithRouter = (initialEntries = [`${BASE_ROUTE}${SEARCH}/1`]) => {
   return render(
     <MemoryRouter initialEntries={initialEntries}>
       <Routes>
-        <Route path={`${BASE_ROUTE}/:page`} element={<Header />} />
+        <Route path={`${BASE_ROUTE}${SEARCH}/:page`} element={<Header />} />
         <Route path="/about" element={<Header />} />
       </Routes>
     </MemoryRouter>
@@ -17,7 +17,7 @@ const renderWithRouter = (initialEntries = [`${BASE_ROUTE}/1`]) => {
 
 describe('Header Component', () => {
   it('renders navigation links', () => {
-    renderWithRouter([`${BASE_ROUTE}/1`]);
+    renderWithRouter([`${BASE_ROUTE}${SEARCH}/1`]);
 
     expect(
       screen.getByRole('link', { name: /pokemon search/i })
@@ -29,23 +29,23 @@ describe('Header Component', () => {
   });
 
   it('uses current page in search link href', () => {
-    renderWithRouter([`${BASE_ROUTE}/5`]);
+    renderWithRouter([`${BASE_ROUTE}${SEARCH}/5`]);
 
     const searchLink = screen.getByRole('link', {
       name: /pokemon search/i,
     });
 
-    expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}/5`);
+    expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/5`);
   });
 
   it('uses page 1 by default', () => {
-    renderWithRouter([`${BASE_ROUTE}/1`]);
+    renderWithRouter([`${BASE_ROUTE}${SEARCH}/1`]);
 
     const searchLink = screen.getByRole('link', {
       name: /pokemon search/i,
     });
 
-    expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}/1`);
+    expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/1`);
   });
   //
   // it('keeps current page when pokemonId exists', () => {
