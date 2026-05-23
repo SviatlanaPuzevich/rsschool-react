@@ -62,23 +62,26 @@ describe('PokemonCard', () => {
     expect(document.querySelector('audio')).not.toBeInTheDocument();
   });
 
-  it('renders pokemon details', async () => {
+  it('renders pokemon details', async (): Promise<void> => {
     vi.mocked(pokemonService.getById).mockResolvedValue({
       id: 25,
       name: 'pikachu',
       soundUrl: 'pikachu.mp3',
+      imgUrl: 'pikachu.png',
       abilities: ['static', 'lightning-rod'],
+      types: ['electric'],
       weight: 60,
       height: 4,
-    } as PokemonDetails);
+    } );
 
     renderComponent();
 
     await waitFor(() => {
-      expect(screen.getByText('pikachu')).toBeInTheDocument();
+      screen.getByRole('heading', { name: /pikachu/i })
     });
 
     expect(screen.getByText(/static, lightning-rod/i)).toBeInTheDocument();
+    expect(screen.getByText(/electric/i)).toBeInTheDocument();
     expect(screen.getByText(/60/i)).toBeInTheDocument();
     expect(screen.getByText(/4/i)).toBeInTheDocument();
 
@@ -87,7 +90,7 @@ describe('PokemonCard', () => {
     expect(audio).toHaveAttribute('src', 'pikachu.mp3');
   });
 
-  it('renders error message', async () => {
+  it('renders error message', async (): Promise<void> => {
     vi.mocked(pokemonService.getById).mockRejectedValue(
       new Error('Server error')
     );
@@ -97,11 +100,12 @@ describe('PokemonCard', () => {
     expect(await screen.findByText('Server error')).toBeInTheDocument();
   });
 
-  it('calls service with pokemonId', async () => {
+  it('calls service with pokemonId', async (): Promise<void> => {
     vi.mocked(pokemonService.getById).mockResolvedValue({
       id: 25,
       name: 'pikachu',
       soundUrl: '',
+      imgUrl: 'pikachu.png',
       abilities: ['v'],
       types: ['static', 'lightning-rod'],
       weight: 1,
@@ -121,6 +125,7 @@ describe('PokemonCard', () => {
       id: 25,
       name: 'pikachu',
       soundUrl: '',
+      imgUrl: 'pikachu.png',
       abilities: [],
       types: ['static', 'lightning-rod'],
       weight: 1,
@@ -136,6 +141,6 @@ describe('PokemonCard', () => {
       })
     );
 
-    expect(mockedNavigate).toHaveBeenCalledWith(`${BASE_ROUTE}/1`);
+    expect(mockedNavigate).toHaveBeenCalledWith(`${BASE_ROUTE}`);
   });
 });

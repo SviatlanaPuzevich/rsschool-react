@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import Header from './Header';
-import {BASE_ROUTE, SEARCH} from '../../constants/routing';
+import { BASE_ROUTE, SEARCH } from '../../constants/routing';
 
 const renderWithRouter = (initialEntries = [`${BASE_ROUTE}${SEARCH}/1`]) => {
   return render(

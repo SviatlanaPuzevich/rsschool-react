@@ -71,9 +71,8 @@ class PokemonService {
       name: data.name,
       height: data.height,
       weight: data.weight,
-
+      imgUrl: this.buildURLToImage(id),
       abilities: data.abilities.map((item) => item.ability.name),
-
       types: data.types.map((item) => item.type.name),
     };
   }

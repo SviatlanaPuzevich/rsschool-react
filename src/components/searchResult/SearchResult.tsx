@@ -35,7 +35,9 @@ const SearchResult = ({ pokemons }: Props) => {
             <PokemonItem pokemon={item} key={item.id} />
           ))}
         </div>
-        <Outlet />
+        <div>
+          <Outlet />
+        </div>
       </div>
       <Pagination count={pagesCount} />
     </>

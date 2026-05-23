@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import Pagination from './Pagination';
-import {BASE_ROUTE, SEARCH} from '../../constants/routing';
+import { BASE_ROUTE, SEARCH } from '../../constants/routing';
 
 const renderWithRouter = (
   ui: React.ReactElement,
