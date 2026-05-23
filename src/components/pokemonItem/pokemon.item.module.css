@@ -5,8 +5,13 @@
   gap: 5px;
 }
 
-.selected {
+.selectedItem {
   border: 2px solid coral;
+}
+
+.selected {
+  padding: 10px;
+  display: flex;
 }
 
 .left {

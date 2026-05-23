@@ -1,63 +1,30 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 import SearchPage from './SearchPage';
-import { pokemonService } from '../../services/pokemon.ts';
-import { ERROR_MESSAGE } from '../../constants/messages.ts';
-import type { Pokemon } from '../../types.ts';
+import { pokemonService } from '../../services/pokemon';
+import { ERROR_MESSAGE } from '../../constants/messages';
+import type { Pokemon } from '../../types';
 
 const mockNavigate = vi.fn();
+
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+  const actual =
+    await vi.importActual<typeof import('react-router-dom')>(
+      'react-router-dom'
+    );
+
   return {
     ...actual,
     useNavigate: () => mockNavigate,
   };
 });
 
-vi.mock('../../services/pokemon.ts', () => ({
+vi.mock('../../services/pokemon', () => ({
   pokemonService: {
     getAll: vi.fn(),
   },
-}));
-
-vi.mock('../../components/searchBar/SearchBar.tsx', () => ({
-  default: ({
-    query,
-    onQueryChange,
-    onSearch,
-  }: {
-    query: string;
-    onQueryChange: (value: string) => void;
-    onSearch: () => void;
-  }) => (
-    <div data-testid="search-bar">
-      <input
-        data-testid="search-input"
-        value={query}
-        onChange={(e) => onQueryChange(e.target.value)}
-      />
-      <button data-testid="search-submit" onClick={onSearch}>
-        Search
-      </button>
-    </div>
-  ),
-}));
-
-vi.mock('../../components/searchResult/SearchResult.tsx', () => ({
-  default: ({ pokemons }: { pokemons: Pokemon[] }) => (
-    <div data-testid="search-result">Found {pokemons.length} pokemons</div>
-  ),
-}));
-
-vi.mock('../../components/loader/Loader.tsx', () => ({
-  default: () => <div data-testid="loader">Loading...</div>,
-}));
-
-vi.mock('../../components/error/Alert.tsx', () => ({
-  default: ({ message }: { message: string }) => (
-    <div data-testid="error-alert">{message}</div>
-  ),
 }));
 
 const mockPokemons: Pokemon[] = [
@@ -66,14 +33,14 @@ const mockPokemons: Pokemon[] = [
   { id: 3, name: 'charmander', image: 'charmander.png' },
 ];
 
-describe('SearchPage Component', () => {
+describe('SearchPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
   });
 
-  it('should display loader on mount and switch to search results once data is fetched', async () => {
-    vi.mocked(pokemonService.getAll).mockResolvedValueOnce(mockPokemons);
+  it('renders pokemons after loading', async () => {
+    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
 
     render(
       <MemoryRouter>
@@ -81,20 +48,18 @@ describe('SearchPage Component', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByTestId('loader')).toBeInTheDocument();
-    expect(screen.queryByTestId('search-result')).not.toBeInTheDocument();
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
-    });
-    expect(screen.getByTestId('search-result')).toHaveTextContent(
-      'Found 3 pokemons'
-    );
+    expect(await screen.findByText(/bulbasaur/i)).toBeInTheDocument();
+
+    expect(screen.getByText(/pikachu/i)).toBeInTheDocument();
+    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
   });
 
-  it('should initialize query from localStorage if it exists', async () => {
+  it('initializes query from localStorage', async () => {
     localStorage.setItem('query', 'pika');
-    vi.mocked(pokemonService.getAll).mockResolvedValueOnce(mockPokemons);
+
+    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
 
     render(
       <MemoryRouter>
@@ -102,18 +67,18 @@ describe('SearchPage Component', () => {
       </MemoryRouter>
     );
 
-    const input = screen.getByTestId('search-input') as HTMLInputElement;
-    expect(input.value).toBe('pika');
+    const input = await screen.findByRole('textbox');
 
-    await waitFor(() => {
-      expect(screen.getByTestId('search-result')).toHaveTextContent(
-        'Found 1 pokemons'
-      );
-    });
+    expect(input).toHaveValue('pika');
+
+    expect(screen.getByText(/pikachu/i)).toBeInTheDocument();
+    expect(screen.queryByText(/bulbasaur/i)).not.toBeInTheDocument();
   });
 
-  it('should update localStorage, trigger query filter, and navigate on search submission', async () => {
-    vi.mocked(pokemonService.getAll).mockResolvedValueOnce(mockPokemons);
+  it('updates query and navigates on search', async () => {
+    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
+
+    const user = userEvent.setup();
 
     render(
       <MemoryRouter>
@@ -121,46 +86,20 @@ describe('SearchPage Component', () => {
       </MemoryRouter>
     );
 
-    await waitFor(() =>
-      expect(screen.queryByTestId('loader')).not.toBeInTheDocument()
-    );
+    const input = await screen.findByRole('textbox');
 
-    const input = screen.getByTestId('search-input');
-    const submitBtn = screen.getByTestId('search-submit');
+    await user.type(input, 'Bulba');
 
-    fireEvent.change(input, { target: { value: '  Bulba  ' } });
-    fireEvent.click(submitBtn);
+    await user.click(screen.getByRole('button', { name: /search/i }));
 
     expect(localStorage.getItem('query')).toBe('bulba');
 
     expect(mockNavigate).toHaveBeenCalled();
-
-    expect(screen.getByTestId('search-result')).toHaveTextContent(
-      'Found 1 pokemons'
-    );
   });
 
-  it('should catch API errors and display an Alert component', async () => {
-    const errorMsg = 'Failed to fetch';
-    vi.mocked(pokemonService.getAll).mockRejectedValueOnce(new Error(errorMsg));
-
-    render(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
-    });
-
-    expect(screen.getByTestId('error-alert')).toHaveTextContent(errorMsg);
-    expect(screen.queryByTestId('search-result')).not.toBeInTheDocument();
-  });
-
-  it('should display a fallback server error message when an unknown error is caught', async () => {
-    vi.mocked(pokemonService.getAll).mockRejectedValueOnce(
-      'Unknown string error'
+  it('shows api error message', async () => {
+    vi.mocked(pokemonService.getAll).mockRejectedValue(
+      new Error('Failed to fetch')
     );
 
     render(
@@ -169,12 +108,53 @@ describe('SearchPage Component', () => {
       </MemoryRouter>
     );
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
-    });
+    expect(await screen.findByText(/failed to fetch/i)).toBeInTheDocument();
+  });
 
-    expect(screen.getByTestId('error-alert')).toHaveTextContent(
-      ERROR_MESSAGE.SERVER_ERROR
+  it('shows fallback error message', async () => {
+    vi.mocked(pokemonService.getAll).mockRejectedValue('unknown error');
+
+    render(
+      <MemoryRouter>
+        <SearchPage />
+      </MemoryRouter>
     );
+
+    expect(
+      await screen.findByText(ERROR_MESSAGE.SERVER_ERROR)
+    ).toBeInTheDocument();
+  });
+
+  it('keeps checked pokemon selected after page change', async () => {
+    const generatedPokemons = Array.from({ length: 30 }, (_, i) => i + 1).map(
+      (i) => {
+        return {
+          id: i,
+          name: `pokemon-${i}`,
+          image: `${i}.png`,
+        };
+      }
+    );
+    vi.mocked(pokemonService.getAll).mockResolvedValue(generatedPokemons);
+
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <SearchPage />
+      </MemoryRouter>
+    );
+
+    const checkbox = await screen.findByTestId('checkbox-2');
+
+    await user.click(checkbox);
+
+    expect(checkbox).toBeChecked();
+
+    await user.click(screen.getByText('>'));
+
+    await user.click(screen.getByText('<'));
+
+    expect(screen.getByTestId('checkbox-2')).toBeChecked();
   });
 });

@@ -5,7 +5,6 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import PokemonCard from './PokemonCard';
 import { pokemonService } from '../../services/pokemon';
 import { BASE_ROUTE } from '../../constants/routing';
-import type { PokemonDetails } from '../../types.ts';
 
 vi.mock('../../services/pokemon', () => ({
   pokemonService: {
@@ -72,12 +71,12 @@ describe('PokemonCard', () => {
       types: ['electric'],
       weight: 60,
       height: 4,
-    } );
+    });
 
     renderComponent();
 
     await waitFor(() => {
-      screen.getByRole('heading', { name: /pikachu/i })
+      screen.getByRole('heading', { name: /pikachu/i });
     });
 
     expect(screen.getByText(/static, lightning-rod/i)).toBeInTheDocument();

@@ -13,6 +13,10 @@ interface PokemonState {
   pokemonDetailsError: string | null;
   isDetailsLoading: boolean;
   fetchPokemonDetailsById: (id: string) => Promise<void>;
+
+  selectedPokemons: (string | number)[];
+  selectPokemon: (id: string | number) => void;
+  unselectPokemon: (id: string | number) => void;
 }
 
 const usePokemonStore = create<PokemonState>((set) => ({
@@ -37,6 +41,7 @@ const usePokemonStore = create<PokemonState>((set) => ({
   pokemonDetails: null,
   pokemonDetailsError: null,
   isDetailsLoading: false,
+
   fetchPokemonDetailsById: async (id: string) => {
     if (!id) return;
 
@@ -48,10 +53,24 @@ const usePokemonStore = create<PokemonState>((set) => ({
       set({
         pokemonDetailsError:
           error instanceof Error ? error.message : ERROR_MESSAGE.SERVER_ERROR,
-        isLoading: false,
+        isDetailsLoading: false,
       });
     }
   },
+
+  selectedPokemons: [],
+
+  selectPokemon: (id: string | number) =>
+    set((state) => ({
+      selectedPokemons: [...state.selectedPokemons, id],
+    })),
+
+  unselectPokemon: (id: string | number) =>
+    set((state) => ({
+      selectedPokemons: state.selectedPokemons.filter(
+        (pokemonId) => pokemonId !== id
+      ),
+    })),
 }));
 
 export default usePokemonStore;

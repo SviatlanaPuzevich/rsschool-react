@@ -26,10 +26,11 @@ const renderComponent = (
 };
 
 describe('PokemonItem', () => {
-  it('renders pokemon name and image', () => {
+  it('renders pokemon name, image and checkbox', () => {
     renderComponent();
 
     expect(screen.getByText('pikachu')).toBeInTheDocument();
+    expect(screen.getByRole('checkbox')).toBeInTheDocument();
 
     const img = screen.getByRole('img');
 
@@ -45,18 +46,18 @@ describe('PokemonItem', () => {
     expect(link).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/1/25`);
   });
 
-  it('does NOT apply selected class when pokemon is not selected', () => {
+  it('does NOT apply selectedItem class when pokemon is not selected', () => {
     const { container } = renderComponent(undefined, '/search/1');
 
-    expect(container.firstChild).not.toHaveClass('selected');
+    expect(container.firstChild).not.toHaveClass('selectedItem');
   });
 
-  it('applies selected class when pokemon is selected', () => {
+  it('applies selectedItem class when pokemon is selected', () => {
     const { container } = renderComponent(
       { id: 25, name: 'pikachu', image: 'pikachu.png' },
       '/search/1/25'
     );
 
-    expect(container.firstChild).toHaveClass(styles.selected);
+    expect(container.firstChild).toHaveClass(styles.selectedItem);
   });
 });
