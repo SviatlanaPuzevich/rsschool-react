@@ -17,6 +17,7 @@ interface PokemonState {
   selectedPokemons: (string | number)[];
   selectPokemon: (id: string | number) => void;
   unselectPokemon: (id: string | number) => void;
+  resetSelected: () => void;
 }
 
 const usePokemonStore = create<PokemonState>((set) => ({
@@ -71,6 +72,10 @@ const usePokemonStore = create<PokemonState>((set) => ({
         (pokemonId) => pokemonId !== id
       ),
     })),
+
+  resetSelected: () => {
+    set({ selectedPokemons: [] });
+  },
 }));
 
 export default usePokemonStore;

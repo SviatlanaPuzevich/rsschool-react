@@ -8,6 +8,7 @@ import Loader from '../../components/loader/Loader.tsx';
 import { useNavigate } from 'react-router-dom';
 import { BASE_ROUTE } from '../../constants/routing.ts';
 import usePokemonStore from '../../stores/usePokemonStore.ts';
+import Flyout from '../../components/flyout/Flyout.tsx';
 
 const SearchPage = () => {
   const pokemons = usePokemonStore((state) => state.pokemons);
@@ -37,22 +38,25 @@ const SearchPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h1>Find your pokemon</h1>
+    <>
+      <div className={styles.container}>
+        <h1>Find your pokemon</h1>
 
-      <SearchBar
-        onQueryChange={setQuery}
-        query={query}
-        onSearch={handleSearchSubmit}
-      />
-      <section className={styles.result}>
-        {isLoading && <Loader />}
+        <SearchBar
+          onQueryChange={setQuery}
+          query={query}
+          onSearch={handleSearchSubmit}
+        />
+        <section className={styles.result}>
+          {isLoading && <Loader />}
 
-        {error && <Alert message={error} />}
+          {error && <Alert message={error} />}
 
-        {!isLoading && !error && <SearchResult pokemons={filteredPokemon} />}
-      </section>
-    </div>
+          {!isLoading && !error && <SearchResult pokemons={filteredPokemon} />}
+        </section>
+      </div>
+      <Flyout />
+    </>
   );
 };
 
