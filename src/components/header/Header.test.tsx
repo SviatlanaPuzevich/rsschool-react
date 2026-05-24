@@ -3,13 +3,14 @@ import { describe, it, expect } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import { BASE_ROUTE, SEARCH } from '../../constants/routing';
+import ThemeProvider from '../../context/ContextThemeProvider.tsx';
 
 const renderWithRouter = (initialEntries = [`${BASE_ROUTE}${SEARCH}/1`]) => {
   return render(
     <MemoryRouter initialEntries={initialEntries}>
       <Routes>
-        <Route path={`${BASE_ROUTE}${SEARCH}/:page`} element={<Header />} />
-        <Route path="/about" element={<Header />} />
+        <Route path={`${BASE_ROUTE}${SEARCH}/:page`} element={<ThemeProvider><Header /></ThemeProvider>} />
+        <Route path="/about" element={<ThemeProvider><Header /></ThemeProvider>} />
       </Routes>
     </MemoryRouter>
   );
@@ -47,24 +48,14 @@ describe('Header Component', () => {
 
     expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/1`);
   });
-  //
-  // it('keeps current page when pokemonId exists', () => {
-  //   renderWithRouter([`${BASE_ROUTE}/5/40`]);
-  //
-  //   const searchLink = screen.getByRole('link', {
-  //     name: /pokemon search/i,
-  //   });
-  //
-  //   expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}/5`);
-  // });
-  //
-  // it('about link has correct href', () => {
-  //   renderWithRouter([`${BASE_ROUTE}/1`]);
-  //
-  //   const aboutLink = screen.getByRole('link', {
-  //     name: /about creators/i,
-  //   });
-  //
-  //   expect(aboutLink).toHaveAttribute('href', '/about');
-  // });
+
+  it('about link has correct href', () => {
+    renderWithRouter([`${BASE_ROUTE}${SEARCH}/1`]);
+
+    const aboutLink = screen.getByRole('link', {
+      name: /about creators/i,
+    });
+
+    expect(aboutLink).toHaveAttribute('href', `${BASE_ROUTE}/about`);
+  });
 });

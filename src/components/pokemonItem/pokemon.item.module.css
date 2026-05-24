@@ -6,7 +6,7 @@
 }
 
 .selectedItem {
-  border: 2px solid coral;
+  border: 2px solid var(--accent);
 }
 
 .selected {

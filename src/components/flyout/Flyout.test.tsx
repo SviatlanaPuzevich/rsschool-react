@@ -3,9 +3,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Flyout from './Flyout';
+import type { Pokemon } from '../../types.ts';
 
 const mockStore = {
-  pokemons: [],
+  pokemons: [] as Pokemon[],
   isLoading: false,
   error: null,
   fetchPokemons: vi.fn(),

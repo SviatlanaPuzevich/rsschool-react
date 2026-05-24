@@ -7,34 +7,38 @@ import { BASE_ROUTE, ABOUT, SEARCH } from './constants/routing.ts';
 import EmptyLayout from './layouts/empty/EmptyLayout.tsx';
 import ErrorBoundary from './components/errorBoundary/ErrorBoundary.tsx';
 import PokemonCard from './components/pokemonCard/PokemonCard.tsx';
+import ThemeProvider from './context/ContextThemeProvider.tsx';
+import './styles/theme.css';
 
 const App = () => {
   return (
     <ErrorBoundary>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route
-              path="/"
-              element={<Navigate to={`${BASE_ROUTE}${SEARCH}/1`} replace />}
-            />
-            <Route
-              path={BASE_ROUTE}
-              element={<Navigate to={`${BASE_ROUTE}${SEARCH}/1`} replace />}
-            />
-            <Route
-              path={`${BASE_ROUTE}${SEARCH}/:page`}
-              element={<SearchPage />}
-            >
-              <Route path=":pokemonId" element={<PokemonCard />} />
+      <ThemeProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route
+                path="/"
+                element={<Navigate to={`${BASE_ROUTE}${SEARCH}/1`} replace />}
+              />
+              <Route
+                path={BASE_ROUTE}
+                element={<Navigate to={`${BASE_ROUTE}${SEARCH}/1`} replace />}
+              />
+              <Route
+                path={`${BASE_ROUTE}${SEARCH}/:page`}
+                element={<SearchPage />}
+              >
+                <Route path=":pokemonId" element={<PokemonCard />} />
+              </Route>
+              <Route path={`${BASE_ROUTE}${ABOUT}`} element={<AboutPage />} />
             </Route>
-            <Route path={`${BASE_ROUTE}${ABOUT}`} element={<AboutPage />} />
-          </Route>
-          <Route element={<EmptyLayout />}>
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+            <Route element={<EmptyLayout />}>
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 };

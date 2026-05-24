@@ -1,6 +1,7 @@
 import { useParams, NavLink } from 'react-router-dom';
 import { BASE_ROUTE, ABOUT, SEARCH } from '../../constants/routing.ts';
 import styles from './header.module.css';
+import ThemeToggle from '../themeToggle/themeToggle.tsx';
 
 const Header = () => {
   const { page = '1' } = useParams<{ page: string }>();
@@ -25,6 +26,9 @@ const Header = () => {
           About creators
         </NavLink>
       </nav>
+      <div className={styles.theme}>
+        <ThemeToggle />
+      </div>
     </header>
   );
 };

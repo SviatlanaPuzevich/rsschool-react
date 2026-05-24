@@ -12,5 +12,5 @@
   padding: 10px;
   z-index: 100;
 
-  background: rgba(246, 224, 137, 0.51);
+  background: var(--flayout-bg);
 }
