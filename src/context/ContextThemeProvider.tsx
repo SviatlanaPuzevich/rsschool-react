@@ -5,6 +5,8 @@ type Props = {
   children: ReactNode;
 };
 
+type Theme = 'light' | 'dark';
+
 const ThemeProvider = ({ children }: Props) => {
   const [theme, setTheme] = useState<Theme>(() => {
     return (localStorage.getItem('theme') as Theme) || 'light';

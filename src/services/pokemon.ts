@@ -31,7 +31,7 @@ class PokemonService {
     return Number(url.split('/').filter(Boolean).pop());
   }
 
-  private buildURLToImage(id: number): string {
+  private buildURLToImage(id: number | string): string {
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
   }
 

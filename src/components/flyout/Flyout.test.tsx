@@ -16,7 +16,7 @@ const mockStore = {
   isDetailsLoading: false,
   fetchPokemonDetailsById: vi.fn(),
 
-  selectedPokemons: [],
+  selectedPokemons: [] as Array<Pokemon>,
   selectPokemon: vi.fn(),
   unselectPokemon: vi.fn(),
   resetSelected: vi.fn(),

@@ -1,7 +1,7 @@
 import { useParams, NavLink } from 'react-router-dom';
 import { BASE_ROUTE, ABOUT, SEARCH } from '../../constants/routing.ts';
 import styles from './header.module.css';
-import ThemeToggle from '../themeToggle/themeToggle.tsx';
+import ThemeToggle from '../themeToggle/ThemeToggle.tsx';
 
 const Header = () => {
   const { page = '1' } = useParams<{ page: string }>();
