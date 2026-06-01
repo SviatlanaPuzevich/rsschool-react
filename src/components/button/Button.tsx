@@ -13,7 +13,7 @@ const Button = ({ onClick, buttonType, value }: Props) => {
     <button
       onClick={onClick}
       className={
-        value
+        buttonType
           ? `${styles.button} ${styles[buttonType]}`
           : `${styles.button} ${styles.primary}`
       }

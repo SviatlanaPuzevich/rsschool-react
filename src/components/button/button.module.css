@@ -18,7 +18,8 @@
 }
 
 .warning {
-  background-color: yellow;
+  background-color: #f8d030;
+  color: #333;
 }
 .danger {
   background-color: red;

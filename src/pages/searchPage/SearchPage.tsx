@@ -8,7 +8,7 @@ import Loader from '../../components/loader/Loader.tsx';
 import { useNavigate } from 'react-router-dom';
 import { BASE_ROUTE } from '../../constants/routing.ts';
 import Flyout from '../../components/flyout/Flyout.tsx';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { pokemonService } from '../../services/pokemon.ts';
 
 const SearchPage = () => {
@@ -31,6 +31,11 @@ const SearchPage = () => {
   }, [pokemons, searchQuery]);
 
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: ['pokemonData'] });
+  };
 
   const handleSearchSubmit = () => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -55,7 +60,10 @@ const SearchPage = () => {
           {isError && <Alert message={error.message} />}
 
           {!isLoading && !isError && (
-            <SearchResult pokemons={filteredPokemon} />
+            <SearchResult
+              pokemons={filteredPokemon}
+              onRefresh={handleRefresh}
+            />
           )}
         </section>
       </div>

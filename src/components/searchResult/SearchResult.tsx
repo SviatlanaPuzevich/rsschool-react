@@ -5,12 +5,14 @@ import { POKEMON_NUMBER_ON_PAGE } from '../../constants/layout.ts';
 import { SEARCH_RESULT } from '../../constants/messages.ts';
 import { Outlet, useParams } from 'react-router-dom';
 import PokemonItem from '../pokemonItem/PokemonItem.tsx';
+import Button from '../button/Button.tsx';
 
 interface Props {
   pokemons: Pokemon[];
+  onRefresh?: () => void;
 }
 
-const SearchResult = ({ pokemons }: Props) => {
+const SearchResult = ({ pokemons, onRefresh }: Props) => {
   const params = useParams<{ page: string }>();
   const currentPage = Number(params.page) || 1;
 
@@ -29,6 +31,11 @@ const SearchResult = ({ pokemons }: Props) => {
   return (
     <>
       <h2>List of pokemons</h2>
+      <Button
+        buttonType="warning"
+        onClick={onRefresh}
+        value="invalidate Cache"
+      />
       <div className={styles.container}>
         <div className={styles.list}>
           {currentPokemons.map((item: Pokemon) => (
