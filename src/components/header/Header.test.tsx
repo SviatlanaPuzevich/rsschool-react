@@ -9,8 +9,22 @@ const renderWithRouter = (initialEntries = [`${BASE_ROUTE}${SEARCH}/1`]) => {
   return render(
     <MemoryRouter initialEntries={initialEntries}>
       <Routes>
-        <Route path={`${BASE_ROUTE}${SEARCH}/:page`} element={<ThemeProvider><Header /></ThemeProvider>} />
-        <Route path="/about" element={<ThemeProvider><Header /></ThemeProvider>} />
+        <Route
+          path={`${BASE_ROUTE}${SEARCH}/:page`}
+          element={
+            <ThemeProvider>
+              <Header />
+            </ThemeProvider>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <ThemeProvider>
+              <Header />
+            </ThemeProvider>
+          }
+        />
       </Routes>
     </MemoryRouter>
   );

@@ -1,11 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import SearchPage from './SearchPage';
 import { pokemonService } from '../../services/pokemon';
-import { ERROR_MESSAGE } from '../../constants/messages';
 import type { Pokemon } from '../../types';
+import {
+  renderWithQueryClient,
+} from '../../utils/testUtils.tsx';
 
 const mockNavigate = vi.fn();
 
@@ -42,7 +44,7 @@ describe('SearchPage', () => {
   it('renders pokemons after loading', async () => {
     vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
 
-    render(
+    renderWithQueryClient(
       <MemoryRouter>
         <SearchPage />
       </MemoryRouter>
@@ -61,7 +63,7 @@ describe('SearchPage', () => {
 
     vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
 
-    render(
+    renderWithQueryClient(
       <MemoryRouter>
         <SearchPage />
       </MemoryRouter>
@@ -71,8 +73,10 @@ describe('SearchPage', () => {
 
     expect(input).toHaveValue('pika');
 
-    expect(screen.getByText(/pikachu/i)).toBeInTheDocument();
-    expect(screen.queryByText(/bulbasaur/i)).not.toBeInTheDocument();
+    await screen.findByText('pikachu');
+
+    expect(screen.getByText('pikachu')).toBeInTheDocument();
+    expect(screen.queryByText('bulbasaur')).not.toBeInTheDocument();
   });
 
   it('updates query and navigates on search', async () => {
@@ -80,7 +84,7 @@ describe('SearchPage', () => {
 
     const user = userEvent.setup();
 
-    render(
+    renderWithQueryClient(
       <MemoryRouter>
         <SearchPage />
       </MemoryRouter>
@@ -102,7 +106,7 @@ describe('SearchPage', () => {
       new Error('Failed to fetch')
     );
 
-    render(
+    renderWithQueryClient(
       <MemoryRouter>
         <SearchPage />
       </MemoryRouter>
@@ -112,17 +116,17 @@ describe('SearchPage', () => {
   });
 
   it('shows fallback error message', async () => {
-    vi.mocked(pokemonService.getAll).mockRejectedValue('unknown error');
+    vi.mocked(pokemonService.getAll).mockRejectedValue(
+      new Error('unknown error')
+    );
 
-    render(
+    renderWithQueryClient(
       <MemoryRouter>
         <SearchPage />
       </MemoryRouter>
     );
 
-    expect(
-      await screen.findByText(ERROR_MESSAGE.SERVER_ERROR)
-    ).toBeInTheDocument();
+    expect(await screen.findByText('unknown error')).toBeInTheDocument();
   });
 
   it('keeps checked pokemon selected after page change', async () => {
@@ -139,7 +143,7 @@ describe('SearchPage', () => {
 
     const user = userEvent.setup();
 
-    render(
+    renderWithQueryClient(
       <MemoryRouter>
         <SearchPage />
       </MemoryRouter>

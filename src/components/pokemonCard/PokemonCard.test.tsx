@@ -1,10 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import PokemonCard from './PokemonCard';
 import { pokemonService } from '../../services/pokemon';
 import { BASE_ROUTE } from '../../constants/routing';
+import {
+  renderWithQueryClient,
+  createTestQueryClient,
+} from '../../utils/testUtils.tsx';
 
 vi.mock('../../services/pokemon', () => ({
   pokemonService: {
@@ -35,15 +39,19 @@ describe('PokemonCard', () => {
     vi.clearAllMocks();
   });
 
-  const renderComponent = (route = '/pokemons/1/25') => {
-    return render(
+  const renderComponent = (
+    route = '/pokemons/1/25',
+    queryClient = createTestQueryClient()
+  ) => {
+    return renderWithQueryClient(
       <MemoryRouter initialEntries={[route]}>
         <Routes>
           <Route path="/pokemons/:page/:pokemonId" element={<PokemonCard />} />
 
           <Route path="/pokemons/:page" element={<PokemonCard />} />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
+      queryClient
     );
   };
 

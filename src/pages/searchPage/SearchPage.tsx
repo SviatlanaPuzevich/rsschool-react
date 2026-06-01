@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import styles from './search.page.module.css';
 import SearchBar from '../../components/searchBar/SearchBar.tsx';
 import SearchResult from '../../components/searchResult/SearchResult.tsx';
@@ -7,14 +7,20 @@ import Alert from '../../components/error/Alert.tsx';
 import Loader from '../../components/loader/Loader.tsx';
 import { useNavigate } from 'react-router-dom';
 import { BASE_ROUTE } from '../../constants/routing.ts';
-import usePokemonStore from '../../stores/usePokemonStore.ts';
 import Flyout from '../../components/flyout/Flyout.tsx';
+import { useQuery } from '@tanstack/react-query';
+import { pokemonService } from '../../services/pokemon.ts';
 
 const SearchPage = () => {
-  const pokemons = usePokemonStore((state) => state.pokemons);
-  const isLoading = usePokemonStore((state) => state.isLoading);
-  const error = usePokemonStore((state) => state.error);
-  const fetchPokemons = usePokemonStore((state) => state.fetchPokemons);
+  const {
+    data: pokemons = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['pokemonData'],
+    queryFn: () => pokemonService.getAll(),
+  });
 
   const [query, setQuery] = useState(localStorage.getItem('query') || '');
   const [searchQuery, setSearchQuery] = useState(query);
@@ -25,10 +31,6 @@ const SearchPage = () => {
   }, [pokemons, searchQuery]);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchPokemons();
-  }, [fetchPokemons]);
 
   const handleSearchSubmit = () => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -50,9 +52,11 @@ const SearchPage = () => {
         <section className={styles.result}>
           {isLoading && <Loader />}
 
-          {error && <Alert message={error} />}
+          {isError && <Alert message={error.message} />}
 
-          {!isLoading && !error && <SearchResult pokemons={filteredPokemon} />}
+          {!isLoading && !isError && (
+            <SearchResult pokemons={filteredPokemon} />
+          )}
         </section>
       </div>
       <Flyout />

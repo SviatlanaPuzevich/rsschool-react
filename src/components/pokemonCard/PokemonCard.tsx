@@ -1,35 +1,33 @@
 import styles from './pokemon.card.module.css';
-import { useEffect } from 'react';
 import Alert from '../error/Alert.tsx';
 import { useParams, useNavigate } from 'react-router-dom';
 import Loader from '../loader/Loader.tsx';
 import { BASE_ROUTE } from '../../constants/routing.ts';
-import usePokemonStore from '../../stores/usePokemonStore.ts';
+import { useQuery } from '@tanstack/react-query';
+import { pokemonService } from '../../services/pokemon.ts';
 
 const PokemonCard = () => {
   const navigate = useNavigate();
   const { pokemonId } = useParams<{
     pokemonId: string | undefined;
   }>();
-  const details = usePokemonStore((state) => state.pokemonDetails);
-  const isLoading = usePokemonStore((state) => state.isDetailsLoading);
-  const error = usePokemonStore((state) => state.pokemonDetailsError);
-  const fetchDetails = usePokemonStore(
-    (state) => state.fetchPokemonDetailsById
-  );
-
-  useEffect(() => {
-    if (!pokemonId) return;
-
-    fetchDetails(pokemonId);
-  }, [pokemonId, fetchDetails]);
+  const {
+    data: details = null,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['pokemonDetail', pokemonId],
+    queryFn: () => pokemonService.getById(pokemonId!),
+    enabled: !!pokemonId,
+  });
 
   const handleCloseClick = () => {
     navigate(`${BASE_ROUTE}`);
   };
 
-  if (error) {
-    return <Alert message={error} />;
+  if (isError) {
+    return <Alert message={error.message} />;
   }
 
   if (!details) {
