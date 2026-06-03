@@ -33,7 +33,7 @@ const SearchResult = ({ pokemons, onRefresh }: Props) => {
       <h2>List of pokemons</h2>
       <Button
         buttonType="warning"
-        onClick={onRefresh}
+        onClick={onRefresh!}
         value="invalidate Cache"
       />
       <div className={styles.container}>

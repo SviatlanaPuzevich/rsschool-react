@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import SearchResult from './SearchResult';
 import { SEARCH_RESULT } from '../../constants/messages.ts';
@@ -91,5 +92,29 @@ describe('SearchResult Component', () => {
 
     const pagination = screen.getByTestId('pagination');
     expect(pagination).toHaveTextContent('Pages: 3');
+  });
+
+  it('calls onRefresh when the invalidate cache button is clicked', async () => {
+    const onRefresh = vi.fn();
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <Routes>
+          <Route
+            path="/search"
+            element={
+              <SearchResult pokemons={mockPokemons} onRefresh={onRefresh} />
+            }
+          />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await user.click(
+      screen.getByRole('button', { name: /invalidate cache/i })
+    );
+
+    expect(onRefresh).toHaveBeenCalledTimes(1);
   });
 });

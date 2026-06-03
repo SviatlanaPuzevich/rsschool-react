@@ -1,4 +1,9 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  Navigate,
+  HashRouter,
+} from 'react-router-dom';
 import MainLayout from './layouts/main/MainLayout.tsx';
 import SearchPage from './pages/searchPage/SearchPage.tsx';
 import AboutPage from './pages/about/AboutPage.tsx';
@@ -18,7 +23,7 @@ const App = () => {
     <ErrorBoundary>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
+          <HashRouter>
             <Routes>
               <Route element={<MainLayout />}>
                 <Route
@@ -41,7 +46,7 @@ const App = () => {
                 <Route path="*" element={<NotFoundPage />} />
               </Route>
             </Routes>
-          </BrowserRouter>
+          </HashRouter>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ThemeProvider>

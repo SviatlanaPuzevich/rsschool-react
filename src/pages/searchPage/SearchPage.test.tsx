@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryClient } from '@tanstack/react-query';
 import userEvent from '@testing-library/user-event';
 import SearchPage from './SearchPage';
 import { pokemonService } from '../../services/pokemon';
@@ -127,6 +128,63 @@ describe('SearchPage', () => {
     );
 
     expect(await screen.findByText('unknown error')).toBeInTheDocument();
+  });
+
+  it('reuses cached data between navigations without refetching', async () => {
+    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
+
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false, staleTime: 5 * 60 * 1000 },
+      },
+    });
+
+    const { unmount } = renderWithQueryClient(
+      <MemoryRouter>
+        <SearchPage />
+      </MemoryRouter>,
+      queryClient
+    );
+
+    expect(await screen.findByText(/bulbasaur/i)).toBeInTheDocument();
+    expect(pokemonService.getAll).toHaveBeenCalledTimes(1);
+
+    unmount();
+
+    renderWithQueryClient(
+      <MemoryRouter>
+        <SearchPage />
+      </MemoryRouter>,
+      queryClient
+    );
+
+    expect(screen.getByText(/bulbasaur/i)).toBeInTheDocument();
+    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+
+    expect(pokemonService.getAll).toHaveBeenCalledTimes(1);
+  });
+
+  it('refetches data when the invalidate cache button is clicked', async () => {
+    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
+
+    const user = userEvent.setup();
+
+    renderWithQueryClient(
+      <MemoryRouter>
+        <SearchPage />
+      </MemoryRouter>
+    );
+
+    expect(await screen.findByText(/bulbasaur/i)).toBeInTheDocument();
+    expect(pokemonService.getAll).toHaveBeenCalledTimes(1);
+
+    await user.click(
+      screen.getByRole('button', { name: /invalidate cache/i })
+    );
+
+    await waitFor(() =>
+      expect(pokemonService.getAll).toHaveBeenCalledTimes(2)
+    );
   });
 
   it('keeps checked pokemon selected after page change', async () => {
