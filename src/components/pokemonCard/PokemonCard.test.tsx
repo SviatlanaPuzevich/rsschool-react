@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import PokemonCard from './PokemonCard';
 import { pokemonService } from '../../services/pokemon';
-import { BASE_ROUTE } from '../../constants/routing';
 import {
   renderWithQueryClient,
   createTestQueryClient,

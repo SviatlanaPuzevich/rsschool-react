@@ -60,7 +60,7 @@ describe('SearchPage', () => {
   });
 
   it('initializes query from localStorage', async () => {
-    localStorage.setItem('query', 'pika');
+    localStorage.setItem('query', JSON.stringify('pika'));
 
     vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
 
@@ -97,7 +97,7 @@ describe('SearchPage', () => {
 
     await user.click(screen.getByRole('button', { name: /search/i }));
 
-    expect(localStorage.getItem('query')).toBe('bulba');
+    expect(JSON.parse(localStorage.getItem('query'))).toBe('bulba');
 
     expect(mockNavigate).toHaveBeenCalled();
   });

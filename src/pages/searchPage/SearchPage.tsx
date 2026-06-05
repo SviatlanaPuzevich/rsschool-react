@@ -10,6 +10,7 @@ import { BASE_ROUTE } from '../../constants/routing.ts';
 import Flyout from '../../components/flyout/Flyout.tsx';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { pokemonService } from '../../services/pokemon.ts';
+import {useLocalStorage} from '../../hooks/useLocalStorage.ts';
 
 const SearchPage = () => {
   const {
@@ -22,7 +23,7 @@ const SearchPage = () => {
     queryFn: () => pokemonService.getAll(),
   });
 
-  const [query, setQuery] = useState(localStorage.getItem('query') || '');
+  const [query, setQuery] = useLocalStorage('query', '');
   const [searchQuery, setSearchQuery] = useState(query);
   const filteredPokemon = useMemo(() => {
     return searchQuery
@@ -39,7 +40,7 @@ const SearchPage = () => {
 
   const handleSearchSubmit = () => {
     const normalizedQuery = query.trim().toLowerCase();
-    localStorage.setItem('query', normalizedQuery);
+    setQuery(normalizedQuery);
     setSearchQuery(normalizedQuery);
     navigate(BASE_ROUTE);
   };
