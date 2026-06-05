@@ -55,12 +55,6 @@ describe('PokemonCard', () => {
     );
   };
 
-  it('renders nothing when pokemonId is undefined', () => {
-    renderComponent('/pokemons/1');
-
-    expect(screen.queryByText(/Abilities:/i)).not.toBeInTheDocument();
-  });
-
   it('renders loader while loading', () => {
     vi.mocked(pokemonService.getById).mockReturnValue(new Promise(() => {}));
 
@@ -148,6 +142,6 @@ describe('PokemonCard', () => {
       })
     );
 
-    expect(mockedNavigate).toHaveBeenCalledWith(`${BASE_ROUTE}`);
+    expect(mockedNavigate).toHaveBeenCalledWith('..', { relative: 'path' });
   });
 });

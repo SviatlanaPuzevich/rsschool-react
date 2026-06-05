@@ -2,7 +2,6 @@ import styles from './pokemon.card.module.css';
 import Alert from '../error/Alert.tsx';
 import { useParams, useNavigate } from 'react-router-dom';
 import Loader from '../loader/Loader.tsx';
-import { BASE_ROUTE } from '../../constants/routing.ts';
 import { useQuery } from '@tanstack/react-query';
 import { pokemonService } from '../../services/pokemon.ts';
 
@@ -23,24 +22,21 @@ const PokemonCard = () => {
   });
 
   const handleCloseClick = () => {
-    navigate(`${BASE_ROUTE}`);
+    navigate('..', { relative: 'path' });
   };
 
   if (isError) {
     return <Alert message={error.message} />;
   }
 
-  if (!details) {
-    return null;
-  }
-
   if (isLoading) {
     return <Loader />;
   }
 
+
   return (
     <div className={styles.card}>
-      <h3>{details.name}</h3>
+      <h3 className={styles.name}>{details.name}</h3>
       <div>
         <img src={details.imgUrl} alt={details.name} />
       </div>

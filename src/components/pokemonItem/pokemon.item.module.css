@@ -9,10 +9,18 @@
   border: 2px solid var(--accent);
 }
 
+/*checkbox*/
 .selected {
   padding: 10px;
   display: flex;
 }
+
+.pokemonContainer {
+  display: flex;
+  cursor: pointer;
+  flex: 1;
+}
+
 
 .left {
   border-radius: 5px;

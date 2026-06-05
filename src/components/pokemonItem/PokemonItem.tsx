@@ -1,6 +1,6 @@
 import styles from './pokemon.item.module.css';
 import type { Pokemon } from '../../types.ts';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BASE_ROUTE, SEARCH } from '../../constants/routing.ts';
 import usePokemonStore from '../../stores/usePokemonStore.ts';
 
@@ -13,6 +13,8 @@ const PokemonItem = ({ pokemon }: Props) => {
     page: string;
     pokemonId: string | undefined;
   }>();
+
+  const navigate = useNavigate();
 
   const selectedPokemons = usePokemonStore((state) => state.selectedPokemons);
   const selectPokemon = usePokemonStore((state) => state.selectPokemon);
@@ -29,6 +31,10 @@ const PokemonItem = ({ pokemon }: Props) => {
     }
   };
 
+  const handleOnClick = () => {
+    navigate(`${BASE_ROUTE}${SEARCH}/${page}/${pokemon.id}`);
+  }
+
   return (
     <div
       className={
@@ -43,18 +49,20 @@ const PokemonItem = ({ pokemon }: Props) => {
           data-testid={`checkbox-${pokemon.id}`}
         />
       </div>
-      <div className={styles.left}>
-        <img
-          className={styles.pokemonImg}
-          src={pokemon.image}
-          alt={pokemon.name}
-        />
-      </div>
-      <div className={styles.right}>
-        <p className={styles.desc}>{pokemon.name}</p>
-        <Link to={`${BASE_ROUTE}${SEARCH}/${page}/${pokemon.id}`}>
-          More Details...
-        </Link>
+      <div className={styles.pokemonContainer} onClick={handleOnClick}>
+        <div className={styles.left}>
+          <img
+            className={styles.pokemonImg}
+            src={pokemon.image}
+            alt={pokemon.name}
+          />
+        </div>
+        <div className={styles.right}>
+          <p className={styles.desc}>{pokemon.name}</p>
+          <div>
+            More Details...
+          </div>
+        </div>
       </div>
     </div>
   );

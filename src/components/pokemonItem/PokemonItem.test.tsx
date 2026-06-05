@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import PokemonItem from './PokemonItem';
 import { BASE_ROUTE, SEARCH } from '../../constants/routing';
 import styles from './pokemon.item.module.css';
+import userEvent from '@testing-library/user-event';
 
 const renderComponent = (
   pokemon = { id: 25, name: 'pikachu', image: 'pikachu.png' },
@@ -25,6 +26,14 @@ const renderComponent = (
   );
 };
 
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+  };
+});
+
 describe('PokemonItem', () => {
   it('renders pokemon name, image and checkbox', () => {
     renderComponent();
@@ -38,12 +47,19 @@ describe('PokemonItem', () => {
     expect(img).toHaveAttribute('alt', 'pikachu');
   });
 
-  it('renders correct link', () => {
+
+  it('navigates to correct URL on click', async () => {
+    const mockNavigate = vi.fn();
+    vi.mocked(useNavigate).mockReturnValue(mockNavigate);
+    const user = userEvent.setup();
+
     renderComponent();
 
-    const link = screen.getByRole('link', { name: /more details/i });
+    const clickableElement = screen.getByText(/more details/i);
 
-    expect(link).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/1/25`);
+    await user.click(clickableElement);
+
+    expect(mockNavigate).toHaveBeenCalledWith(`${BASE_ROUTE}${SEARCH}/1/25`);
   });
 
   it('does NOT apply selectedItem class when pokemon is not selected', () => {
