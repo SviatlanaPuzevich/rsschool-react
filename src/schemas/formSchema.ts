@@ -68,8 +68,8 @@ export const createFormSchema = (
                     "Password must contain at least 8 characters"
                 ),
 
-            // confirmPassword:
-            //     z.string(),
+            confirmPassword:
+                z.string(),
 
             gender: z
                 .string()
@@ -95,21 +95,21 @@ export const createFormSchema = (
                 message:
                     "You must accept Terms & Conditions",
             }),
-        });
-        // .superRefine(
-        //     (data, ctx) => {
-        //         if (
-        //             data.password !==
-        //             data.confirmPassword
-        //         ) {
-        //             ctx.addIssue({
-        //                 code: z.ZodIssueCode.custom,
-        //                 path: [
-        //                     "confirmPassword",
-        //                 ],
-        //                 message:
-        //                     "Passwords must match",
-        //             });
-        //         }
-        //     }
-        // );
+        })
+        .superRefine(
+            (data, ctx) => {
+                if (
+                    data.password !==
+                    data.confirmPassword
+                ) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        path: [
+                            "confirmPassword",
+                        ],
+                        message:
+                            "Passwords must match",
+                    });
+                }
+            }
+        );

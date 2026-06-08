@@ -12,4 +12,5 @@ export type UserForm = {
     country: string;
 
     terms: boolean;
+    createdAt: number;
 };

@@ -13,6 +13,7 @@ type FormValues = {
     terms: boolean;
     country: string;
     password: string;
+    confirmPassword: string;
 };
 
 type Props = {
@@ -30,7 +31,6 @@ export function RHFForm({onSuccess}: Props) {
     const {
         register,
         handleSubmit,
-        watch,
         formState: {
             errors,
             isValid,
@@ -47,6 +47,7 @@ export function RHFForm({onSuccess}: Props) {
             ...data,
             id: crypto.randomUUID(),
             source: "rhf",
+            createdAt: Date.now(),
         });
 
         onSuccess();
@@ -93,6 +94,15 @@ export function RHFForm({onSuccess}: Props) {
             </div>
 
             <div className={styles.field}>
+                <label htmlFor="r-cpassword">Confirm Password</label>
+                <input id="r-cpassword" type="password" {...register("confirmPassword")} />
+                <div className={styles.error}>
+                    {errors.confirmPassword?.message}
+                </div>
+            </div>
+
+
+            <div className={styles.field}>
                 <label htmlFor="r-gender">Gender</label>
                 <select id="r-gender" {...register("gender")}>
                     <option value="male">Male</option>
@@ -107,8 +117,8 @@ export function RHFForm({onSuccess}: Props) {
             <div className={styles.field}>
                 <label htmlFor="r-country">Country</label>
                 <input id="r-country"
-                    list="countries"
-                    {...register("country")}
+                       list="countries"
+                       {...register("country")}
                 />
 
                 <datalist id="countries">

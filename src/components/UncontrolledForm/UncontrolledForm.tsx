@@ -1,47 +1,80 @@
 import {FormEvent, useState} from "react";
-import {useFormsStore} from "../../store/formsStore.ts";
-import {countries} from "../../constants/countries.ts"; // Импортируем страны
-import styles from "./UncontrolledForm.module.css"; // Импортируем стили
+import {useFormsStore} from "../../store/formsStore";
+import {useCountriesStore} from "../../store/сountriesStore";
+import {createFormSchema} from "../../schemas/formSchema";
+import styles from "./UncontrolledForm.module.css";
 
 type Props = {
     onSuccess: () => void;
-}
+};
+
+type Errors = Partial<
+    Record<
+        | "name"
+        | "age"
+        | "email"
+        | "password"
+        | "confirmPassword"
+        | "gender"
+        | "country"
+        | "terms",
+        string
+    >
+>;
 
 export function UncontrolledForm({onSuccess}: Props) {
-    const [errors, setErrors] = useState<Record<string, string>>({});
-
     const addForm = useFormsStore((state) => state.addForm);
+    const countries = useCountriesStore((state) => state.countries);
+
+    const schema = createFormSchema(countries);
+
+    const [errors, setErrors] = useState<Errors>({});
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         const formData = new FormData(e.currentTarget);
 
-        setErrors({});
-        const newErrors: Record<string, string> = {};
+        const data = {
+            name: String(formData.get("name") ?? ""),
+            age: Number(formData.get("age")),
+            email: String(formData.get("email") ?? ""),
+            password: String(formData.get("password") ?? ""),
+            confirmPassword: String(formData.get("confirmPassword") ?? ""),
+            gender: String(formData.get("gender") ?? ""),
+            country: String(formData.get("country") ?? ""),
+            terms: formData.get("terms") === "on",
+        };
 
-        const name = String(formData.get("name"));
-        const password = String(formData.get("password"));
+        const result = schema.safeParse(data);
 
-        if (!name.trim()) newErrors.name = "Name is required";
-        if (password.length < 6) newErrors.password = "Password must be at least 6 characters";
+        if (!result.success) {
+            const fieldErrors = result.error.flatten().fieldErrors;
 
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
+            setErrors({
+                name: fieldErrors.name?.[0],
+                age: fieldErrors.age?.[0],
+                email: fieldErrors.email?.[0],
+                password: fieldErrors.password?.[0],
+                confirmPassword: fieldErrors.confirmPassword?.[0],
+                gender: fieldErrors.gender?.[0],
+                country: fieldErrors.country?.[0],
+                terms: fieldErrors.terms?.[0],
+            });
+
             return;
         }
 
+        setErrors({});
+
         addForm({
+            ...result.data,
             id: crypto.randomUUID(),
             source: "uncontrolled",
-            name,
-            age: Number(formData.get("age")),
-            email: String(formData.get("email")),
-            password,
-            gender: String(formData.get("gender")),
-            country: String(formData.get("country")),
-            terms: Boolean(formData.get("terms")),
+            createdAt: Date.now(),
         });
 
+        e.currentTarget.reset();
         onSuccess();
     };
 
@@ -73,10 +106,16 @@ export function UncontrolledForm({onSuccess}: Props) {
                 <div className={styles.error}>{errors.password}</div>
             </div>
 
-            {/* Gender */}
+            <div className={styles.field}>
+                <label htmlFor="u-confirmPassword">Confirm Password</label>
+                <input id="u-confirmPassword" name="confirmPassword" type="password"/>
+                <div className={styles.error}>{errors.confirmPassword}</div>
+            </div>
+
             <div className={styles.field}>
                 <label htmlFor="u-gender">Gender</label>
                 <select id="u-gender" name="gender">
+                    <option value="">Select gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
@@ -87,6 +126,7 @@ export function UncontrolledForm({onSuccess}: Props) {
             <div className={styles.field}>
                 <label htmlFor="u-country">Country</label>
                 <select id="u-country" name="country">
+                    <option value="">Select country</option>
                     {countries.map((country) => (
                         <option key={country} value={country}>
                             {country}
@@ -98,13 +138,8 @@ export function UncontrolledForm({onSuccess}: Props) {
 
             <div className={styles.field}>
                 <div>
-                    <input
-                        id="u-terms"
-                        name="terms"
-                        type="checkbox"
-                        value="accepted"
-                    />
-                    <label htmlFor="u-terms" style={{marginLeft: '8px'}}>
+                    <input id="u-terms" name="terms" type="checkbox"/>
+                    <label htmlFor="u-terms" style={{marginLeft: "8px"}}>
                         Accept Terms & Conditions
                     </label>
                 </div>
