@@ -6,10 +6,10 @@ export type UserForm = {
     age: number;
     email: string;
     password: string;
+    confirmPassword: string;
 
     gender: string;
     country: string;
 
     terms: boolean;
-    createdAt: number;
 };

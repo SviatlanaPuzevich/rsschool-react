@@ -1,7 +1,9 @@
-import { useForm } from "react-hook-form";
-import { countries } from "../../constants/countries.ts";
-import { useFormsStore } from "../../store/formsStore.ts";
+import {useForm} from "react-hook-form";
+import {useFormsStore} from "../../store/formsStore.ts";
 import styles from "./RHFForm.module.css";
+import {useCountriesStore} from "../../store/сountriesStore.ts";
+import {createFormSchema} from "../../schemas/formSchema.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 type FormValues = {
     name: string;
@@ -17,12 +19,26 @@ type Props = {
     onSuccess: () => void;
 }
 
-export function RHFForm({ onSuccess }: Props) {
+export function RHFForm({onSuccess}: Props) {
+    const countries = useCountriesStore(
+        (state) => state.countries
+    );
+
+    const schema =
+        createFormSchema(countries);
+
     const {
         register,
         handleSubmit,
-        formState: { errors }
-    } = useForm<FormValues>();
+        watch,
+        formState: {
+            errors,
+            isValid,
+        },
+    } = useForm<FormValues>({
+        resolver: zodResolver(schema),
+        mode: "onChange",
+    });
 
     const addForm = useFormsStore((state) => state.addForm);
 
@@ -31,7 +47,6 @@ export function RHFForm({ onSuccess }: Props) {
             ...data,
             id: crypto.randomUUID(),
             source: "rhf",
-            createdAt: Date.now(),
         });
 
         onSuccess();
@@ -54,7 +69,7 @@ export function RHFForm({ onSuccess }: Props) {
                 <input
                     id="r-age"
                     type="number"
-                    {...register("age", { valueAsNumber: true })}
+                    {...register("age", {valueAsNumber: true})}
                 />
                 <div className={styles.error}>
                     {errors.age?.message}
@@ -91,13 +106,19 @@ export function RHFForm({ onSuccess }: Props) {
 
             <div className={styles.field}>
                 <label htmlFor="r-country">Country</label>
-                <select id="r-country" {...register("country")}>
+                <input id="r-country"
+                    list="countries"
+                    {...register("country")}
+                />
+
+                <datalist id="countries">
                     {countries.map((country) => (
-                        <option key={country} value={country}>
-                            {country}
-                        </option>
+                        <option
+                            key={country}
+                            value={country}
+                        />
                     ))}
-                </select>
+                </datalist>
                 <div className={styles.error}>
                     {errors.country?.message}
                 </div>
@@ -110,7 +131,7 @@ export function RHFForm({ onSuccess }: Props) {
                         type="checkbox"
                         {...register("terms")}
                     />
-                    <label htmlFor="r-terms" style={{ marginLeft: '8px' }}>
+                    <label htmlFor="r-terms" style={{marginLeft: '8px'}}>
                         Accept Terms & Conditions
                     </label>
                 </div>
@@ -119,7 +140,7 @@ export function RHFForm({ onSuccess }: Props) {
                 </div>
             </div>
 
-            <button type="submit">Submit</button>
+            <button disabled={!isValid} type="submit">Submit</button>
         </form>
     );
 }

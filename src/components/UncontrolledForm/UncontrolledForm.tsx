@@ -1,13 +1,13 @@
-import { FormEvent, useState } from "react";
-import { useFormsStore } from "../../store/formsStore.ts";
-import { countries } from "../../constants/countries.ts"; // Импортируем страны
+import {FormEvent, useState} from "react";
+import {useFormsStore} from "../../store/formsStore.ts";
+import {countries} from "../../constants/countries.ts"; // Импортируем страны
 import styles from "./UncontrolledForm.module.css"; // Импортируем стили
 
 type Props = {
     onSuccess: () => void;
 }
 
-export function UncontrolledForm( {onSuccess}: Props ) {
+export function UncontrolledForm({onSuccess}: Props) {
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const addForm = useFormsStore((state) => state.addForm);
@@ -40,7 +40,6 @@ export function UncontrolledForm( {onSuccess}: Props ) {
             gender: String(formData.get("gender")),
             country: String(formData.get("country")),
             terms: Boolean(formData.get("terms")),
-            createdAt: Date.now(),
         });
 
         onSuccess();
@@ -52,25 +51,25 @@ export function UncontrolledForm( {onSuccess}: Props ) {
 
             <div className={styles.field}>
                 <label htmlFor="u-name">Name</label>
-                <input id="u-name" name="name" />
+                <input id="u-name" name="name"/>
                 <div className={styles.error}>{errors.name}</div>
             </div>
 
             <div className={styles.field}>
                 <label htmlFor="u-age">Age</label>
-                <input id="u-age" name="age" type="number" />
+                <input id="u-age" name="age" type="number"/>
                 <div className={styles.error}>{errors.age}</div>
             </div>
 
             <div className={styles.field}>
                 <label htmlFor="u-email">Email</label>
-                <input id="u-email" name="email" type="email" />
+                <input id="u-email" name="email" type="email"/>
                 <div className={styles.error}>{errors.email}</div>
             </div>
 
             <div className={styles.field}>
                 <label htmlFor="u-password">Password</label>
-                <input id="u-password" name="password" type="password" />
+                <input id="u-password" name="password" type="password"/>
                 <div className={styles.error}>{errors.password}</div>
             </div>
 
@@ -105,7 +104,7 @@ export function UncontrolledForm( {onSuccess}: Props ) {
                         type="checkbox"
                         value="accepted"
                     />
-                    <label htmlFor="u-terms" style={{ marginLeft: '8px' }}>
+                    <label htmlFor="u-terms" style={{marginLeft: '8px'}}>
                         Accept Terms & Conditions
                     </label>
                 </div>
