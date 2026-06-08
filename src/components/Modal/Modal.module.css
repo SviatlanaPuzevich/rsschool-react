@@ -1,0 +1,22 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    width: 900px;
+    max-height: 90vh;
+    overflow: auto;
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.closeButton {
+    float: right;
+    cursor: pointer;
+}
