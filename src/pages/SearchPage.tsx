@@ -3,8 +3,9 @@ import styles from './search.page.module.css';
 import SearchBar from '../components/searchBar/SearchBar.tsx';
 import SearchResult from '../components/searchResult/SearchResult.tsx';
 import type { Pokemon } from '../types.ts';
-import ErrorBoundary from '../ErrorBoundary.tsx';
+import ErrorBoundary from '../components/errorBoundary/ErrorBoundary.tsx';
 import Alert from '../components/error/Alert.tsx';
+import Loader from '../components/loader/Loader.tsx';
 
 interface State {
   query: string;
@@ -16,7 +17,7 @@ interface State {
   showError: boolean;
 }
 
-class SearchPage extends React.Component<{}, State> {
+class SearchPage extends React.Component<object, State> {
   state: State = {
     query: localStorage.getItem('query') || '',
     pokemons: [],
@@ -63,11 +64,14 @@ class SearchPage extends React.Component<{}, State> {
         foundPokemons: filteredPokemon,
         loaded: true,
       });
-    } catch (e) {
+    } catch (e: unknown) {
       this.setState({
         loaded: true,
         showError: true,
-        error: 'Can not load pokemons. Please try to reload',
+        error:
+          e instanceof Error
+            ? e.message
+            : 'Can not load pokemons. Please try to reload',
       });
     }
   }
@@ -113,7 +117,7 @@ class SearchPage extends React.Component<{}, State> {
             onError={this.handleErrorGeneration}
           />
           <section className={styles.result}>
-            {!loaded && <p>Loading...</p>}
+            {!loaded && <Loader />}
 
             {showError && (
               <Alert

@@ -25,13 +25,13 @@ class SearchBar extends React.Component<SearchInputProps> {
           placeholder="Enter pokemon name..."
         />
         <Button
-          value="Search"
+          text="Search"
           onClick={this.props.onSearch}
           buttonType="primary"
         />
         <Button
           onClick={this.props.onError}
-          value="Generate Exception"
+          text="Generate Exception"
           buttonType="danger"
         />
       </section>

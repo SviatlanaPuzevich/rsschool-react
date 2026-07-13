@@ -1,4 +1,5 @@
 import React, { type ErrorInfo, type ReactNode } from 'react';
+import Button from '../button/Button.tsx';
 
 interface Props {
   children: ReactNode;
@@ -6,6 +7,7 @@ interface Props {
 
 interface State {
   hasError: boolean;
+  reload: () => void;
 }
 
 class ErrorBoundary extends React.Component<Props, State> {
@@ -25,10 +27,17 @@ class ErrorBoundary extends React.Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div>
-          Here is test for error boundary. Instead of pokemon items you can see
-          this text. Reload page to continue
-        </div>
+        <>
+          <p>
+            Here is test for error boundary. Instead of pokemon items you can
+            see this text. Reload page to continue
+          </p>
+          <Button
+            text="Back to application"
+            onClick={() => window.location.reload()}
+            buttonType="primary"
+          />
+        </>
       );
     }
 
