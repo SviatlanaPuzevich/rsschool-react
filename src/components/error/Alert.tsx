@@ -31,6 +31,7 @@ class Alert extends React.Component<Props, State> {
         <div className={styles.alert__content}>{message}</div>
         <Button
           text="×"
+          buttonType="default"
           onClick={this.handleClose}
           ariaLabel="Close alert"
           className={styles.alert__close}

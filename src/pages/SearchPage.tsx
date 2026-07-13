@@ -3,7 +3,6 @@ import styles from './search.page.module.css';
 import SearchBar from '../components/searchBar/SearchBar.tsx';
 import SearchResult from '../components/searchResult/SearchResult.tsx';
 import type { Pokemon } from '../types.ts';
-import ErrorBoundary from '../components/errorBoundary/ErrorBoundary.tsx';
 import Alert from '../components/error/Alert.tsx';
 import Loader from '../components/loader/Loader.tsx';
 
@@ -97,44 +96,29 @@ class SearchPage extends React.Component<object, State> {
     });
   };
 
-  handleCloseAlert = () => {
-    this.setState({
-      showError: false,
-      error: null,
-    });
-  };
-
   render() {
     const { query, loaded, error, foundPokemons, showError } = this.state;
     return (
       <div className={styles.container}>
         <h1>Find your pokemon</h1>
-        <ErrorBoundary>
-          <SearchBar
-            onQueryChange={this.handleQueryChange}
-            query={query}
-            onSearch={this.handleSearchSubmit}
-            onError={this.handleErrorGeneration}
-          />
-          <section className={styles.result}>
-            {!loaded && <Loader />}
+        <SearchBar
+          onQueryChange={this.handleQueryChange}
+          query={query}
+          onSearch={this.handleSearchSubmit}
+          onError={this.handleErrorGeneration}
+        />
+        <section className={styles.result}>
+          {!loaded && <Loader />}
 
-            {showError && (
-              <Alert
-                message={error}
-                show={showError}
-                onClose={this.handleCloseAlert}
-              />
-            )}
+          {showError && <Alert message={error || undefined} show={showError} />}
 
-            {loaded && !error && (
-              <SearchResult
-                pokemons={foundPokemons}
-                error={this.state.generateError}
-              />
-            )}
-          </section>
-        </ErrorBoundary>
+          {loaded && !error && (
+            <SearchResult
+              pokemons={foundPokemons}
+              error={this.state.generateError}
+            />
+          )}
+        </section>
       </div>
     );
   }

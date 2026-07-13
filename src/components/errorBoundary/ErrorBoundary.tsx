@@ -1,5 +1,6 @@
 import React, { type ErrorInfo, type ReactNode } from 'react';
 import Button from '../button/Button.tsx';
+import styles from './error.boundary.module.css';
 
 interface Props {
   children: ReactNode;
@@ -7,7 +8,6 @@ interface Props {
 
 interface State {
   hasError: boolean;
-  reload: () => void;
 }
 
 class ErrorBoundary extends React.Component<Props, State> {
@@ -27,7 +27,7 @@ class ErrorBoundary extends React.Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <>
+        <div className={styles.container}>
           <p>
             Here is test for error boundary. Instead of pokemon items you can
             see this text. Reload page to continue
@@ -37,7 +37,7 @@ class ErrorBoundary extends React.Component<Props, State> {
             onClick={() => window.location.reload()}
             buttonType="primary"
           />
-        </>
+        </div>
       );
     }
 

@@ -7,7 +7,7 @@ import Loader from '../loader/Loader.tsx';
 import TypeTag from '../typeTag/TypeTag.tsx';
 
 interface PokemonDetailProps {
-  pokemonId: string | undefined;
+  pokemonId: number | undefined;
 }
 
 interface PokemonDetailState {
@@ -57,7 +57,7 @@ export class PokemonDetail extends Component<
     const { details, loaded, error } = this.state;
 
     if (error) {
-      return <Alert message={error} />;
+      return <Alert message={error} show={true} />;
     }
 
     if (!loaded) {

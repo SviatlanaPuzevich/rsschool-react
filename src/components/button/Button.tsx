@@ -4,12 +4,12 @@ import styles from './button.module.css';
 interface Props {
   text: string;
   onClick: () => void;
-  buttonType?: ButtonType;
+  buttonType: ButtonType;
   ariaLabel?: string;
   className?: string;
 }
 
-type ButtonType = 'primary' | 'success' | 'warning' | 'danger';
+type ButtonType = 'primary' | 'success' | 'warning' | 'danger' | 'default';
 
 class Button extends React.Component<Props> {
   render() {
@@ -17,11 +17,11 @@ class Button extends React.Component<Props> {
       <button
         onClick={this.props.onClick}
         className={
-          this.className
-            ? `${styles.button} ${className}`
+          this.props.className
+            ? `${styles.button} ${this.props.className}`
             : `${styles.button} ${styles[this.props.buttonType]}`
         }
-        aria-label={this.ariaLabel}
+        aria-label={this.props.ariaLabel}
       >
         {this.props.text}
       </button>
