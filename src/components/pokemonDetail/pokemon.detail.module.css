@@ -1,0 +1,9 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.audio {
+  margin: 10px 0;
+}

@@ -13,7 +13,7 @@ interface State {
   currentPage: number;
 }
 
-const POKEMON_PAGE_SIZE = 10;
+const POKEMON_PAGE_SIZE = 5;
 const POKEMON_COLUMN_COUNT = 3;
 
 class SearchResult extends Component<Props, State> {

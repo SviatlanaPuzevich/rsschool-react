@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './pokemon.card.module.css';
 import type { Pokemon } from '../../types.ts';
+import PokemonDetail from '../pokemonDetail/PokemonDetail.tsx';
 
 interface Props {
   pokemon: Pokemon;
@@ -19,7 +20,7 @@ class PokemonCard extends React.Component<Props> {
           />
           <figcaption className={styles.caption}>{pokemon.name}</figcaption>
         </figure>
-        {pokemon.abilities && <div>{pokemon.abilities}</div>}
+        <PokemonDetail pokemonId={pokemon.id} />
       </div>
     );
   }

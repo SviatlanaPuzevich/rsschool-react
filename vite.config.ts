@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/rsschool-react/',
+  base: '/pokemon-search/',
   plugins: [react()],
   test: {
     globals: true,

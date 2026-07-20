@@ -1,6 +1,6 @@
 {
-  "homepage": "https://sviatlanapuzevich.github.io/rsschool-react/",
-  "name": "rs-react-app",
+  "homepage": "https://sviatlanapuzevich.github.io/pokemon-search/",
+  "name": "pokemon-search-react-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
     "preview": "vite preview",
     "format:fix": "prettier --write .",
     "predeploy": "npm run build",
