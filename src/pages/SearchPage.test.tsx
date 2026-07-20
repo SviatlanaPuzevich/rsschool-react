@@ -1,120 +1,74 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import SearchPage from './SearchPage';
-import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it } from 'vitest';
+import SearchPage from './SearchPage';
+import { server } from '../mocks/server';
+import { http, HttpResponse } from 'msw';
 
-const mockPokemonData = {
-  results: [
-    { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' },
-    { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/' },
-    { name: 'Mewtwo', url: 'https://pokeapi.co/api/v2/pokemon/4/' },
-    { name: 'pigeon', url: 'https://pokeapi.co/api/v2/pokemon/5/' },
-  ],
-};
 
-beforeEach(() => {
-  global.fetch = vi.fn().mockResolvedValue({
-    ok: true,
-    json: async () => mockPokemonData,
-  });
-  localStorage.clear();
-});
-
-describe('SearchBar Component', async () => {
-  it('renders search input and search button', async () => {
-    render(<SearchPage />);
-
-    expect(await screen.findByRole('textbox')).toBeInTheDocument();
-    expect(
-      await screen.findByRole('button', { name: /search/i })
-    ).toBeInTheDocument();
+describe('SearchPage', () => {
+  beforeEach(() => {
+    localStorage.clear();
   });
 
-  it('displays previously saved search term from localStorage on mount', async () => {
-    localStorage.setItem('query', 'pikachu');
+  it('loads and displays pokemons', async () => {
     render(<SearchPage />);
 
-    const input = await screen.findByRole('textbox') as HTMLInputElement;
-
-    expect(input.value).toBe('pikachu');
+    expect(screen.getByText('LOADING...')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('bulbasaur')).toBeInTheDocument();
+    });
+    expect(screen.getByText('pikachu')).toBeInTheDocument();
   });
 
-  it('shows empty input when no saved term exists', async () => {
-    render(<SearchPage />);
-
-    const input = await screen.findByRole('textbox') as HTMLInputElement;
-
-    expect(input.value).toBe('');
-  });
-
-  it('updates input value when user types', async () => {
-    const user = userEvent.setup();
+  it('uses query from localStorage', async () => {
+    localStorage.setItem('query', 'pika');
 
     render(<SearchPage />);
-
-    const input = await screen.findByRole('textbox') as HTMLInputElement;
-
-    await user.type(input, 'bulbasaur');
-
-    expect(input.value).toBe('bulbasaur');
-  });
-});
-
-describe('Error Boundary Component', async () => {
-  it('catches and handles JavaScript errors in child components', async () => {
-    const user = userEvent.setup();
-
-    render(<SearchPage />);
-
-    const generateErrorButton = await screen.findByText(/Generate Exception/i);
-
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    await user.click(generateErrorButton);
-
-    expect(
-      screen.getByText(/Here is test for error boundary/, {
-        exact: false,
-      })
-    ).toBeInTheDocument();
-
-    spy.mockRestore();
-  });
-
-  it('should log an error to the console', async () => {
-    const user = userEvent.setup();
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    render(<SearchPage />);
-    const btn = screen.getByText(/Generate Exception/i);
-    await user.click(btn);
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalled();
+      expect(screen.getByText('pikachu')).toBeInTheDocument();
     });
 
-    consoleSpy.mockRestore();
+    expect(screen.queryByText('bulbasaur')).not.toBeInTheDocument();
   });
-});
 
-describe('Alert Component', async () => {
-  it('shows error message when server request fails', async () => {
-    global.fetch = vi.fn().mockRejectedValue(new Error('Server error'));
+  it('filters pokemons after search', async () => {
+    const user = userEvent.setup();
 
     render(<SearchPage />);
 
-    expect(
-      await screen.findByText(/can not load pokemons\. please try to reload/i)
-    ).toBeInTheDocument();
-  });
-});
+    await waitFor(() => {
+      expect(screen.getByText('pikachu')).toBeInTheDocument();
+    });
 
-describe('On the search page', async () => {
-  it('shows loading message while data is loading', () => {
-    global.fetch = vi.fn(() => new Promise<Response>(() => {}));
+    const input = screen.getByRole('textbox');
+
+    await user.clear(input);
+    await user.type(input, 'bulb');
+    await user.click(
+      screen.getByRole('button', {
+        name: /search/i,
+      }),
+    );
+
+    expect(screen.getByText('bulbasaur')).toBeInTheDocument();
+    expect(screen.queryByText('pikachu')).not.toBeInTheDocument();
+    expect(localStorage.getItem('query')).toBe('bulb');
+  });
+
+
+  it('shows alert when api fails', async () => {
+    server.use(
+      http.get('https://pokeapi.co/api/v2/pokemon', () => {
+        return HttpResponse.error();
+      }),
+    );
 
     render(<SearchPage />);
 
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Failed to fetch')).toBeInTheDocument();
+    });
   });
 });

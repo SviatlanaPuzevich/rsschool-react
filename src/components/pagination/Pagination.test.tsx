@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Pagination from './Pagination.tsx';
-import { vi } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 
 describe('Pagination element', () => {
   it('should not render if count of pages equals 1', () => {

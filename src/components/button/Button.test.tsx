@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
+import { vi, it, describe, expect } from 'vitest';
 import Button from './Button.tsx';
 
 describe('Button Component', () => {
   it('should render the button with correct value', () => {
-    render(<Button value="Click me" onClick={() => {}} buttonType="primary" />);
+    render(<Button text="Click me" onClick={() => {}} buttonType="primary" />);
 
     const buttonElement = screen.getByText(/click me/i);
 
@@ -16,9 +16,7 @@ describe('Button Component', () => {
     const handleClick = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <Button buttonType="primary" value="Submit" onClick={handleClick} />
-    );
+    render(<Button buttonType="primary" text="Submit" onClick={handleClick} />);
 
     const buttonElement = screen.getByText(/submit/i);
 

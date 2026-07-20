@@ -38,7 +38,12 @@ export class PokemonDetail extends Component<
 
   fetchData = async () => {
     const { pokemonId } = this.props;
-    if (!pokemonId) return;
+    if (pokemonId === undefined) {
+      this.setState({
+        loaded: true,
+      });
+      return;
+    }
 
     this.setState({ loaded: false, error: null });
 

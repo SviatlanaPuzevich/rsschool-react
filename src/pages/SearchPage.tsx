@@ -5,6 +5,7 @@ import SearchResult from '../components/searchResult/SearchResult.tsx';
 import type { Pokemon } from '../types.ts';
 import Alert from '../components/error/Alert.tsx';
 import Loader from '../components/loader/Loader.tsx';
+import { pokemonService } from '../services/pokemonService.ts';
 
 interface State {
   query: string;
@@ -35,28 +36,12 @@ class SearchPage extends React.Component<object, State> {
     });
     const query: string = this.state.query.trim().toLowerCase();
     try {
-      const response = await fetch(
-        'https://pokeapi.co/api/v2/pokemon?limit=1500'
-      );
+      const pokemons = await pokemonService.getAll();
 
-      const pokemonsData = await response.json();
-      const pokemons: Pokemon[] = pokemonsData.results.map(
-        (item: { name: string; url: string }) => {
-          const parts = item.url.split('/');
-
-          const id = parts[parts.length - 2];
-          const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-          return {
-            id,
-            name: item.name,
-            image,
-            abilities: '',
-          };
-        }
-      );
       const filteredPokemon = query
         ? pokemons.filter((item) => item.name.startsWith(query))
         : pokemons;
+
       this.setState({
         query,
         pokemons,

@@ -12,13 +12,9 @@ class PokemonCard extends React.Component<Props> {
     const { pokemon } = this.props;
     return (
       <div className={styles.item}>
-        <figure className={styles.imgContainer}>
-          <img
-            className={styles.pokemonImg}
-            src={pokemon.image}
-            alt={pokemon.name}
-          />
-          <figcaption className={styles.caption}>{pokemon.name}</figcaption>
+        <figure>
+          <img src={pokemon.image} alt={pokemon.name} />
+          <figcaption>{pokemon.name}</figcaption>
         </figure>
         <PokemonDetail pokemonId={pokemon.id} />
       </div>

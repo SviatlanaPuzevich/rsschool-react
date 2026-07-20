@@ -22,7 +22,10 @@ class SearchResult extends Component<Props, State> {
   };
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.pokemons !== this.props.pokemons) {
+    if (
+      prevProps.pokemons !== this.props.pokemons &&
+      this.state.currentPage !== 1
+    ) {
       this.setState({ currentPage: 1 });
     }
   }

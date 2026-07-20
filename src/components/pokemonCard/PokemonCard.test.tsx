@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import PokemoCard from './PokemonCard.tsx';
 import type { Pokemon } from '../../types.ts';
+import { describe, expect, it } from 'vitest';
 
 describe('PokenCard element', () => {
   it('should render the card with correct name and URL', () => {
