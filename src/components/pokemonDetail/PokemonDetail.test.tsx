@@ -45,7 +45,6 @@ describe('PokemonDetail', () => {
 
     expect(screen.getByText('850')).toBeInTheDocument();
 
-
     expect(screen.getByText('17')).toBeInTheDocument();
 
     const audio = document.querySelector('audio');

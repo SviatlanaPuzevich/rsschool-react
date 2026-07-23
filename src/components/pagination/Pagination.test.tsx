@@ -1,69 +1,105 @@
 import { render, screen } from '@testing-library/react';
-import Pagination from './Pagination.tsx';
-import { vi, describe, it, expect } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, vi } from 'vitest';
+import Pagination from './Pagination';
 
-describe('Pagination element', () => {
-  it('should not render if count of pages equals 1', () => {
-    const handleChange = vi.fn();
-
-    render(
-      <Pagination count={1} currentPage={1} onPageChange={handleChange} />
+describe('Pagination', () => {
+  it('does not render when count is less than or equal to 1', () => {
+    const { container } = render(
+      <Pagination count={1} currentPage={1} onPageChange={vi.fn()} />
     );
 
-    const paginationElement = screen.queryByText('1');
-
-    expect(paginationElement).not.toBeInTheDocument();
+    expect(container.firstChild).toBeNull();
   });
 
-  it('should render navigation buttons if count of pages more than one ', () => {
-    const handleChange = vi.fn();
+  it('renders pages and highlights current page', () => {
+    render(<Pagination count={10} currentPage={3} onPageChange={vi.fn()} />);
 
-    render(
-      <Pagination count={3} currentPage={2} onPageChange={handleChange} />
+    expect(screen.getByRole('link', { name: '1' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '2' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '3' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '4' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '5' })).toBeInTheDocument();
+
+    expect(screen.getByRole('link', { current: 'page' })).toHaveTextContent(
+      '3'
     );
-
-    const navigationButtons = screen.getAllByRole('button');
-
-    expect(navigationButtons).toHaveLength(2);
   });
 
-  it('should render first 5 pages if count of pages more or equals 5 ', () => {
-    const handleChange = vi.fn();
+  it('calls onPageChange when page number is clicked', async () => {
+    const user = userEvent.setup();
+    const onPageChange = vi.fn();
 
     render(
-      <Pagination count={6} currentPage={2} onPageChange={handleChange} />
+      <Pagination count={10} currentPage={3} onPageChange={onPageChange} />
     );
 
-    const paginationElements = screen.getAllByRole('link');
+    await user.click(screen.getByRole('link', { name: '5' }));
 
-    expect(paginationElements).toHaveLength(5);
+    expect(onPageChange).toHaveBeenCalledWith(5);
+    expect(onPageChange).toHaveBeenCalledTimes(1);
   });
 
-  it('should render disabled forward button if the current page is the last page ', () => {
-    const handleChange = vi.fn();
+  it('calls onPageChange when next button is clicked', async () => {
+    const user = userEvent.setup();
+    const onPageChange = vi.fn();
 
     render(
-      <Pagination count={6} currentPage={6} onPageChange={handleChange} />
+      <Pagination count={10} currentPage={3} onPageChange={onPageChange} />
     );
 
-    const nextButton = screen.getByRole('button', {
-      name: /forward to next page/i,
-    });
+    await user.click(
+      screen.getByRole('button', {
+        name: /forward to next page/i,
+      })
+    );
 
-    expect(nextButton).toBeDisabled();
+    expect(onPageChange).toHaveBeenCalledWith(4);
   });
 
-  it('should render disabled back button if the current page is the first page ', () => {
-    const handleChange = vi.fn();
+  it('calls onPageChange when previous button is clicked', async () => {
+    const user = userEvent.setup();
+    const onPageChange = vi.fn();
 
     render(
-      <Pagination count={20} currentPage={1} onPageChange={handleChange} />
+      <Pagination count={10} currentPage={3} onPageChange={onPageChange} />
     );
 
-    const nextButton = screen.getByRole('button', {
-      name: /back to previous page/i,
-    });
+    await user.click(
+      screen.getByRole('button', {
+        name: /back to previous page/i,
+      })
+    );
 
-    expect(nextButton).toBeDisabled();
+    expect(onPageChange).toHaveBeenCalledWith(2);
+  });
+
+  it('disables previous button on first page', () => {
+    render(<Pagination count={10} currentPage={1} onPageChange={vi.fn()} />);
+
+    expect(
+      screen.getByRole('button', {
+        name: /back to previous page/i,
+      })
+    ).toBeDisabled();
+  });
+
+  it('disables next button on last page', () => {
+    render(<Pagination count={10} currentPage={10} onPageChange={vi.fn()} />);
+
+    expect(
+      screen.getByRole('button', {
+        name: /forward to next page/i,
+      })
+    ).toBeDisabled();
+  });
+
+  it('shows last five pages when current page is near the end', () => {
+    render(<Pagination count={10} currentPage={9} onPageChange={vi.fn()} />);
+
+    expect(screen.getByRole('link', { name: '6' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '10' })).toBeInTheDocument();
+
+    expect(screen.queryByRole('link', { name: '5' })).not.toBeInTheDocument();
   });
 });

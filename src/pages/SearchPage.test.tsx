@@ -5,7 +5,6 @@ import SearchPage from './SearchPage';
 import { server } from '../mocks/server';
 import { http, HttpResponse } from 'msw';
 
-
 describe('SearchPage', () => {
   beforeEach(() => {
     localStorage.clear();
@@ -49,7 +48,7 @@ describe('SearchPage', () => {
     await user.click(
       screen.getByRole('button', {
         name: /search/i,
-      }),
+      })
     );
 
     expect(screen.getByText('bulbasaur')).toBeInTheDocument();
@@ -57,12 +56,11 @@ describe('SearchPage', () => {
     expect(localStorage.getItem('query')).toBe('bulb');
   });
 
-
   it('shows alert when api fails', async () => {
     server.use(
       http.get('https://pokeapi.co/api/v2/pokemon', () => {
         return HttpResponse.error();
-      }),
+      })
     );
 
     render(<SearchPage />);

@@ -47,6 +47,7 @@ class Pagination extends React.Component<Props> {
           <a
             key={page}
             href="#"
+            aria-current={page === currentPage ? 'page' : undefined}
             className={page === currentPage ? styles.activePage : styles.page}
             onClick={(e) => this.handlePageChange(e, page)}
           >
