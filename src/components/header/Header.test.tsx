@@ -1,70 +1,65 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { describe, expect, it, vi } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
 import Header from './Header';
-import {BASE_ROUTE, SEARCH} from '../../constants/routing';
 
-const renderWithRouter = (initialEntries = [`${BASE_ROUTE}${SEARCH}/1`]) => {
-  return render(
-    <MemoryRouter initialEntries={initialEntries}>
-      <Routes>
-        <Route path={`${BASE_ROUTE}${SEARCH}/:page`} element={<Header />} />
-        <Route path="/about" element={<Header />} />
-      </Routes>
-    </MemoryRouter>
-  );
-};
+vi.mock('./header.module.css', () => ({
+  default: {
+    header: 'mocked-header',
+    nav: 'mocked-nav',
+    link: 'mocked-link',
+    activeLink: 'mocked-active-link',
+  },
+}));
 
 describe('Header Component', () => {
-  it('renders navigation links', () => {
-    renderWithRouter([`${BASE_ROUTE}${SEARCH}/1`]);
+  it('should render navigation links with correct text and attributes', () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
 
-    expect(
-      screen.getByRole('link', { name: /pokemon search/i })
-    ).toBeInTheDocument();
+    const searchLink = screen.getByRole('link', { name: /pokemon search/i });
+    expect(searchLink).toBeInTheDocument();
+    expect(searchLink).toHaveAttribute('href', '/search');
 
-    expect(
-      screen.getByRole('link', { name: /about creators/i })
-    ).toBeInTheDocument();
+    const aboutLink = screen.getByRole('link', { name: /about creators/i });
+    expect(aboutLink).toBeInTheDocument();
+    expect(aboutLink).toHaveAttribute('href', '/about');
   });
 
-  it('uses current page in search link href', () => {
-    renderWithRouter([`${BASE_ROUTE}${SEARCH}/5`]);
+  it('should apply active class to the Search link when URL is /search', () => {
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <Header />
+      </MemoryRouter>
+    );
 
-    const searchLink = screen.getByRole('link', {
-      name: /pokemon search/i,
-    });
+    const searchLink = screen.getByRole('link', { name: /pokemon search/i });
+    const aboutLink = screen.getByRole('link', { name: /about creators/i });
 
-    expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/5`);
+    expect(searchLink).toHaveClass('mocked-link');
+    expect(searchLink).toHaveClass('mocked-active-link');
+
+    expect(aboutLink).toHaveClass('mocked-link');
+    expect(aboutLink).not.toHaveClass('mocked-active-link');
   });
 
-  it('uses page 1 by default', () => {
-    renderWithRouter([`${BASE_ROUTE}${SEARCH}/1`]);
+  it('should apply active class to the About link when URL is /about', () => {
+    render(
+      <MemoryRouter initialEntries={['/about']}>
+        <Header />
+      </MemoryRouter>
+    );
 
-    const searchLink = screen.getByRole('link', {
-      name: /pokemon search/i,
-    });
+    const searchLink = screen.getByRole('link', { name: /pokemon search/i });
+    const aboutLink = screen.getByRole('link', { name: /about creators/i });
 
-    expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/1`);
+    expect(aboutLink).toHaveClass('mocked-link');
+    expect(aboutLink).toHaveClass('mocked-active-link');
+
+    expect(searchLink).toHaveClass('mocked-link');
+    expect(searchLink).not.toHaveClass('mocked-active-link');
   });
-  //
-  // it('keeps current page when pokemonId exists', () => {
-  //   renderWithRouter([`${BASE_ROUTE}/5/40`]);
-  //
-  //   const searchLink = screen.getByRole('link', {
-  //     name: /pokemon search/i,
-  //   });
-  //
-  //   expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}/5`);
-  // });
-  //
-  // it('about link has correct href', () => {
-  //   renderWithRouter([`${BASE_ROUTE}/1`]);
-  //
-  //   const aboutLink = screen.getByRole('link', {
-  //     name: /about creators/i,
-  //   });
-  //
-  //   expect(aboutLink).toHaveAttribute('href', '/about');
-  // });
 });

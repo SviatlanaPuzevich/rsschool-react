@@ -1,112 +1,88 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './search.page.module.css';
-import SearchBar from '../components/searchBar/SearchBar.tsx';
-import SearchResult from '../components/searchResult/SearchResult.tsx';
-import type { Pokemon } from '../types.ts';
-import Alert from '../components/error/Alert.tsx';
-import Loader from '../components/loader/Loader.tsx';
-import { pokemonService } from '../services/pokemonService.ts';
+import SearchBar from '../../components/searchBar/SearchBar.tsx';
+import SearchResult from '../../components/searchResult/SearchResult.tsx';
+import type { Pokemon } from '../../types.ts';
+import Alert from '../../components/error/Alert.tsx';
+import Loader from '../../components/loader/Loader.tsx';
+import { pokemonService } from '../../services/pokemonService.ts';
+import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 
-interface State {
-  query: string;
-  pokemons: Pokemon[];
-  foundPokemons: Pokemon[];
-  loaded: boolean;
-  error: string | null;
-  generateError: boolean;
-  showError: boolean;
-}
+const SearchPage: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useLocalStorage<string>('query', '');
+  const [query, setQuery] = useState(searchQuery);
 
-class SearchPage extends React.Component<object, State> {
-  state: State = {
-    query: localStorage.getItem('query') || '',
-    pokemons: [],
-    foundPokemons: [],
-    loaded: false,
-    generateError: false,
-    error: null,
-    showError: false,
-  };
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [generateError, setGenerateError] = useState(false);
 
-  async componentDidMount() {
-    this.setState({
-      loaded: false,
-      error: null,
-      showError: false,
-    });
-    const query: string = this.state.query.trim().toLowerCase();
-    try {
-      const pokemons = await pokemonService.getAll();
+  useEffect(() => {
+    const fetchPokemons = async (): Promise<void> => {
+      setLoaded(false);
+      setError(null);
 
-      const filteredPokemon = query
-        ? pokemons.filter((item) => item.name.startsWith(query))
-        : pokemons;
-
-      this.setState({
-        query,
-        pokemons,
-        foundPokemons: filteredPokemon,
-        loaded: true,
-      });
-    } catch (e: unknown) {
-      this.setState({
-        loaded: true,
-        showError: true,
-        error:
+      try {
+        const allPokemons = await pokemonService.getAll();
+        setPokemons(allPokemons);
+      } catch (e: unknown) {
+        setError(
           e instanceof Error
             ? e.message
-            : 'Can not load pokemons. Please try to reload',
-      });
+            : 'Can not load pokemons. Please try to reload'
+        );
+      } finally {
+        setLoaded(true);
+      }
+    };
+
+    fetchPokemons();
+  }, []);
+
+  const foundPokemons = useMemo(() => {
+    const trimmedQuery = searchQuery.trim().toLowerCase();
+
+    if (!trimmedQuery) {
+      return pokemons;
     }
-  }
 
-  handleSearchSubmit = () => {
-    const query = this.state.query.trim().toLowerCase();
-    localStorage.setItem('query', this.state.query);
-    const filteredPokemon = query
-      ? this.state.pokemons.filter((item) => item.name.startsWith(query))
-      : this.state.pokemons;
-    this.setState({ foundPokemons: filteredPokemon });
+    return pokemons.filter((pokemon) => pokemon.name.startsWith(trimmedQuery));
+  }, [pokemons, searchQuery]);
+
+  const handleQueryChange = (value: string): void => {
+    setQuery(value);
   };
 
-  handleQueryChange = (value: string) => {
-    this.setState({
-      query: value,
-    });
+  const handleSearchSubmit = (): void => {
+    setSearchQuery(query.trim().toLowerCase());
   };
 
-  handleErrorGeneration = () => {
-    this.setState({
-      generateError: true,
-    });
+  const handleErrorGeneration = (): void => {
+    setGenerateError(true);
   };
 
-  render() {
-    const { query, loaded, error, foundPokemons, showError } = this.state;
-    return (
-      <div className={styles.container}>
-        <h1>Find your pokemon</h1>
-        <SearchBar
-          onQueryChange={this.handleQueryChange}
-          query={query}
-          onSearch={this.handleSearchSubmit}
-          onError={this.handleErrorGeneration}
-        />
-        <section className={styles.result}>
-          {!loaded && <Loader />}
+  return (
+    <div className={styles.container}>
+      <h1>Find your pokemon</h1>
 
-          {showError && <Alert message={error || undefined} show={showError} />}
+      <SearchBar
+        query={query}
+        onQueryChange={handleQueryChange}
+        onSearch={handleSearchSubmit}
+        onError={handleErrorGeneration}
+      />
 
-          {loaded && !error && (
-            <SearchResult
-              pokemons={foundPokemons}
-              error={this.state.generateError}
-            />
-          )}
-        </section>
-      </div>
-    );
-  }
-}
+      <section className={styles.result}>
+        {!loaded && <Loader />}
+
+        {loaded && error && <Alert message={error} show />}
+
+        {loaded && !error && (
+          <SearchResult pokemons={foundPokemons} error={generateError} />
+        )}
+      </section>
+    </div>
+  );
+};
 
 export default SearchPage;

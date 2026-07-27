@@ -1,94 +1,101 @@
+import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
+
 import SearchResult from './SearchResult';
-import type { Pokemon } from '../../types.ts';
+import type { Pokemon } from '../../types';
 
-vi.mock('../pokemonCard/PokemonCard.tsx', () => ({
-  default: ({ pokemon }: { pokemon: Pokemon }) => (
-    <div data-testid="pokemon-card">{pokemon.name}</div>
-  ),
-}));
+const createPokemons = (count: number): Pokemon[] =>
+  Array.from({ length: count }, (_, index) => ({
+    id: index + 1,
+    name: `pokemon-${index + 1}`,
+    url: `https://pokeapi.co/api/v2/pokemon/${index + 1}`,
+  }));
 
-vi.mock('../pagination/Pagination.tsx', () => ({
-  default: ({
-    count,
-    currentPage,
-    onPageChange,
-  }: {
-    count: number;
-    currentPage: number;
-    onPageChange: (page: number) => void;
-  }) => (
-    <div>
-      <span>
-        Page {currentPage} of {count}
-      </span>
+describe('SearchResult component', () => {
+  it('should render pokemon list', () => {
+    const pokemons = createPokemons(5);
 
-      <button onClick={() => onPageChange(currentPage + 1)}>Next</button>
-    </div>
-  ),
-}));
-
-const pokemons = [
-  {
-    id: 1,
-    name: 'bulbasaur',
-    image: 'image1',
-    abilities: '',
-  },
-  {
-    id: 2,
-    name: 'pikachu',
-    image: 'image2',
-    abilities: '',
-  },
-];
-
-describe('SearchResult', () => {
-  it('renders pokemon list', () => {
-    render(<SearchResult pokemons={pokemons} />);
+    render(
+      <MemoryRouter>
+        <SearchResult pokemons={pokemons} />
+      </MemoryRouter>
+    );
 
     expect(screen.getByText('List of pokemons')).toBeInTheDocument();
 
-    expect(screen.getByText('bulbasaur')).toBeInTheDocument();
+    expect(screen.getByText('pokemon-1')).toBeInTheDocument();
 
-    expect(screen.getByText('pikachu')).toBeInTheDocument();
+    expect(screen.getByText('pokemon-5')).toBeInTheDocument();
   });
 
-  it('shows empty message when no pokemons', () => {
-    render(<SearchResult pokemons={[]} />);
+  it('should show only pokemons from current page', () => {
+    const pokemons = createPokemons(15);
+
+    render(
+      <MemoryRouter initialEntries={['/search?page=2']}>
+        <SearchResult pokemons={pokemons} />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('pokemon-6')).toBeInTheDocument();
+
+    expect(screen.getByText('pokemon-10')).toBeInTheDocument();
+
+    expect(screen.queryByText('pokemon-1')).not.toBeInTheDocument();
+
+    expect(screen.queryByText('pokemon-11')).not.toBeInTheDocument();
+  });
+
+  it('should show first page when page param is missing', () => {
+    const pokemons = createPokemons(10);
+
+    render(
+      <MemoryRouter>
+        <SearchResult pokemons={pokemons} />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('pokemon-1')).toBeInTheDocument();
+
+    expect(screen.getByText('pokemon-5')).toBeInTheDocument();
+
+    expect(screen.queryByText('pokemon-6')).not.toBeInTheDocument();
+  });
+
+  it('should show empty message when no pokemons found', () => {
+    render(
+      <MemoryRouter>
+        <SearchResult pokemons={[]} />
+      </MemoryRouter>
+    );
 
     expect(screen.getByText('No such pokemon')).toBeInTheDocument();
   });
 
-  it('renders error', () => {
-    expect(() => render(<SearchResult pokemons={pokemons} error />)).toThrow(
-      'This error was generated'
-    );
+  it('should throw error when error prop is true', () => {
+    expect(() =>
+      render(
+        <MemoryRouter>
+          <SearchResult pokemons={[]} error />
+        </MemoryRouter>
+      )
+    ).toThrow('This error was generated');
   });
 
-  it('changes page', async () => {
-    const manyPokemons = Array.from(
-      {
-        length: 31,
-      },
-      (_, index) => ({
-        id: index,
-        name: `pokemon-${index}`,
-        image: '',
-        abilities: '',
-      })
+  it('should render pagination with correct page count', () => {
+    const pokemons = createPokemons(32);
+
+    render(
+      <MemoryRouter>
+        <SearchResult pokemons={pokemons} />
+      </MemoryRouter>
     );
 
-    render(<SearchResult pokemons={manyPokemons} />);
+    expect(screen.getByText('2')).toBeInTheDocument();
 
-    expect(screen.getByText('Page 1 of 3')).toBeInTheDocument();
+    expect(screen.getByText('1')).toBeInTheDocument();
 
-    const user = userEvent.setup();
-
-    await user.click(screen.getByText('Next'));
-
-    expect(screen.getByText('Page 2 of 3')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
   });
 });

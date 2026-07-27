@@ -1,15 +1,13 @@
-import { useParams, NavLink } from 'react-router-dom';
-import { BASE_ROUTE, ABOUT, SEARCH } from '../../constants/routing.ts';
+import { NavLink } from 'react-router-dom';
 import styles from './header.module.css';
 
 const Header = () => {
-  const { page = '1' } = useParams<{ page: string }>();
 
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
         <NavLink
-          to={`${BASE_ROUTE}${SEARCH}/${page}`}
+          to={`/search`}
           className={({ isActive }: { isActive: boolean }) =>
             isActive ? `${styles.link} ${styles.activeLink}` : styles.link
           }
@@ -17,7 +15,7 @@ const Header = () => {
           Pokemon Search
         </NavLink>
         <NavLink
-          to={`${BASE_ROUTE}${ABOUT}`}
+          to={`/about`}
           className={({ isActive }: { isActive: boolean }) =>
             isActive ? `${styles.link} ${styles.activeLink}` : styles.link
           }

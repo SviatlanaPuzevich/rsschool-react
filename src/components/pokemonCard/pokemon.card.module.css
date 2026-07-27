@@ -12,6 +12,8 @@
   margin: 0 auto;
   width: 200px;
   height: auto;
+}
+
 .card {
   display: flex;
   position: relative;

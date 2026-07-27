@@ -9,7 +9,13 @@ interface Props {
   className?: string;
 }
 
-type ButtonType = 'primary' | 'rainbow' | 'success' | 'warning' | 'danger' | 'default';
+type ButtonType =
+  | 'primary'
+  | 'rainbow'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'default';
 
 class Button extends React.Component<Props> {
   render() {

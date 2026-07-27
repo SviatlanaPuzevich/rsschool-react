@@ -7,19 +7,16 @@ interface Props {
   pokemon: Pokemon;
 }
 
-class PokemonCard extends React.Component<Props> {
-  render() {
-    const { pokemon } = this.props;
-    return (
-      <div className={styles.item}>
-        <figure>
-          <img src={pokemon.image} alt={pokemon.name} />
-          <figcaption>{pokemon.name}</figcaption>
-        </figure>
-        <PokemonDetail pokemonId={pokemon.id} />
-      </div>
-    );
-  }
-}
+const PokemonCard: React.FC<Props> = ({ pokemon }) => {
+  return (
+    <div className={styles.item}>
+      <figure>
+        <img src={pokemon.image} alt={pokemon.name} />
+        <figcaption>{pokemon.name}</figcaption>
+      </figure>
+      <PokemonDetail pokemonId={pokemon.id} />
+    </div>
+  );
+};
 
 export default PokemonCard;

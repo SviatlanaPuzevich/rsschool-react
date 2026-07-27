@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './pokemon.detail.module.css';
 import type { PokemonDetails } from '../../types.ts';
 import { pokemonService } from '../../services/pokemonService.ts';
@@ -10,91 +10,67 @@ interface PokemonDetailProps {
   pokemonId: number | undefined;
 }
 
-interface PokemonDetailState {
-  details: PokemonDetails | null;
-  loaded: boolean;
-  error: string | null;
-}
+export const PokemonDetail: React.FC<PokemonDetailProps> = ({ pokemonId }) => {
+  const [details, setDetails] = useState<PokemonDetails | null>(null);
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-export class PokemonDetail extends Component<
-  PokemonDetailProps,
-  PokemonDetailState
-> {
-  state: PokemonDetailState = {
-    details: null,
-    loaded: false,
-    error: null,
-  };
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      if (pokemonId === undefined) {
+        setLoaded(true);
+        return;
+      }
 
-  componentDidMount() {
-    this.fetchData();
+      setLoaded(false);
+      setError(null);
+
+      try {
+        const data = await pokemonService.getById(pokemonId);
+        setDetails(data);
+        setLoaded(true);
+      } catch (e: unknown) {
+        setError(e instanceof Error ? e.message : 'Cannot load details');
+        setLoaded(true);
+      }
+    };
+
+    fetchData();
+  }, [pokemonId]);
+
+  if (error) {
+    return <Alert message={error} show={true} />;
   }
 
-  componentDidUpdate(prevProps: PokemonDetailProps) {
-    if (this.props.pokemonId !== prevProps.pokemonId) {
-      this.fetchData();
-    }
+  if (!loaded) {
+    return <Loader />;
   }
 
-  fetchData = async () => {
-    const { pokemonId } = this.props;
-    if (pokemonId === undefined) {
-      this.setState({
-        loaded: true,
-      });
-      return;
-    }
+  if (!details) {
+    return null;
+  }
 
-    this.setState({ loaded: false, error: null });
-
-    try {
-      const details = await pokemonService.getById(pokemonId);
-      this.setState({ details, loaded: true });
-    } catch (e: unknown) {
-      this.setState({
-        error: e instanceof Error ? e.message : 'Cannot load details',
-        loaded: true,
-      });
-    }
-  };
-
-  render() {
-    const { details, loaded, error } = this.state;
-
-    if (error) {
-      return <Alert message={error} show={true} />;
-    }
-
-    if (!loaded) {
-      return <Loader />;
-    }
-
-    if (!details) {
-      return null;
-    }
-
-    return (
-      <div className={styles.details}>
-        {details.soundUrl && (
-          <audio className={styles.audio} controls src={details.soundUrl} />
-        )}
-        <div>
-          {details.types.map((type) => (
-            <TypeTag key={type} type={type.toLowerCase()} />
-          ))}
-        </div>
-        <div>
-          <b>Abilities:</b> <i>{details.abilities.join(', ')}</i>
-        </div>
-        <div>
-          <b>Weight:</b> <i>{details.weight}</i>
-        </div>
-        <div>
-          <b>Height:</b> <i>{details.height}</i>
-        </div>
+  return (
+    <div className={styles.details}>
+      {details.soundUrl && (
+        <audio className={styles.audio} controls src={details.soundUrl} />
+      )}
+      <div>
+        {details.types.map((type) => (
+          <TypeTag key={type} type={type.toLowerCase()} />
+        ))}
       </div>
-    );
-  }
-}
+      <div>
+        <b>Abilities:</b> <i>{details.abilities.join(', ')}</i>
+      </div>
+      <div>
+        <b>Weight:</b> <i>{details.weight}</i>
+      </div>
+      <div>
+        <b>Height:</b> <i>{details.height}</i>
+      </div>
+    </div>
+  );
+};
 
 export default PokemonDetail;

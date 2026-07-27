@@ -9,34 +9,29 @@ interface SearchInputProps {
   onError: () => void;
 }
 
-class SearchBar extends React.Component<SearchInputProps> {
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.onQueryChange(e.target.value);
+const SearchBar: React.FC<SearchInputProps> = ({
+  query,
+  onSearch,
+  onQueryChange,
+  onError,
+}) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    onQueryChange(e.target.value);
   };
 
-  render() {
-    return (
-      <section className={styles.container}>
-        <input
-          id="query"
-          type="text"
-          onChange={this.handleChange}
-          value={this.props.query}
-          placeholder="Enter pokemon name..."
-        />
-        <Button
-          text="Search"
-          onClick={this.props.onSearch}
-          buttonType="primary"
-        />
-        <Button
-          onClick={this.props.onError}
-          text="Generate Exception"
-          buttonType="danger"
-        />
-      </section>
-    );
-  }
-}
+  return (
+    <section className={styles.container}>
+      <input
+        id="query"
+        type="text"
+        onChange={handleChange}
+        value={query}
+        placeholder="Enter pokemon name..."
+      />
+      <Button text="Search" onClick={onSearch} buttonType="primary" />
+      <Button onClick={onError} text="Generate Exception" buttonType="danger" />
+    </section>
+  );
+};
 
 export default SearchBar;
