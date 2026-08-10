@@ -1,0 +1,19 @@
+.avatar {
+  border-radius: 50%;
+  max-width: 100%;
+  width: 500px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.info {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 16px;
+  & p {
+    line-height: 1.6;
+  }
+}
+
+.container {
+  padding: 50px 20px;
+}
