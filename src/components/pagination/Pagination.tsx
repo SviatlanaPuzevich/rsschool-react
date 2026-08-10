@@ -1,5 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import styles from './pagination.module.css';
+import { getActiveLinkClasses } from '../../util/linkHelper.ts';
+import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
 
 interface Props {
   count: number;
@@ -7,6 +9,7 @@ interface Props {
 
 const Pagination = ({ count }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { deleteParam } = useUpdateSearchParams();
 
   const currentPage = Math.max(1, Number(searchParams.get('page')) || 1);
 
@@ -24,6 +27,7 @@ const Pagination = ({ count }: Props) => {
     }
 
     setSearchParams(params);
+    deleteParam('details');
   };
 
   let startPage = Math.max(1, currentPage - 2);
@@ -56,7 +60,7 @@ const Pagination = ({ count }: Props) => {
         <button
           key={page}
           type="button"
-          className={page === currentPage ? styles.activeLink : styles.link}
+          className={getActiveLinkClasses(page === currentPage, styles)}
           aria-current={page === currentPage ? 'page' : undefined}
           onClick={() => updatePage(page)}
         >

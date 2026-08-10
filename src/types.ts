@@ -5,6 +5,18 @@ export type Pokemon = {
   abilities?: string;
 };
 
+export interface PokemonStats {
+  name: string;
+  value: number;
+}
+
+export interface PokemonSprites {
+  frontDefault: string | null;
+  backDefault: string | null;
+  frontShiny: string | null;
+  backShiny: string | null;
+}
+
 export interface PokemonDetails {
   id: number;
   name: string;
@@ -13,4 +25,6 @@ export interface PokemonDetails {
   weight: number;
   abilities: string[];
   types: string[];
+  sprites: PokemonSprites;
+  stats: PokemonStats[];
 }

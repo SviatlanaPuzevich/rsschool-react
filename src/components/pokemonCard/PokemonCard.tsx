@@ -1,20 +1,35 @@
 import React from 'react';
 import styles from './pokemon.card.module.css';
 import type { Pokemon } from '../../types.ts';
-import PokemonDetail from '../pokemonDetail/PokemonDetail.tsx';
+import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
 
 interface Props {
   pokemon: Pokemon;
+  isSelected: boolean;
 }
 
-const PokemonCard: React.FC<Props> = ({ pokemon }) => {
+const PokemonCard: React.FC<Props> = ({ pokemon, isSelected }) => {
+  const { setParam, deleteParam } = useUpdateSearchParams();
+
+  const selectHandle = () => {
+
+    if (isSelected) {
+      deleteParam('details');
+    } else {
+      setParam('details', pokemon.id.toString());
+    }
+
+  };
+
   return (
-    <div className={styles.item}>
+    <div
+      className={`${styles.card} ${isSelected ? styles.selected : ''}`}
+      onClick={selectHandle}
+    >
       <figure>
         <img src={pokemon.image} alt={pokemon.name} />
         <figcaption>{pokemon.name}</figcaption>
       </figure>
-      <PokemonDetail pokemonId={pokemon.id} />
     </div>
   );
 };

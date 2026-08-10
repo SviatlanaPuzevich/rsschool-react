@@ -5,16 +5,33 @@ type PokemonApiResponse = {
   name: string;
   height: number;
   weight: number;
+
   cries: {
     latest: string;
   };
+
   abilities: {
     ability: {
       name: string;
     };
   }[];
+
   types: {
     type: {
+      name: string;
+    };
+  }[];
+
+  sprites: {
+    front_default: string | null;
+    back_default: string | null;
+    front_shiny: string | null;
+    back_shiny: string | null;
+  };
+
+  stats: {
+    base_stat: number;
+    stat: {
       name: string;
     };
   }[];
@@ -67,14 +84,26 @@ class PokemonService {
 
     return {
       id: data.id,
-      soundUrl: data.cries.latest,
       name: data.name,
+      soundUrl: data.cries.latest,
       height: data.height,
       weight: data.weight,
 
       abilities: data.abilities.map((item) => item.ability.name),
 
       types: data.types.map((item) => item.type.name),
+
+      sprites: {
+        frontDefault: data.sprites.front_default,
+        backDefault: data.sprites.back_default,
+        frontShiny: data.sprites.front_shiny,
+        backShiny: data.sprites.back_shiny,
+      },
+
+      stats: data.stats.map((item) => ({
+        name: item.stat.name,
+        value: item.base_stat,
+      })),
     };
   }
 }

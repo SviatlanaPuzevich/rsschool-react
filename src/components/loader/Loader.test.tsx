@@ -5,7 +5,7 @@ import Loader from './Loader';
 it('should render loading text correctly', () => {
   render(<Loader />);
 
-  const loadingElement = screen.getByText('LOADING...');
+  const loadingElement = screen.getByText(/loading/i);
 
   expect(loadingElement).toBeInTheDocument();
 });

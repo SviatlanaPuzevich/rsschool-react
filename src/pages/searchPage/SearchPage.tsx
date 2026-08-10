@@ -7,6 +7,7 @@ import Alert from '../../components/error/Alert.tsx';
 import Loader from '../../components/loader/Loader.tsx';
 import { pokemonService } from '../../services/pokemonService.ts';
 import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
+import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
 
 const SearchPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useLocalStorage<string>('query', '');
@@ -16,6 +17,8 @@ const SearchPage: React.FC = () => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [generateError, setGenerateError] = useState(false);
+
+  const { setParam, deleteParam } = useUpdateSearchParams();
 
   useEffect(() => {
     const fetchPokemons = async (): Promise<void> => {
@@ -55,6 +58,8 @@ const SearchPage: React.FC = () => {
 
   const handleSearchSubmit = (): void => {
     setSearchQuery(query.trim().toLowerCase());
+    setParam('page', '1');
+    deleteParam('details')
   };
 
   const handleErrorGeneration = (): void => {

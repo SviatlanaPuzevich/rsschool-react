@@ -1,39 +1,103 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter, useLocation } from 'react-router-dom';
+import styles from './pokemon.card.module.css';
+
 import PokemonCard from './PokemonCard';
-import type { Pokemon } from '../../types.ts';
+import type { Pokemon } from '../../types';
 
-vi.mock('../pokemonDetail/PokemonDetail.tsx', () => ({
-  default: ({ pokemonId }: { pokemonId: number }) => (
-    <div data-testid="mock-pokemon-detail">Detail ID: {pokemonId}</div>
-  ),
-}));
+const pokemon: Pokemon = {
+  id: 25,
+  name: 'pikachu',
+  image: 'pikachu.png',
+  abilities: '',
+};
 
-describe('PokemonCard Component', () => {
-  const mockPokemon: Pokemon = {
-    id: 25,
-    name: 'Pikachu',
-    image: 'https://githubusercontent.com',
-  };
+const LocationDisplay = () => {
+  const location = useLocation();
 
-  it('should render pokemon name and image correctly', () => {
-    render(<PokemonCard pokemon={mockPokemon} />);
+  return (
+    <div data-testid="location">
+      {location.pathname}
+      {location.search}
+    </div>
+  );
+};
 
-    const caption = screen.getByText('Pikachu');
-    expect(caption).toBeInTheDocument();
+const renderCard = (
+  isSelected = false,
+  initialEntry = '/search?page=2'
+) => {
+  return render(
+    <MemoryRouter initialEntries={[initialEntry]}>
+      <PokemonCard pokemon={pokemon} isSelected={isSelected} />
+      <LocationDisplay />
+    </MemoryRouter>
+  );
+};
 
-    const image = screen.getByRole('img');
-    expect(image).toHaveAttribute('src', mockPokemon.image);
-    expect(image).toHaveAttribute('alt', 'Pikachu');
+describe('PokemonCard', () => {
+  it('should render pokemon name', () => {
+    renderCard();
+
+    expect(screen.getByText('pikachu')).toBeInTheDocument();
   });
 
-  it('should pass correct pokemonId to PokemonDetail component', () => {
-    render(<PokemonCard pokemon={mockPokemon} />);
+  it('should add details parameter when pokemon is not selected', async () => {
+    const user = userEvent.setup();
 
-    const detailComponent = screen.getByTestId('mock-pokemon-detail');
-    expect(detailComponent).toBeInTheDocument();
+    renderCard(false, '/search?page=2');
 
-    expect(detailComponent).toHaveTextContent('Detail ID: 25');
+    await user.click(screen.getByText('pikachu'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent(
+      '/search?page=2&details=25'
+    );
+  });
+
+  it('should remove details parameter when selected pokemon is clicked', async () => {
+    const user = userEvent.setup();
+
+    renderCard(true, '/search?page=2&details=25');
+
+    await user.click(screen.getByText('pikachu'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent(
+      '/search?page=2'
+    );
+
+    expect(screen.getByTestId('location')).not.toHaveTextContent(
+      'details=25'
+    );
+  });
+
+  it('should preserve current page when selecting pokemon', async () => {
+    const user = userEvent.setup();
+
+    renderCard(false, '/search?page=3');
+
+    await user.click(screen.getByText('pikachu'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent(
+      '/search?page=3&details=25'
+    );
+  });
+
+  it('should have selected class when pokemon is selected', () => {
+    renderCard(true, '/search?page=2&details=25');
+
+    const cardText = screen.getByText('pikachu');
+    const cardContainer = cardText.closest('div');
+
+    expect(cardContainer).toHaveClass(styles.selected);
+  });
+
+  it('should not have selected class when pokemon is not selected', () => {
+    renderCard(false);
+
+    const card = screen.getByText('pikachu');
+
+    expect(card).not.toHaveClass('selected');
   });
 });

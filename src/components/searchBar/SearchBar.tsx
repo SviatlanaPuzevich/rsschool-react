@@ -19,6 +19,12 @@ const SearchBar: React.FC<SearchInputProps> = ({
     onQueryChange(e.target.value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      onSearch();
+    }
+  };
+
   return (
     <section className={styles.container}>
       <input
@@ -26,6 +32,7 @@ const SearchBar: React.FC<SearchInputProps> = ({
         type="text"
         onChange={handleChange}
         value={query}
+        onKeyDown={handleKeyDown}
         placeholder="Enter pokemon name..."
       />
       <Button text="Search" onClick={onSearch} buttonType="primary" />
