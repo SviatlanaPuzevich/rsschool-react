@@ -1,11 +1,11 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 
 import SearchPage from './SearchPage';
 import { pokemonService } from '../../services/pokemonService';
-
-import { MemoryRouter } from 'react-router-dom';
+import type { Pokemon } from '../../types';
 
 vi.mock('../../services/pokemonService', () => ({
   pokemonService: {
@@ -24,11 +24,11 @@ vi.mock('../../components/error/Alert', () => ({
 }));
 
 vi.mock('../../components/searchResult/SearchResult', () => ({
-  default: ({ pokemons, error }: { pokemons: unknown[]; error?: boolean }) => (
+  default: ({ pokemons, error }: { pokemons: Pokemon[]; error?: boolean }) => (
     <div data-testid="search-result">
       {error && <span>Error generated</span>}
 
-      {pokemons.map((pokemon: Pokemon) => (
+      {pokemons.map((pokemon) => (
         <div key={pokemon.id}>{pokemon.name}</div>
       ))}
     </div>
@@ -48,29 +48,48 @@ vi.mock('../../components/searchBar/SearchBar', () => ({
     onError: () => void;
   }) => (
     <div>
-      <input value={query} onChange={(e) => onQueryChange(e.target.value)} />
+      <input
+        value={query}
+        onChange={(event) => onQueryChange(event.target.value)}
+      />
 
       <button onClick={onSearch}>Search</button>
-
       <button onClick={onError}>Generate error</button>
     </div>
   ),
 }));
 
-const pokemons = [
+const pokemons: Pokemon[] = [
   {
     id: 1,
     name: 'pikachu',
+    image: '',
   },
   {
     id: 2,
     name: 'pidgey',
+    image: '',
   },
   {
     id: 3,
     name: 'bulbasaur',
+    image: '',
   },
 ];
+
+const renderSearchPage = () =>
+  render(
+    <MemoryRouter>
+      <SearchPage />
+    </MemoryRouter>
+  );
+
+const searchButton = () => screen.getByRole('button', { name: 'Search' });
+
+const errorButton = () =>
+  screen.getByRole('button', { name: 'Generate error' });
+
+const searchInput = () => screen.getByRole('textbox');
 
 describe('SearchPage', () => {
   beforeEach(() => {
@@ -81,11 +100,7 @@ describe('SearchPage', () => {
   it('should show loader while loading pokemons', () => {
     vi.mocked(pokemonService.getAll).mockReturnValue(new Promise(() => {}));
 
-    render(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    renderSearchPage();
 
     expect(screen.getByTestId('loader')).toBeInTheDocument();
   });
@@ -93,15 +108,11 @@ describe('SearchPage', () => {
   it('should load and display pokemons', async () => {
     vi.mocked(pokemonService.getAll).mockResolvedValue(pokemons);
 
-    render(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    renderSearchPage();
 
-    await waitFor(() => {
-      expect(screen.getByText('pikachu')).toBeInTheDocument();
-    });
+    expect(await screen.findByText('pikachu')).toBeInTheDocument();
+    expect(screen.getByText('pidgey')).toBeInTheDocument();
+    expect(screen.getByText('bulbasaur')).toBeInTheDocument();
 
     expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
   });
@@ -111,53 +122,29 @@ describe('SearchPage', () => {
 
     vi.mocked(pokemonService.getAll).mockResolvedValue(pokemons);
 
-    render(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    renderSearchPage();
 
-    await waitFor(() => {
-      expect(screen.getByText('pikachu')).toBeInTheDocument();
-    });
+    await screen.findByText('pikachu');
 
-    const input = screen.getByRole('textbox');
-
-    await user.type(input, 'pik');
-
-    await user.click(
-      screen.getByRole('button', {
-        name: 'Search',
-      })
-    );
+    await user.type(searchInput(), 'pik');
+    await user.click(searchButton());
 
     expect(screen.getByText('pikachu')).toBeInTheDocument();
-
+    expect(screen.queryByText('pidgey')).not.toBeInTheDocument();
     expect(screen.queryByText('bulbasaur')).not.toBeInTheDocument();
   });
 
-  it('should save search query to localStorage', async () => {
+  it('should save normalized search query to localStorage', async () => {
     const user = userEvent.setup();
 
     vi.mocked(pokemonService.getAll).mockResolvedValue(pokemons);
 
-    render(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    renderSearchPage();
 
-    await waitFor(() => {
-      expect(screen.getByText('pikachu')).toBeInTheDocument();
-    });
+    await screen.findByText('pikachu');
 
-    await user.type(screen.getByRole('textbox'), 'pikachu');
-
-    await user.click(
-      screen.getByRole('button', {
-        name: 'Search',
-      })
-    );
+    await user.type(searchInput(), '  PIKACHU  ');
+    await user.click(searchButton());
 
     expect(localStorage.getItem('query')).toBe(JSON.stringify('pikachu'));
   });
@@ -165,37 +152,23 @@ describe('SearchPage', () => {
   it('should show error message when api fails', async () => {
     vi.mocked(pokemonService.getAll).mockRejectedValue(new Error('API error'));
 
-    render(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    renderSearchPage();
 
-    await waitFor(() => {
-      expect(screen.getByTestId('alert')).toHaveTextContent('API error');
-    });
+    expect(await screen.findByTestId('alert')).toHaveTextContent('API error');
+
+    expect(screen.queryByTestId('search-result')).not.toBeInTheDocument();
   });
 
-  it('should generate error in SearchResult', async () => {
+  it('should pass generated error to SearchResult', async () => {
     const user = userEvent.setup();
 
     vi.mocked(pokemonService.getAll).mockResolvedValue(pokemons);
 
-    render(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    renderSearchPage();
 
-    await waitFor(() => {
-      expect(screen.getByText('pikachu')).toBeInTheDocument();
-    });
+    await screen.findByText('pikachu');
 
-    await user.click(
-      screen.getByRole('button', {
-        name: 'Generate error',
-      })
-    );
+    await user.click(errorButton());
 
     expect(screen.getByText('Error generated')).toBeInTheDocument();
   });

@@ -5,7 +5,7 @@ interface Props {
   count: number;
 }
 
-const Pagination: React.FC<Props> = ({ count }) => {
+const Pagination = ({ count }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentPage = Math.max(1, Number(searchParams.get('page')) || 1);

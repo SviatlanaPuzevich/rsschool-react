@@ -9,7 +9,7 @@ const createPokemons = (count: number): Pokemon[] =>
   Array.from({ length: count }, (_, index) => ({
     id: index + 1,
     name: `pokemon-${index + 1}`,
-    url: `https://pokeapi.co/api/v2/pokemon/${index + 1}`,
+    image: `https://pokeapi.co/api/v2/pokemon/${index + 1}`,
   }));
 
 describe('SearchResult component', () => {

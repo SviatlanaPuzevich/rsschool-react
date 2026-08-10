@@ -42,9 +42,7 @@ const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
           <PokemonCard pokemon={item} key={item.id} />
         ))}
       </div>
-      <Pagination
-        count={pagesCount}
-      />
+      <Pagination count={pagesCount} />
     </>
   );
 };

@@ -30,7 +30,7 @@ describe('MainLayout', () => {
 
     expect(screen.getByTestId('mock-header')).toBeInTheDocument();
 
-   const child = screen.getByTestId('child-element');
+    const child = screen.getByTestId('child-element');
     expect(child).toBeInTheDocument();
     expect(child).toHaveTextContent('Test Content');
   });

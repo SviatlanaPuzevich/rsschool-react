@@ -13,7 +13,6 @@ const LocationDisplay = () => {
 import Pagination from './Pagination';
 import styles from './pagination.module.css';
 
-
 describe('Pagination component', () => {
   it('should not render pagination when count is 1', () => {
     render(
@@ -22,11 +21,8 @@ describe('Pagination component', () => {
       </MemoryRouter>
     );
 
-    expect(
-      screen.queryByLabelText('Pagination')
-    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Pagination')).not.toBeInTheDocument();
   });
-
 
   it('should render pagination buttons', () => {
     render(
@@ -40,7 +36,6 @@ describe('Pagination component', () => {
     expect(screen.getByText('5')).toBeInTheDocument();
   });
 
-
   it('should show current page from search params', () => {
     render(
       <MemoryRouter initialEntries={['/search?page=3']}>
@@ -48,18 +43,10 @@ describe('Pagination component', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText('3')).toHaveClass(
-      styles.activeLink
-    );
+    expect(screen.getByText('3')).toHaveClass(styles.activeLink);
 
-    expect(
-      screen.getByText('3')
-    ).toHaveAttribute(
-      'aria-current',
-      'page'
-    );
+    expect(screen.getByText('3')).toHaveAttribute('aria-current', 'page');
   });
-
 
   it('should disable previous button on first page', () => {
     render(
@@ -68,11 +55,8 @@ describe('Pagination component', () => {
       </MemoryRouter>
     );
 
-    expect(
-      screen.getByLabelText('Previous page')
-    ).toBeDisabled();
+    expect(screen.getByLabelText('Previous page')).toBeDisabled();
   });
-
 
   it('should disable next button on last page', () => {
     render(
@@ -81,11 +65,8 @@ describe('Pagination component', () => {
       </MemoryRouter>
     );
 
-    expect(
-      screen.getByLabelText('Next page')
-    ).toBeDisabled();
+    expect(screen.getByLabelText('Next page')).toBeDisabled();
   });
-
 
   it('should navigate to next page', async () => {
     const user = userEvent.setup();
@@ -97,13 +78,10 @@ describe('Pagination component', () => {
       </MemoryRouter>
     );
 
-    await user.click(
-      screen.getByLabelText('Next page')
-    );
+    await user.click(screen.getByLabelText('Next page'));
 
     expect(screen.getByTestId('location')).toHaveTextContent('?page=3');
   });
-
 
   it('should navigate to previous page', async () => {
     const user = userEvent.setup();
@@ -115,13 +93,10 @@ describe('Pagination component', () => {
       </MemoryRouter>
     );
 
-    await user.click(
-      screen.getByLabelText('Previous page')
-    );
+    await user.click(screen.getByLabelText('Previous page'));
 
     expect(screen.getByTestId('location')).toHaveTextContent('?page=2');
   });
-
 
   it('should remove page param when navigating to first page', async () => {
     const user = userEvent.setup();
@@ -132,13 +107,10 @@ describe('Pagination component', () => {
       </MemoryRouter>
     );
 
-    await user.click(
-      screen.getByText('1')
-    );
+    await user.click(screen.getByText('1'));
 
     expect(window.location.search).toBe('');
   });
-
 
   it('should navigate when clicking page number', async () => {
     const user = userEvent.setup();
@@ -150,9 +122,7 @@ describe('Pagination component', () => {
       </MemoryRouter>
     );
 
-    await user.click(
-      screen.getByText('4')
-    );
+    await user.click(screen.getByText('4'));
 
     expect(screen.getByTestId('location')).toHaveTextContent('?page=4');
   });
