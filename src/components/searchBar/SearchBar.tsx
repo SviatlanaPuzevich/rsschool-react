@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '../button/Button.tsx';
 import styles from './search.bar.module.css';
 
@@ -6,17 +6,23 @@ interface SearchInputProps {
   query: string;
   onSearch: () => void;
   onQueryChange: (value: string) => void;
+  onError: () => void;
 }
 
-const SearchBar = ({ query, onSearch, onQueryChange }: SearchInputProps) => {
-  const [generateError, setGenerateError] = useState<boolean>(false);
-
-  if (generateError) {
-    throw new Error('This error was generated');
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+const SearchBar: React.FC<SearchInputProps> = ({
+  query,
+  onSearch,
+  onQueryChange,
+  onError,
+}) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     onQueryChange(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      onSearch();
+    }
   };
 
   return (
@@ -26,14 +32,11 @@ const SearchBar = ({ query, onSearch, onQueryChange }: SearchInputProps) => {
         type="text"
         onChange={handleChange}
         value={query}
+        onKeyDown={handleKeyDown}
         placeholder="Enter pokemon name..."
       />
-      <Button value="Search" onClick={onSearch} buttonType="primary" />
-      <Button
-        onClick={() => setGenerateError(true)}
-        value="Generate Exception"
-        buttonType="danger"
-      />
+      <Button text="Search" onClick={onSearch} buttonType="primary" />
+      <Button onClick={onError} text="Generate Exception" buttonType="danger" />
     </section>
   );
 };

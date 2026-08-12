@@ -1,14 +1,33 @@
 .card {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  gap: 5px;
+  display: inline-block;
+  text-align: center;
+  margin: 5px;
+  border: cornflowerblue 2px solid;
+  padding: 5px;
+  border-radius: 5px;
 
-  padding: 15px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
 
-  border-radius: 10px;
-  background-color: var(--card-bg);
-  border: 1px solid black;
+.card:hover {
+  cursor: pointer;
+
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.selected {
+  border: #eab308 2px solid;
+}
+
+.image {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: auto;
 }
 
 .close {
@@ -39,87 +58,4 @@
 
 .details div {
   margin: 10px;
-}
-
-.tag {
-  border-radius: 10px;
-  color: white;
-  padding: 5px;
-  margin-right: 5px;
-}
-
-.grass {
-  background-color: #78c850;
-}
-
-.fire {
-  background-color: #f08030;
-}
-
-.water {
-  background-color: #6890f0;
-}
-
-.bug {
-  background-color: #a8b820;
-}
-
-.normal {
-  background-color: #a8a878;
-}
-
-.poison {
-  background-color: #a040a0;
-}
-
-.electric {
-  background-color: #f8d030;
-  color: #333;
-}
-
-.ground {
-  background-color: #e0c068;
-  color: #333;
-}
-
-.fairy {
-  background-color: #ee99ac;
-}
-
-.fighting {
-  background-color: #c03028;
-}
-
-.psychic {
-  background-color: #f85888;
-}
-
-.rock {
-  background-color: #b8a038;
-}
-
-.ghost {
-  background-color: #705898;
-}
-
-.ice {
-  background-color: #98d8d8;
-  color: #333;
-}
-
-.dragon {
-  background-color: #7038f8;
-}
-
-.dark {
-  background-color: #705746;
-}
-
-.steel {
-  background-color: #b8b8d0;
-  color: #333;
-}
-
-.flying {
-  background-color: #a890f0;
 }

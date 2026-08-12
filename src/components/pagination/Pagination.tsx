@@ -1,59 +1,78 @@
 import styles from './pagination.module.css';
-import { NavLink, Link, useParams } from 'react-router-dom';
-import { BASE_ROUTE, SEARCH } from '../../constants/routing.ts';
+import { getActiveLinkClasses } from '../../util/linkHelper.ts';
+import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
 
 interface Props {
   count: number;
 }
 
 const Pagination = ({ count }: Props) => {
-  const params = useParams<{ page: string }>();
-  const currentPage = Number(params.page) || 1;
+  const { searchParams, deleteParam, setParam } = useUpdateSearchParams();
 
-  if (count <= 1) return null;
+  const currentPage = Math.max(1, Number(searchParams.get('page')) || 1);
 
-  let start = Math.max(1, currentPage - 2);
-  let end = Math.min(count, currentPage + 2);
+  if (count <= 1) {
+    return null;
+  }
+
+  const updatePage = (page: number): void => {
+    if (page <= 1) {
+      deleteParam('page');
+    } else {
+      setParam('page', page.toString());
+    }
+
+    deleteParam('details');
+  };
+
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(count, currentPage + 2);
 
   if (currentPage <= 3) {
-    end = Math.min(count, 5);
-  } else if (currentPage > count - 2) {
-    start = Math.max(1, count - 4);
+    endPage = Math.min(count, 5);
+  } else if (currentPage >= count - 2) {
+    startPage = Math.max(1, count - 4);
   }
 
-  const pages = [];
-  for (let i = start; i <= end; i++) {
-    pages.push(i);
-  }
+  const pages = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, index) => startPage + index
+  );
 
   return (
-    <div className={styles.pagination}>
-      <Link
-        to={`${BASE_ROUTE}${SEARCH}/${currentPage - 1}`}
-        className={`${styles.button} ${currentPage === 1 ? styles.disabled : ''}`}
+    <nav className={styles.pagination} aria-label="Pagination">
+      <button
+        type="button"
+        className={`${styles.link} ${styles.back}`}
+        disabled={currentPage === 1}
+        onClick={() => updatePage(currentPage - 1)}
+        aria-label="Previous page"
       >
         &lt;
-      </Link>
+      </button>
 
       {pages.map((page) => (
-        <NavLink
+        <button
           key={page}
-          to={`${BASE_ROUTE}${SEARCH}/${page}`}
-          className={({ isActive }: { isActive: boolean }) =>
-            isActive ? `${styles.link} ${styles.activeLink}` : styles.link
-          }
+          type="button"
+          className={getActiveLinkClasses(page === currentPage, styles)}
+          aria-current={page === currentPage ? 'page' : undefined}
+          onClick={() => updatePage(page)}
         >
           {page}
-        </NavLink>
+        </button>
       ))}
 
-      <Link
-        to={`${BASE_ROUTE}${SEARCH}/${currentPage + 1}`}
-        className={`${styles.button} ${currentPage === count ? styles.disabled : ''}`}
+      <button
+        type="button"
+        className={`${styles.link} ${styles.forward}`}
+        disabled={currentPage === count}
+        onClick={() => updatePage(currentPage + 1)}
+        aria-label="Next page"
       >
         &gt;
-      </Link>
-    </div>
+      </button>
+    </nav>
   );
 };
 

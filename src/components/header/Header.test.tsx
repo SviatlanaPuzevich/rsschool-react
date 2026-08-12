@@ -1,61 +1,78 @@
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
+import styles from './header.module.css';
+
 import Header from './Header';
-import { BASE_ROUTE, SEARCH } from '../../constants/routing';
-import ThemeProvider from '../../context/ContextThemeProvider.tsx';
 
-const renderWithRouter = (initialEntries = [`${BASE_ROUTE}${SEARCH}/1`]) => {
-  return render(
-    <MemoryRouter initialEntries={initialEntries}>
-      <Routes>
-        <Route path={`${BASE_ROUTE}${SEARCH}/:page`} element={<ThemeProvider><Header /></ThemeProvider>} />
-        <Route path="/about" element={<ThemeProvider><Header /></ThemeProvider>} />
-      </Routes>
-    </MemoryRouter>
-  );
-};
+vi.mock('../themeToggle/ThemeToggle.tsx', () => ({
+  default: () => <button>Theme toggle</button>,
+}));
 
-describe('Header Component', () => {
+describe('Header', () => {
   it('renders navigation links', () => {
-    renderWithRouter([`${BASE_ROUTE}${SEARCH}/1`]);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
 
     expect(
-      screen.getByRole('link', { name: /pokemon search/i })
+      screen.getByRole('link', { name: 'Pokemon Search' }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('link', { name: /about creators/i })
+      screen.getByRole('link', { name: 'About creators' }),
     ).toBeInTheDocument();
   });
 
-  it('uses current page in search link href', () => {
-    renderWithRouter([`${BASE_ROUTE}${SEARCH}/5`]);
+  it('renders correct links', () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
 
-    const searchLink = screen.getByRole('link', {
-      name: /pokemon search/i,
-    });
+    expect(
+      screen.getByRole('link', { name: 'Pokemon Search' }),
+    ).toHaveAttribute('href', '/search');
 
-    expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/5`);
+    expect(
+      screen.getByRole('link', { name: 'About creators' }),
+    ).toHaveAttribute('href', '/about');
   });
 
-  it('uses page 1 by default', () => {
-    renderWithRouter([`${BASE_ROUTE}${SEARCH}/1`]);
+  it('renders theme toggle', () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
 
-    const searchLink = screen.getByRole('link', {
-      name: /pokemon search/i,
-    });
-
-    expect(searchLink).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/1`);
+    expect(
+      screen.getByRole('button', { name: 'Theme toggle' }),
+    ).toBeInTheDocument();
   });
 
-  it('about link has correct href', () => {
-    renderWithRouter([`${BASE_ROUTE}${SEARCH}/1`]);
+  it('marks search link as active on search page', () => {
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <Header />
+      </MemoryRouter>,
+    );
 
-    const aboutLink = screen.getByRole('link', {
-      name: /about creators/i,
-    });
+    expect(screen.getByRole('link', { name: /Pokemon Search/i })).toHaveClass(
+      styles.activeLink
+    );
+  });
 
-    expect(aboutLink).toHaveAttribute('href', `${BASE_ROUTE}/about`);
+  it('marks about link as active on about page', () => {
+    render(
+      <MemoryRouter initialEntries={['/about']}>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole('link', { name: /About creators/i })).toHaveClass(styles.activeLink);
   });
 });

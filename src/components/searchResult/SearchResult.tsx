@@ -1,30 +1,41 @@
+import React from 'react';
 import type { Pokemon } from '../../types.ts';
 import styles from './search.result.module.css';
 import Pagination from '../pagination/Pagination.tsx';
-import { POKEMON_NUMBER_ON_PAGE } from '../../constants/layout.ts';
-import { SEARCH_RESULT } from '../../constants/messages.ts';
-import { Outlet, useParams } from 'react-router-dom';
-import PokemonItem from '../pokemonItem/PokemonItem.tsx';
+import PokemonCard from '../pokemonCard/PokemonCard.tsx';
+import PokemonDetail from '../pokemonDetail/PokemonDetail.tsx';
+import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
+import PokemonCardWrapper from '../pokemonItem/PokemonCardWrapper.tsx';
 
 interface Props {
   pokemons: Pokemon[];
+  error?: boolean;
 }
 
-const SearchResult = ({ pokemons }: Props) => {
-  const params = useParams<{ page: string }>();
-  const currentPage = Number(params.page) || 1;
+const PAGE_SIZE = 5;
 
-  if (pokemons.length === 0) {
-    return <div>{SEARCH_RESULT.NOT_FOUND}</div>;
+const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
+  const { searchParams } = useUpdateSearchParams();
+
+  const selectedPokemonId = searchParams.get('details')
+    ? Number(searchParams.get('details'))
+    : null;
+
+  const currentPage = Math.max(1, Number(searchParams.get('page')) || 1);
+  const pagesCount = Math.ceil(pokemons.length / PAGE_SIZE);
+
+  if (error) {
+    throw new Error('This error was generated');
   }
 
-  const pagesCount = Math.ceil(pokemons.length / POKEMON_NUMBER_ON_PAGE);
+  if (pokemons.length === 0) {
+    return <div>No such pokemon</div>;
+  }
 
-  const startIndex = (currentPage - 1) * POKEMON_NUMBER_ON_PAGE;
-  const currentPokemons = pokemons.slice(
-    startIndex,
-    startIndex + POKEMON_NUMBER_ON_PAGE
-  );
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const endIndex = startIndex + PAGE_SIZE;
+
+  const currentPokemons = pokemons.slice(startIndex, endIndex);
 
   return (
     <>
@@ -32,11 +43,21 @@ const SearchResult = ({ pokemons }: Props) => {
       <div className={styles.container}>
         <div className={styles.list}>
           {currentPokemons.map((item: Pokemon) => (
-            <PokemonItem pokemon={item} key={item.id} />
+            <PokemonCardWrapper key={item.id} id={item.id}>
+              <PokemonCard
+                pokemon={item}
+                isSelected={selectedPokemonId === item.id}
+              />
+            </PokemonCardWrapper>
           ))}
         </div>
+
         <div>
-          <Outlet />
+          {selectedPokemonId ? (
+            <PokemonDetail id={selectedPokemonId} />
+          ) : (
+            <div>Choose a pokemon</div>
+          )}
         </div>
       </div>
       <Pagination count={pagesCount} />

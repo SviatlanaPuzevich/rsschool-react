@@ -1,57 +1,56 @@
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
+
 import AboutPage from './AboutPage';
 
-vi.mock('../../components/button/Button.tsx', () => ({
-  default: ({ value, onClick }: { value: string; onClick: () => void }) => (
-    <button onClick={onClick}>{value}</button>
-  ),
-}));
-
 describe('AboutPage', () => {
-  it('renders main text content', () => {
+  it('should render avatar image', () => {
     render(<AboutPage />);
 
-    expect(screen.getByText(/Sup\. I’m Snorlax/i)).toBeInTheDocument();
+    expect(screen.getByAltText('Snorlax-programmer')).toBeInTheDocument();
   });
 
-  it('renders avatar image with correct attributes', () => {
+  it('should render about information', () => {
     render(<AboutPage />);
 
-    const img = screen.getByRole('img');
+    expect(screen.getByText(/Human Bottleneck/i)).toBeInTheDocument();
 
-    expect(img).toHaveAttribute('alt', 'Snorlax-programmer');
+    expect(screen.getByText(/Tech Stack:/i)).toBeInTheDocument();
   });
 
-  it('renders RS school button', () => {
+  it('should render RS school button', () => {
     render(<AboutPage />);
 
     expect(
-      screen.getByRole('button', { name: /go to rs school/i })
+      screen.getByRole('button', {
+        name: 'Go to RS school',
+      })
     ).toBeInTheDocument();
   });
 
-  it('redirects to RS school on click', async () => {
+  it('should redirect to RS school on button click', async () => {
     const user = userEvent.setup();
 
-    const assignMock = vi.fn();
+    const hrefSetter = vi.fn();
 
     Object.defineProperty(window, 'location', {
       value: {
-        assign: assignMock,
+        set href(value: string) {
+          hrefSetter(value);
+        },
       },
       writable: true,
     });
 
     render(<AboutPage />);
 
-    const button = screen.getByRole('button', {
-      name: /go to rs school/i,
-    });
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Go to RS school',
+      })
+    );
 
-    await user.click(button);
-
-    expect(window.location.href).toBe('https://rs.school/');
+    expect(hrefSetter).toHaveBeenCalledWith('https://rs.school/');
   });
 });

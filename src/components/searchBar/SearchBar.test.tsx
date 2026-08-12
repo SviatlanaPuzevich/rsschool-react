@@ -1,92 +1,62 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import SearchBar from './SearchBar';
 
 describe('SearchBar', () => {
-  const mockOnSearch = vi.fn();
-  const mockOnQueryChange = vi.fn();
+  const defaultProps = {
+    query: '',
+    onSearch: vi.fn(),
+    onQueryChange: vi.fn(),
+    onError: vi.fn(),
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should render the input field and buttons correctly', () => {
-    render(
-      <SearchBar
-        query="Pika"
-        onSearch={mockOnSearch}
-        onQueryChange={mockOnQueryChange}
-      />
-    );
+  it('should render input with correct initial value and placeholder', () => {
+    render(<SearchBar {...defaultProps} query="Pikachu" />);
 
     const input = screen.getByPlaceholderText(
-      /enter pokemon name/i
+      'Enter pokemon name...'
     ) as HTMLInputElement;
+
     expect(input).toBeInTheDocument();
-    expect(input.value).toBe('Pika');
-
-    expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /generate exception/i })
-    ).toBeInTheDocument();
+    expect(input.value).toBe('Pikachu');
   });
 
-  it('should call onQueryChange when user types in the input', async () => {
+  it('should call onQueryChange when typing in the input field', async () => {
     const user = userEvent.setup();
-    render(
-      <SearchBar
-        query=""
-        onSearch={mockOnSearch}
-        onQueryChange={mockOnQueryChange}
-      />
-    );
+    render(<SearchBar {...defaultProps} />);
 
-    const input = screen.getByPlaceholderText(/enter pokemon name\.\.\./i);
+    const input = screen.getByPlaceholderText('Enter pokemon name...');
 
-    await user.type(input, 'm');
+    await user.type(input, 'a');
 
-    expect(mockOnQueryChange).toHaveBeenCalledTimes(1);
-    expect(mockOnQueryChange).toHaveBeenCalled();
+    expect(defaultProps.onQueryChange).toHaveBeenCalledWith('a');
+    expect(defaultProps.onQueryChange).toHaveBeenCalledTimes(1);
   });
 
-  it('should call onSearch when the Search button is clicked', async () => {
+  it('should call onSearch when Search button is clicked', async () => {
     const user = userEvent.setup();
-    render(
-      <SearchBar
-        query="Bulbasaur"
-        onSearch={mockOnSearch}
-        onQueryChange={mockOnQueryChange}
-      />
-    );
+    render(<SearchBar {...defaultProps} />);
 
-    const searchButton = screen.getByRole('button', { name: /search/i });
+    const searchButton = screen.getByRole('button', { name: 'Search' });
     await user.click(searchButton);
 
-    expect(mockOnSearch).toHaveBeenCalledTimes(1);
+    expect(defaultProps.onSearch).toHaveBeenCalledTimes(1);
   });
 
-  it('should throw an error when "Generate Exception" button is clicked', async () => {
+  it('should call onError when Generate Exception button is clicked', async () => {
     const user = userEvent.setup();
+    render(<SearchBar {...defaultProps} />);
 
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    render(
-      <SearchBar
-        query=""
-        onSearch={mockOnSearch}
-        onQueryChange={mockOnQueryChange}
-      />
-    );
-
-    const exceptionButton = screen.getByRole('button', {
-      name: /generate exception/i,
+    const errorButton = screen.getByRole('button', {
+      name: 'Generate Exception',
     });
+    await user.click(errorButton);
 
-    await expect(async () => {
-      await user.click(exceptionButton);
-    }).rejects.toThrow('This error was generated');
-
-    consoleSpy.mockRestore();
+    expect(defaultProps.onError).toHaveBeenCalledTimes(1);
   });
 });

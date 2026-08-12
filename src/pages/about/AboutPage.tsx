@@ -55,7 +55,7 @@ const AboutPage = () => {
         </p>
       </div>
       <Button
-        value="Go to RS school"
+        text="Go to RS school"
         onClick={handleExternalRedirect}
         buttonType="rainbow"
       ></Button>

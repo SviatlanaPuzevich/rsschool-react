@@ -1,24 +1,43 @@
+import React from 'react';
 import styles from './button.module.css';
 
+type ButtonType =
+  | 'primary'
+  | 'rainbow'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'default';
+
 interface Props {
-  value?: string;
+  text: string;
   onClick: () => void;
   buttonType: ButtonType;
+  ariaLabel?: string;
+  className?: string;
+  disabled?: boolean;
 }
 
-type ButtonType = 'primary' | 'rainbow' | 'success' | 'warning' | 'danger';
+const Button: React.FC<Props> = ({
+  text,
+  onClick,
+  buttonType,
+  ariaLabel,
+  className,
+  disabled,
+}) => {
+  const buttonClass = className
+    ? `${styles.button} ${className}`
+    : `${styles.button} ${styles[buttonType]}`;
 
-const Button = ({ onClick, buttonType, value }: Props) => {
   return (
     <button
       onClick={onClick}
-      className={
-        value
-          ? `${styles.button} ${styles[buttonType]}`
-          : `${styles.button} ${styles.primary}`
-      }
+      className={buttonClass}
+      aria-label={ariaLabel}
+      disabled={disabled}
     >
-      {value}
+      {text}
     </button>
   );
 };

@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react';
+import { expect, it } from 'vitest';
 import Loader from './Loader';
 
-describe('Loader Component', () => {
-  it('should render loading', () => {
-    render(<Loader />);
+it('should render loading text correctly', () => {
+  render(<Loader />);
 
-    const loader = screen.getByText(/Loading/i);
+  const loadingElement = screen.getByText(/loading/i);
 
-    expect(loader).toBeInTheDocument();
-  });
+  expect(loadingElement).toBeInTheDocument();
 });

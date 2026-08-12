@@ -1,21 +1,21 @@
 {
-  "homepage": "https://sviatlanapuzevich.github.io/rsschool-react/",
-  "name": "rs-react-app",
+  "homepage": "https://sviatlanapuzevich.github.io/rsschool-react",
+  "name": "pokemon-search-react-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
+    "preview": "vite preview",
     "format:fix": "prettier --write .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "prepare": "husky",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md}": "prettier --write",
@@ -46,8 +46,10 @@
     "globals": "^17.5.0",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
+    "msw": "^2.15.0",
     "lint-staged": "^17.0.5",
     "prettier": "^3.8.3",
+    "typed-css-modules": "^0.9.1",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
     "typescript-plugin-css-modules": "^5.2.0",

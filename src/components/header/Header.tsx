@@ -1,27 +1,21 @@
-import { useParams, NavLink } from 'react-router-dom';
-import { BASE_ROUTE, ABOUT, SEARCH } from '../../constants/routing.ts';
+import { NavLink } from 'react-router-dom';
 import styles from './header.module.css';
 import ThemeToggle from '../themeToggle/ThemeToggle.tsx';
+import { getActiveLinkClasses } from '../../util/linkHelper.ts';
 
 const Header = () => {
-  const { page = '1' } = useParams<{ page: string }>();
-
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
         <NavLink
-          to={`${BASE_ROUTE}${SEARCH}/${page}`}
-          className={({ isActive }: { isActive: boolean }) =>
-            isActive ? `${styles.link} ${styles.activeLink}` : styles.link
-          }
+          to={`/search`}
+          className={({ isActive }) => getActiveLinkClasses(isActive, styles)}
         >
           Pokemon Search
         </NavLink>
         <NavLink
-          to={`${BASE_ROUTE}${ABOUT}`}
-          className={({ isActive }: { isActive: boolean }) =>
-            isActive ? `${styles.link} ${styles.activeLink}` : styles.link
-          }
+          to={`/about`}
+          className={({ isActive }) => getActiveLinkClasses(isActive, styles)}
         >
           About creators
         </NavLink>

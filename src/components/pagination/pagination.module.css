@@ -5,17 +5,6 @@
 }
 
 .link {
-  font-weight: 600;
-  padding: 10px;
-  text-decoration: none;
-  color: var(--text-color);
-}
-
-.activeLink {
-  color: var(--accent);
-}
-
-.button {
   color: var(--text-color);
   align-items: center;
   border: none;
@@ -27,8 +16,12 @@
   background-color: var(--primary);
 }
 
-.button:hover {
+.link:hover {
   cursor: pointer;
+}
+
+.activeLink {
+  color: var(--accent);
 }
 
 .disabled {
@@ -36,4 +29,9 @@
   cursor: default;
   opacity: 0.5;
   filter: grayscale(1);
+}
+
+.forward,
+.back {
+  background-color: lightgray;
 }

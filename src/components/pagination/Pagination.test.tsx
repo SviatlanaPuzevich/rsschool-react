@@ -1,96 +1,129 @@
+import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import Pagination from './Pagination';
-import { BASE_ROUTE, SEARCH } from '../../constants/routing';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-const renderWithRouter = (
-  ui: React.ReactElement,
-  route = `${BASE_ROUTE}${SEARCH}/1`
-) => {
-  return render(
-    <MemoryRouter initialEntries={[route]}>
-      <Routes>
-        <Route path={`${BASE_ROUTE}${SEARCH}/:page`} element={ui} />
-      </Routes>
-    </MemoryRouter>
-  );
+const LocationDisplay = () => {
+  const location = useLocation();
+
+  return <div data-testid="location">{location.search}</div>;
 };
 
-describe('Pagination', () => {
-  it('returns null when count <= 1', () => {
-    const { container } = renderWithRouter(<Pagination count={1} />);
+import Pagination from './Pagination';
+import styles from './pagination.module.css';
 
-    expect(container.firstChild).toBeNull();
+describe('Pagination component', () => {
+  it('should not render pagination when count is 1', () => {
+    render(
+      <MemoryRouter>
+        <Pagination count={1} />
+      </MemoryRouter>
+    );
+
+    expect(screen.queryByLabelText('Pagination')).not.toBeInTheDocument();
   });
 
-  it('renders pagination links for small range', () => {
-    renderWithRouter(<Pagination count={3} />);
+  it('should render pagination buttons', () => {
+    render(
+      <MemoryRouter>
+        <Pagination count={5} />
+      </MemoryRouter>
+    );
 
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
-    expect(screen.getByText('3')).toBeInTheDocument();
-  });
-
-  it('renders correct range around current page (middle)', () => {
-    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}${SEARCH}/5`);
-
-    expect(screen.getByText('3')).toBeInTheDocument();
-    expect(screen.getByText('4')).toBeInTheDocument();
-    expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('6')).toBeInTheDocument();
-    expect(screen.getByText('7')).toBeInTheDocument();
-  });
-
-  it('renders correct range near start', () => {
-    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}${SEARCH}/2`);
-
-    expect(screen.getByText('1')).toBeInTheDocument();
-    expect(screen.getByText('2')).toBeInTheDocument();
-    expect(screen.getByText('3')).toBeInTheDocument();
-    expect(screen.getByText('4')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
   });
 
-  it('renders correct range near end', () => {
-    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}${SEARCH}/9`);
+  it('should show current page from search params', () => {
+    render(
+      <MemoryRouter initialEntries={['/search?page=3']}>
+        <Pagination count={5} />
+      </MemoryRouter>
+    );
 
-    expect(screen.getByText('6')).toBeInTheDocument();
-    expect(screen.getByText('7')).toBeInTheDocument();
-    expect(screen.getByText('8')).toBeInTheDocument();
-    expect(screen.getByText('9')).toBeInTheDocument();
-    expect(screen.getByText('10')).toBeInTheDocument();
+    expect(screen.getByText('3')).toHaveClass(styles.activeLink);
+
+    expect(screen.getByText('3')).toHaveAttribute('aria-current', 'page');
   });
 
-  it('prev link points to previous page', () => {
-    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}${SEARCH}/5`);
+  it('should disable previous button on first page', () => {
+    render(
+      <MemoryRouter>
+        <Pagination count={5} />
+      </MemoryRouter>
+    );
 
-    const prev = screen.getByText('<');
-
-    expect(prev).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/4`);
+    expect(screen.getByLabelText('Previous page')).toBeDisabled();
   });
 
-  it('next link points to next page', () => {
-    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}${SEARCH}/5`);
+  it('should disable next button on last page', () => {
+    render(
+      <MemoryRouter initialEntries={['/search?page=5']}>
+        <Pagination count={5} />
+      </MemoryRouter>
+    );
 
-    const next = screen.getByText('>');
-
-    expect(next).toHaveAttribute('href', `${BASE_ROUTE}${SEARCH}/6`);
+    expect(screen.getByLabelText('Next page')).toBeDisabled();
   });
 
-  it('prev is disabled on first page', () => {
-    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}${SEARCH}/1`);
+  it('should navigate to next page', async () => {
+    const user = userEvent.setup();
 
-    const prev = screen.getByText('<');
+    render(
+      <MemoryRouter initialEntries={['/search?page=2']}>
+        <Pagination count={5} />
+        <LocationDisplay />
+      </MemoryRouter>
+    );
 
-    expect(prev.className).toMatch(/disabled/);
+    await user.click(screen.getByLabelText('Next page'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent('?page=3');
   });
 
-  it('next is disabled on last page', () => {
-    renderWithRouter(<Pagination count={10} />, `${BASE_ROUTE}${SEARCH}/10`);
+  it('should navigate to previous page', async () => {
+    const user = userEvent.setup();
 
-    const next = screen.getByText('>');
+    render(
+      <MemoryRouter initialEntries={['/search?page=3']}>
+        <Pagination count={5} />
+        <LocationDisplay />
+      </MemoryRouter>
+    );
 
-    expect(next.className).toMatch(/disabled/);
+    await user.click(screen.getByLabelText('Previous page'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent('?page=2');
+  });
+
+  it('should remove page param when navigating to first page', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter initialEntries={['/search?page=2']}>
+        <Pagination count={5} />
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByText('1'));
+
+    expect(window.location.search).toBe('');
+  });
+
+  it('should navigate when clicking page number', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <Pagination count={5} />
+        <LocationDisplay />
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByText('4'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent('?page=4');
   });
 });
