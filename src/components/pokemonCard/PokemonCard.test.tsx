@@ -1,146 +1,96 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, waitFor } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
+import styles from './pokemon.card.module.css';
+
 import PokemonCard from './PokemonCard';
-import { pokemonService } from '../../services/pokemon';
-import {
-  renderWithQueryClient,
-  createTestQueryClient,
-} from '../../utils/testUtils.tsx';
+import type { Pokemon } from '../../types';
 
-vi.mock('../../services/pokemon', () => ({
-  pokemonService: {
-    getById: vi.fn(),
-  },
-}));
+const pokemon: Pokemon = {
+  id: 25,
+  name: 'pikachu',
+  image: 'pikachu.png',
+  abilities: '',
+};
 
-vi.mock('./pokemon.card.module.css', () => ({
-  default: {
-    card: 'card',
-    details: 'details',
-    close: 'close',
-  },
-}));
+const LocationDisplay = () => {
+  const location = useLocation();
 
-const mockedNavigate = vi.fn();
+  return (
+    <div data-testid="location">
+      {location.pathname}
+      {location.search}
+    </div>
+  );
+};
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
-  return {
-    ...actual,
-    useNavigate: () => mockedNavigate,
-  };
-});
+const renderCard = (isSelected = false, initialEntry = '/search?page=2') => {
+  return render(
+    <MemoryRouter initialEntries={[initialEntry]}>
+      <PokemonCard pokemon={pokemon} isSelected={isSelected} />
+      <LocationDisplay />
+    </MemoryRouter>
+  );
+};
 
 describe('PokemonCard', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
+  it('should render pokemon name', () => {
+    renderCard();
+
+    expect(screen.getByText('pikachu')).toBeInTheDocument();
   });
 
-  const renderComponent = (
-    route = '/pokemons/1/25',
-    queryClient = createTestQueryClient()
-  ) => {
-    return renderWithQueryClient(
-      <MemoryRouter initialEntries={[route]}>
-        <Routes>
-          <Route path="/pokemons/:page/:pokemonId" element={<PokemonCard />} />
-
-          <Route path="/pokemons/:page" element={<PokemonCard />} />
-        </Routes>
-      </MemoryRouter>,
-      queryClient
-    );
-  };
-
-  it('renders loader while loading', () => {
-    vi.mocked(pokemonService.getById).mockReturnValue(new Promise(() => {}));
-
-    renderComponent();
-
-    expect(document.querySelector('audio')).not.toBeInTheDocument();
-  });
-
-  it('renders pokemon details', async (): Promise<void> => {
-    vi.mocked(pokemonService.getById).mockResolvedValue({
-      id: 25,
-      name: 'pikachu',
-      soundUrl: 'pikachu.mp3',
-      imgUrl: 'pikachu.png',
-      abilities: ['static', 'lightning-rod'],
-      types: ['electric'],
-      weight: 60,
-      height: 4,
-    });
-
-    renderComponent();
-
-    await waitFor(() => {
-      screen.getByRole('heading', { name: /pikachu/i });
-    });
-
-    expect(screen.getByText(/static, lightning-rod/i)).toBeInTheDocument();
-    expect(screen.getByText(/electric/i)).toBeInTheDocument();
-    expect(screen.getByText(/60/i)).toBeInTheDocument();
-    expect(screen.getByText(/4/i)).toBeInTheDocument();
-
-    const audio = document.querySelector('audio');
-
-    expect(audio).toHaveAttribute('src', 'pikachu.mp3');
-  });
-
-  it('renders error message', async (): Promise<void> => {
-    vi.mocked(pokemonService.getById).mockRejectedValue(
-      new Error('Server error')
-    );
-
-    renderComponent('/pokemons/1/25');
-
-    expect(await screen.findByText('Server error')).toBeInTheDocument();
-  });
-
-  it('calls service with pokemonId', async (): Promise<void> => {
-    vi.mocked(pokemonService.getById).mockResolvedValue({
-      id: 25,
-      name: 'pikachu',
-      soundUrl: '',
-      imgUrl: 'pikachu.png',
-      abilities: ['v'],
-      types: ['static', 'lightning-rod'],
-      weight: 1,
-      height: 1,
-    });
-
-    renderComponent();
-
-    await waitFor(() => {
-      expect(pokemonService.getById).toHaveBeenCalledWith('25');
-    });
-  });
-
-  it('navigates back to page on close click', async () => {
+  it('should add details parameter when pokemon is not selected', async () => {
     const user = userEvent.setup();
-    vi.mocked(pokemonService.getById).mockResolvedValue({
-      id: 25,
-      name: 'pikachu',
-      soundUrl: '',
-      imgUrl: 'pikachu.png',
-      abilities: [],
-      types: ['static', 'lightning-rod'],
-      weight: 1,
-      height: 1,
-    });
 
-    renderComponent();
+    renderCard(false, '/search?page=2');
 
-    expect(await screen.findByText('pikachu')).toBeInTheDocument();
-    await user.click(
-      screen.getByRole('button', {
-        name: /close pokemon card/i,
-      })
+    await user.click(screen.getByText('pikachu'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent(
+      '/search?page=2&details=25'
     );
+  });
 
-    expect(mockedNavigate).toHaveBeenCalledWith('..', { relative: 'path' });
+  it('should remove details parameter when selected pokemon is clicked', async () => {
+    const user = userEvent.setup();
+
+    renderCard(true, '/search?page=2&details=25');
+
+    await user.click(screen.getByText('pikachu'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent('/search?page=2');
+
+    expect(screen.getByTestId('location')).not.toHaveTextContent('details=25');
+  });
+
+  it('should preserve current page when selecting pokemon', async () => {
+    const user = userEvent.setup();
+
+    renderCard(false, '/search?page=3');
+
+    await user.click(screen.getByText('pikachu'));
+
+    expect(screen.getByTestId('location')).toHaveTextContent(
+      '/search?page=3&details=25'
+    );
+  });
+
+  it('should have selected class when pokemon is selected', () => {
+    renderCard(true, '/search?page=2&details=25');
+
+    const cardText = screen.getByText('pikachu');
+    const cardContainer = cardText.closest('div')?.parentElement;
+
+    expect(cardContainer).toHaveClass(styles.selected);
+  });
+
+  it('should not have selected class when pokemon is not selected', () => {
+    renderCard(false);
+
+    const card = screen.getByText('pikachu');
+
+    expect(card).not.toHaveClass('selected');
   });
 });

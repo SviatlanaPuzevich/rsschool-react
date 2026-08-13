@@ -1,75 +1,57 @@
+import React from 'react';
 import styles from './pokemon.card.module.css';
-import Alert from '../error/Alert.tsx';
-import { useParams, useNavigate } from 'react-router-dom';
-import Loader from '../loader/Loader.tsx';
-import { useQuery } from '@tanstack/react-query';
-import { pokemonService } from '../../services/pokemon.ts';
+import type { Pokemon } from '../../types.ts';
+import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
+import usePokemonStore from '../../stores/usePokemonStore.ts';
 
-const PokemonCard = () => {
-  const navigate = useNavigate();
-  const { pokemonId } = useParams<{
-    pokemonId: string | undefined;
-  }>();
-  const {
-    data: details = null,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ['pokemonDetail', pokemonId],
-    queryFn: () => pokemonService.getById(pokemonId!),
-    enabled: !!pokemonId,
-  });
+interface Props {
+  pokemon: Pokemon;
+  isSelected: boolean;
+}
 
-  const handleCloseClick = () => {
-    navigate('..', { relative: 'path' });
+const PokemonCard: React.FC<Props> = ({ pokemon, isSelected }) => {
+  const { setParam, deleteParam } = useUpdateSearchParams();
+  const selectedPokemons = usePokemonStore((state) => state.selectedPokemons);
+  const selectPokemon = usePokemonStore((state) => state.selectPokemon);
+  const unselectPokemon = usePokemonStore((state) => state.unselectPokemon);
+
+  const isChecked = selectedPokemons.includes(pokemon.id);
+
+  const handleCheckPokemon = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      selectPokemon(pokemon.id);
+    } else {
+      unselectPokemon(pokemon.id);
+    }
   };
 
-  if (isError) {
-    return <Alert message={error.message} />;
-  }
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
+  const selectHandle = () => {
+    if (isSelected) {
+      deleteParam('details');
+    } else {
+      setParam('details', pokemon.id.toString());
+    }
+  };
 
   return (
-    <div className={styles.card}>
-      <h3 className={styles.name}>{details.name}</h3>
-      <div>
-        <img src={details.imgUrl} alt={details.name} />
+    <div
+      className={`${styles.card} ${isSelected ? styles.selected : ''}`}
+      onClick={selectHandle}
+    >
+      <div className={styles.wrapper}>
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onClick={(e) => e.stopPropagation()}
+          onChange={handleCheckPokemon}
+        />
+        <figure>
+          <img src={pokemon.image} alt={pokemon.name} />
+          <figcaption>{pokemon.name}</figcaption>
+        </figure>
       </div>
-      {details.soundUrl && <audio controls src={details.soundUrl} />}
-      <div className={styles.details}>
-        <div>
-          <b>Abilities:</b> <i>{details.abilities.join(', ')}</i>
-        </div>
-        <div>
-          <b>Weight:</b> <i>{details.weight}</i>
-        </div>
-        <div>
-          <b>Height:</b> <i>{details.height}</i>
-        </div>
-        <div>
-          {details.types.map((type) => (
-            <TypeTag key={type} type={type.toLowerCase()} />
-          ))}
-        </div>
-      </div>
-      <button
-        className={styles.close}
-        onClick={handleCloseClick}
-        aria-label="Close pokemon card"
-      >
-        ×
-      </button>
     </div>
   );
-};
-
-const TypeTag = ({ type }: { type: string }) => {
-  return <span className={`${styles.tag} ${styles[type] || ''}`}>{type}</span>;
 };
 
 export default PokemonCard;

@@ -1,66 +1,62 @@
 import { render, screen } from '@testing-library/react';
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-  vi,
-  type MockInstance,
-} from 'vitest';
-import ErrorBoundary from './ErrorBoundary'; // Скорректируйте путь к файлу
-import { ERROR_MESSAGE } from '../../constants/messages.ts';
+import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import ErrorBoundary from './ErrorBoundary';
 
-const ThrowError = () => {
-  throw new Error('Test Error');
+const ProblematicComponent = () => {
+  throw new Error('Test error');
 };
 
 describe('ErrorBoundary', () => {
-  let consoleSpy: MockInstance;
-
   beforeEach(() => {
-    consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    consoleSpy.mockRestore();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   it('should render children when there is no error', () => {
     render(
       <ErrorBoundary>
-        <div data-testid="child">Safe Content</div>
+        <div>Normal Content</div>
       </ErrorBoundary>
     );
 
-    expect(screen.getByTestId('child')).toBeInTheDocument();
-    expect(screen.getByText('Safe Content')).toBeInTheDocument();
+    expect(screen.getByText('Normal Content')).toBeInTheDocument();
     expect(
-      screen.queryByText(ERROR_MESSAGE.BOUNDARY_ERROR)
+      screen.queryByText(/Here is test for error boundary/i)
     ).not.toBeInTheDocument();
   });
 
-  it('should render fallback UI when a child component throws an error', () => {
+  it('should render error message and button when a child component crashes', () => {
     render(
       <ErrorBoundary>
-        <ThrowError />
+        <ProblematicComponent />
       </ErrorBoundary>
     );
 
-    expect(screen.getByText(ERROR_MESSAGE.BOUNDARY_ERROR)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Here is test for error boundary/i)
+    ).toBeInTheDocument();
+    expect(screen.queryByText('Normal Content')).not.toBeInTheDocument();
   });
 
-  it('should log the error to the console via componentDidCatch', () => {
+  it('should call window.location.reload when reload button is clicked', async () => {
+    const user = userEvent.setup();
+
+    const reloadMock = vi.fn();
+    vi.stubGlobal('location', { reload: reloadMock });
+
     render(
       <ErrorBoundary>
-        <ThrowError />
+        <ProblematicComponent />
       </ErrorBoundary>
     );
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Uncaught error:',
-      expect.any(Error),
-      expect.any(Object)
-    );
+    const reloadButton = screen.getByRole('button', {
+      name: /Back to application/i,
+    });
+    await user.click(reloadButton);
+
+    expect(reloadMock).toHaveBeenCalledTimes(1);
+
+    vi.unstubAllGlobals();
   });
 });

@@ -1,86 +1,57 @@
+import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
-import { MemoryRouter, useNavigate } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
+
 import NotFoundPage from './NotFoundPage';
-import { BASE_ROUTE, SEARCH } from '../../constants/routing.ts';
-import { useTheme } from '../../hooks/useTheme.ts';
 
-vi.mock('react-router-dom', async () => {
-  const actual =
-    await vi.importActual<typeof import('react-router-dom')>(
-      'react-router-dom'
-    );
-  return {
-    ...actual,
-    useNavigate: vi.fn(),
-  };
-});
+const LocationDisplay = () => {
+  const location = useLocation();
 
-vi.mock('../../hooks/useTheme.ts', () => ({
-  useTheme: vi.fn(),
-}));
+  return <div data-testid="location">{location.pathname}</div>;
+};
 
 describe('NotFoundPage', () => {
-  const mockNavigate = vi.fn();
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.mocked(useNavigate).mockReturnValue(mockNavigate);
-  });
-
-  it('should render the image and the button correctly', () => {
-    vi.mocked(useTheme).mockReturnValue({ theme: 'light' });
-
+  it('should render not found image', () => {
     render(
       <MemoryRouter>
         <NotFoundPage />
       </MemoryRouter>
     );
 
-    const image = screen.getByRole('img', { name: /resourece not found/i });
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute(
-      'src',
-      expect.stringContaining('Gemini_Generated_NOT_FOUND.png')
-    );
-
-    const button = screen.getByRole('button', { name: /return to home/i });
-    expect(button).toBeInTheDocument();
+    expect(screen.getByAltText('Resourece not found')).toBeInTheDocument();
   });
 
-  it('should render the dark theme image correctly', () => {
-    vi.mocked(useTheme).mockReturnValue({ theme: 'dark' });
-
+  it('should render return home button', () => {
     render(
       <MemoryRouter>
         <NotFoundPage />
       </MemoryRouter>
     );
 
-    const image = screen.getByRole('img', { name: /resourece not found/i });
-    expect(image).toBeInTheDocument();
-
-    expect(image).toHaveAttribute(
-      'src',
-      expect.stringContaining('Gemini_Generated_NOT_FOUND_dark.png')
-    );
+    expect(
+      screen.getByRole('button', {
+        name: 'Return to home',
+      })
+    ).toBeInTheDocument();
   });
 
-  it('should navigate to the home route when the button is clicked', async () => {
+  it('should navigate to search page after button click', async () => {
     const user = userEvent.setup();
-    vi.mocked(useTheme).mockReturnValue({ theme: 'light' });
+
     render(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={['/404']}>
         <NotFoundPage />
+        <LocationDisplay />
       </MemoryRouter>
     );
 
-    const button = screen.getByRole('button', { name: /return to home/i });
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Return to home',
+      })
+    );
 
-    await user.click(button);
-
-    expect(mockNavigate).toHaveBeenCalledTimes(1);
-    expect(mockNavigate).toHaveBeenCalledWith(`${BASE_ROUTE}${SEARCH}/1`);
+    expect(screen.getByTestId('location')).toHaveTextContent('/search');
   });
 });

@@ -1,25 +1,41 @@
+import React, { useState } from 'react';
 import styles from './error.module.css';
-import { useState } from 'react';
+import Button from '../button/Button.tsx';
 
 interface Props {
-  message: string | null;
+  show: boolean;
+  message?: string;
 }
 
-const Alert = ({ message }: Props) => {
-  const [close, setClose] = useState<boolean>(false);
+const Alert: React.FC<Props> = ({ show, message = 'Something went wrong' }) => {
+  const [state, setState] = useState({
+    isVisible: show,
+    prevShow: show,
+  });
 
-  if (message === null || close) return null;
+  if (show !== state.prevShow) {
+    setState({
+      isVisible: show,
+      prevShow: show,
+    });
+  }
+
+  const handleClose = (): void => {
+    setState((prev) => ({ ...prev, isVisible: false }));
+  };
+
+  if (!state.isVisible) return null;
 
   return (
-    <div className={`${styles.alert} ${styles['alert--error']}`}>
+    <div className={`${styles.alert}`}>
       <div className={styles.alert__content}>{message}</div>
-      <button
+      <Button
+        text="×"
+        buttonType="default"
+        onClick={handleClose}
+        ariaLabel="Close alert"
         className={styles.alert__close}
-        onClick={() => setClose(true)}
-        aria-label="Close alert"
-      >
-        ×
-      </button>
+      />
     </div>
   );
 };

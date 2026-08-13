@@ -1,40 +1,95 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { QueryClient } from '@tanstack/react-query';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
+
 import SearchPage from './SearchPage';
-import { pokemonService } from '../../services/pokemon';
+import { pokemonService } from '../../services/pokemonService';
 import type { Pokemon } from '../../types';
-import {
-  renderWithQueryClient,
-} from '../../utils/testUtils.tsx';
 
-const mockNavigate = vi.fn();
-
-vi.mock('react-router-dom', async () => {
-  const actual =
-    await vi.importActual<typeof import('react-router-dom')>(
-      'react-router-dom'
-    );
-
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  };
-});
-
-vi.mock('../../services/pokemon', () => ({
+vi.mock('../../services/pokemonService', () => ({
   pokemonService: {
     getAll: vi.fn(),
   },
 }));
 
-const mockPokemons: Pokemon[] = [
-  { id: 1, name: 'bulbasaur', image: 'bulbasaur.png' },
-  { id: 2, name: 'pikachu', image: 'pikachu.png' },
-  { id: 3, name: 'charmander', image: 'charmander.png' },
+vi.mock('../../components/loader/Loader', () => ({
+  default: () => <div data-testid="loader">Loading...</div>,
+}));
+
+vi.mock('../../components/error/Alert', () => ({
+  default: ({ message }: { message?: string }) => (
+    <div data-testid="alert">{message}</div>
+  ),
+}));
+
+vi.mock('../../components/searchResult/SearchResult', () => ({
+  default: ({ pokemons, error }: { pokemons: Pokemon[]; error?: boolean }) => (
+    <div data-testid="search-result">
+      {error && <span>Error generated</span>}
+
+      {pokemons.map((pokemon) => (
+        <div key={pokemon.id}>{pokemon.name}</div>
+      ))}
+    </div>
+  ),
+}));
+
+vi.mock('../../components/searchBar/SearchBar', () => ({
+  default: ({
+    query,
+    onQueryChange,
+    onSearch,
+    onError,
+  }: {
+    query: string;
+    onQueryChange: (value: string) => void;
+    onSearch: () => void;
+    onError: () => void;
+  }) => (
+    <div>
+      <input
+        value={query}
+        onChange={(event) => onQueryChange(event.target.value)}
+      />
+
+      <button onClick={onSearch}>Search</button>
+      <button onClick={onError}>Generate error</button>
+    </div>
+  ),
+}));
+
+const pokemons: Pokemon[] = [
+  {
+    id: 1,
+    name: 'pikachu',
+    image: '',
+  },
+  {
+    id: 2,
+    name: 'pidgey',
+    image: '',
+  },
+  {
+    id: 3,
+    name: 'bulbasaur',
+    image: '',
+  },
 ];
+
+const renderSearchPage = () =>
+  render(
+    <MemoryRouter>
+      <SearchPage />
+    </MemoryRouter>
+  );
+
+const searchButton = () => screen.getByRole('button', { name: 'Search' });
+
+const errorButton = () =>
+  screen.getByRole('button', { name: 'Generate error' });
+
+const searchInput = () => screen.getByRole('textbox');
 
 describe('SearchPage', () => {
   beforeEach(() => {
@@ -42,181 +97,79 @@ describe('SearchPage', () => {
     localStorage.clear();
   });
 
-  it('renders pokemons after loading', async () => {
-    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
+  it('should show loader while loading pokemons', () => {
+    vi.mocked(pokemonService.getAll).mockReturnValue(new Promise(() => {}));
 
-    renderWithQueryClient(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    renderSearchPage();
 
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
-
-    expect(await screen.findByText(/bulbasaur/i)).toBeInTheDocument();
-
-    expect(screen.getByText(/pikachu/i)).toBeInTheDocument();
-    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
   });
 
-  it('initializes query from localStorage', async () => {
-    localStorage.setItem('query', JSON.stringify('pika'));
+  it('should load and display pokemons', async () => {
+    vi.mocked(pokemonService.getAll).mockResolvedValue(pokemons);
 
-    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
+    renderSearchPage();
 
-    renderWithQueryClient(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    expect(await screen.findByText('pikachu')).toBeInTheDocument();
+    expect(screen.getByText('pidgey')).toBeInTheDocument();
+    expect(screen.getByText('bulbasaur')).toBeInTheDocument();
 
-    const input = await screen.findByRole('textbox');
+    expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
+  });
 
-    expect(input).toHaveValue('pika');
+  it('should filter pokemons after search submit', async () => {
+    const user = userEvent.setup();
+
+    vi.mocked(pokemonService.getAll).mockResolvedValue(pokemons);
+
+    renderSearchPage();
 
     await screen.findByText('pikachu');
 
+    await user.type(searchInput(), 'pik');
+    await user.click(searchButton());
+
     expect(screen.getByText('pikachu')).toBeInTheDocument();
+    expect(screen.queryByText('pidgey')).not.toBeInTheDocument();
     expect(screen.queryByText('bulbasaur')).not.toBeInTheDocument();
   });
 
-  it('updates query and navigates on search', async () => {
-    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
-
+  it('should save normalized search query to localStorage', async () => {
     const user = userEvent.setup();
 
-    renderWithQueryClient(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    vi.mocked(pokemonService.getAll).mockResolvedValue(pokemons);
 
-    const input = await screen.findByRole('textbox');
+    renderSearchPage();
 
-    await user.type(input, 'Bulba');
+    await screen.findByText('pikachu');
 
-    await user.click(screen.getByRole('button', { name: /search/i }));
+    await user.type(searchInput(), '  PIKACHU  ');
+    await user.click(searchButton());
 
-    expect(JSON.parse(localStorage.getItem('query'))).toBe('bulba');
-
-    expect(mockNavigate).toHaveBeenCalled();
+    expect(localStorage.getItem('query')).toBe(JSON.stringify('pikachu'));
   });
 
-  it('shows api error message', async () => {
-    vi.mocked(pokemonService.getAll).mockRejectedValue(
-      new Error('Failed to fetch')
-    );
+  it('should show error message when api fails', async () => {
+    vi.mocked(pokemonService.getAll).mockRejectedValue(new Error('API error'));
 
-    renderWithQueryClient(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    renderSearchPage();
 
-    expect(await screen.findByText(/failed to fetch/i)).toBeInTheDocument();
+    expect(await screen.findByTestId('alert')).toHaveTextContent('API error');
+
+    expect(screen.queryByTestId('search-result')).not.toBeInTheDocument();
   });
 
-  it('shows fallback error message', async () => {
-    vi.mocked(pokemonService.getAll).mockRejectedValue(
-      new Error('unknown error')
-    );
-
-    renderWithQueryClient(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
-
-    expect(await screen.findByText('unknown error')).toBeInTheDocument();
-  });
-
-  it('reuses cached data between navigations without refetching', async () => {
-    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
-
-    const queryClient = new QueryClient({
-      defaultOptions: {
-        queries: { retry: false, staleTime: 5 * 60 * 1000 },
-      },
-    });
-
-    const { unmount } = renderWithQueryClient(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>,
-      queryClient
-    );
-
-    expect(await screen.findByText(/bulbasaur/i)).toBeInTheDocument();
-    expect(pokemonService.getAll).toHaveBeenCalledTimes(1);
-
-    unmount();
-
-    renderWithQueryClient(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>,
-      queryClient
-    );
-
-    expect(screen.getByText(/bulbasaur/i)).toBeInTheDocument();
-    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
-
-    expect(pokemonService.getAll).toHaveBeenCalledTimes(1);
-  });
-
-  it('refetches data when the invalidate cache button is clicked', async () => {
-    vi.mocked(pokemonService.getAll).mockResolvedValue(mockPokemons);
-
+  it('should pass generated error to SearchResult', async () => {
     const user = userEvent.setup();
 
-    renderWithQueryClient(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
+    vi.mocked(pokemonService.getAll).mockResolvedValue(pokemons);
 
-    expect(await screen.findByText(/bulbasaur/i)).toBeInTheDocument();
-    expect(pokemonService.getAll).toHaveBeenCalledTimes(1);
+    renderSearchPage();
 
-    await user.click(
-      screen.getByRole('button', { name: /invalidate cache/i })
-    );
+    await screen.findByText('pikachu');
 
-    await waitFor(() =>
-      expect(pokemonService.getAll).toHaveBeenCalledTimes(2)
-    );
-  });
+    await user.click(errorButton());
 
-  it('keeps checked pokemon selected after page change', async () => {
-    const generatedPokemons = Array.from({ length: 30 }, (_, i) => i + 1).map(
-      (i) => {
-        return {
-          id: i,
-          name: `pokemon-${i}`,
-          image: `${i}.png`,
-        };
-      }
-    );
-    vi.mocked(pokemonService.getAll).mockResolvedValue(generatedPokemons);
-
-    const user = userEvent.setup();
-
-    renderWithQueryClient(
-      <MemoryRouter>
-        <SearchPage />
-      </MemoryRouter>
-    );
-
-    const checkbox = await screen.findByTestId('checkbox-2');
-
-    await user.click(checkbox);
-
-    expect(checkbox).toBeChecked();
-
-    await user.click(screen.getByText('>'));
-
-    await user.click(screen.getByText('<'));
-
-    expect(screen.getByTestId('checkbox-2')).toBeChecked();
+    expect(screen.getByText('Error generated')).toBeInTheDocument();
   });
 });
