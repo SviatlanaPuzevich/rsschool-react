@@ -5,7 +5,6 @@ import Pagination from '../pagination/Pagination.tsx';
 import PokemonCard from '../pokemonCard/PokemonCard.tsx';
 import PokemonDetail from '../pokemonDetail/PokemonDetail.tsx';
 import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
-import PokemonCardWrapper from '../pokemonItem/PokemonCardWrapper.tsx';
 
 interface Props {
   pokemons: Pokemon[];
@@ -43,12 +42,11 @@ const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
       <div className={styles.container}>
         <div className={styles.list}>
           {currentPokemons.map((item: Pokemon) => (
-            <PokemonCardWrapper key={item.id} id={item.id}>
               <PokemonCard
+                key={item.id}
                 pokemon={item}
                 isSelected={selectedPokemonId === item.id}
               />
-            </PokemonCardWrapper>
           ))}
         </div>
 

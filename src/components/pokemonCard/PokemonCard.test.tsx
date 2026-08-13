@@ -81,7 +81,7 @@ describe('PokemonCard', () => {
     renderCard(true, '/search?page=2&details=25');
 
     const cardText = screen.getByText('pikachu');
-    const cardContainer = cardText.closest('div');
+    const cardContainer = cardText.closest('div')?.parentElement;
 
     expect(cardContainer).toHaveClass(styles.selected);
   });
