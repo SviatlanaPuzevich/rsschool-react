@@ -25,10 +25,7 @@ const LocationDisplay = () => {
   );
 };
 
-const renderCard = (
-  isSelected = false,
-  initialEntry = '/search?page=2'
-) => {
+const renderCard = (isSelected = false, initialEntry = '/search?page=2') => {
   return render(
     <MemoryRouter initialEntries={[initialEntry]}>
       <PokemonCard pokemon={pokemon} isSelected={isSelected} />
@@ -63,13 +60,9 @@ describe('PokemonCard', () => {
 
     await user.click(screen.getByText('pikachu'));
 
-    expect(screen.getByTestId('location')).toHaveTextContent(
-      '/search?page=2'
-    );
+    expect(screen.getByTestId('location')).toHaveTextContent('/search?page=2');
 
-    expect(screen.getByTestId('location')).not.toHaveTextContent(
-      'details=25'
-    );
+    expect(screen.getByTestId('location')).not.toHaveTextContent('details=25');
   });
 
   it('should preserve current page when selecting pokemon', async () => {
@@ -88,7 +81,7 @@ describe('PokemonCard', () => {
     renderCard(true, '/search?page=2&details=25');
 
     const cardText = screen.getByText('pikachu');
-    const cardContainer = cardText.closest('div');
+    const cardContainer = cardText.closest('div')?.parentElement;
 
     expect(cardContainer).toHaveClass(styles.selected);
   });

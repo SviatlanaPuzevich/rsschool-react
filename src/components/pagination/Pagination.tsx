@@ -1,4 +1,3 @@
-import { useSearchParams } from 'react-router-dom';
 import styles from './pagination.module.css';
 import { getActiveLinkClasses } from '../../util/linkHelper.ts';
 import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
@@ -8,8 +7,7 @@ interface Props {
 }
 
 const Pagination = ({ count }: Props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { deleteParam } = useUpdateSearchParams();
+  const { searchParams, deleteParam, setParam } = useUpdateSearchParams();
 
   const currentPage = Math.max(1, Number(searchParams.get('page')) || 1);
 
@@ -18,15 +16,12 @@ const Pagination = ({ count }: Props) => {
   }
 
   const updatePage = (page: number): void => {
-    const params = new URLSearchParams(searchParams);
-
     if (page <= 1) {
-      params.delete('page');
+      deleteParam('page');
     } else {
-      params.set('page', page.toString());
+      setParam('page', page.toString());
     }
 
-    setSearchParams(params);
     deleteParam('details');
   };
 
@@ -48,7 +43,7 @@ const Pagination = ({ count }: Props) => {
     <nav className={styles.pagination} aria-label="Pagination">
       <button
         type="button"
-        className={styles.button}
+        className={`${styles.link} ${styles.back}`}
         disabled={currentPage === 1}
         onClick={() => updatePage(currentPage - 1)}
         aria-label="Previous page"
@@ -70,7 +65,7 @@ const Pagination = ({ count }: Props) => {
 
       <button
         type="button"
-        className={styles.button}
+        className={`${styles.link} ${styles.forward}`}
         disabled={currentPage === count}
         onClick={() => updatePage(currentPage + 1)}
         aria-label="Next page"

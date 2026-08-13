@@ -8,6 +8,7 @@ import Loader from '../../components/loader/Loader.tsx';
 import { pokemonService } from '../../services/pokemonService.ts';
 import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
+import Flyout from '../../components/flyout/Flyout.tsx';
 
 const SearchPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useLocalStorage<string>('query', '');
@@ -59,7 +60,7 @@ const SearchPage: React.FC = () => {
   const handleSearchSubmit = (): void => {
     setSearchQuery(query.trim().toLowerCase());
     setParam('page', '1');
-    deleteParam('details')
+    deleteParam('details');
   };
 
   const handleErrorGeneration = (): void => {
@@ -67,26 +68,29 @@ const SearchPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h1>Find your pokemon</h1>
+    <>
+      <div className={styles.container}>
+        <h1>Find your pokemon</h1>
 
-      <SearchBar
-        query={query}
-        onQueryChange={handleQueryChange}
-        onSearch={handleSearchSubmit}
-        onError={handleErrorGeneration}
-      />
+        <SearchBar
+          query={query}
+          onQueryChange={handleQueryChange}
+          onSearch={handleSearchSubmit}
+          onError={handleErrorGeneration}
+        />
 
-      <section className={styles.result}>
-        {!loaded && <Loader />}
+        <section className={styles.result}>
+          {!loaded && <Loader />}
 
-        {loaded && error && <Alert message={error} show />}
+          {loaded && error && <Alert message={error} show />}
 
-        {loaded && !error && (
-          <SearchResult pokemons={foundPokemons} error={generateError} />
-        )}
-      </section>
-    </div>
+          {loaded && !error && (
+            <SearchResult pokemons={foundPokemons} error={generateError} />
+          )}
+        </section>
+      </div>
+      <Flyout />
+    </>
   );
 };
 

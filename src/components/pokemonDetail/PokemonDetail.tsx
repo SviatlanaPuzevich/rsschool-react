@@ -48,9 +48,7 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
   }
 
   if (error) {
-    return (
-      <Alert message={error} show />
-    );
+    return <Alert message={error} show />;
   }
 
   if (!details) {

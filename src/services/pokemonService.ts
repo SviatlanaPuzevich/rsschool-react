@@ -48,7 +48,7 @@ class PokemonService {
     return Number(url.split('/').filter(Boolean).pop());
   }
 
-  private buildURLToImage(id: number): string {
+  private buildURLToImage(id: number | string): string {
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
   }
 
@@ -88,9 +88,8 @@ class PokemonService {
       soundUrl: data.cries.latest,
       height: data.height,
       weight: data.weight,
-
+      imgUrl: this.buildURLToImage(id),
       abilities: data.abilities.map((item) => item.ability.name),
-
       types: data.types.map((item) => item.type.name),
 
       sprites: {

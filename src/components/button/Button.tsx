@@ -1,14 +1,6 @@
 import React from 'react';
 import styles from './button.module.css';
 
-interface Props {
-  text: string;
-  onClick: () => void;
-  buttonType: ButtonType;
-  ariaLabel?: string;
-  className?: string;
-}
-
 type ButtonType =
   | 'primary'
   | 'rainbow'
@@ -17,22 +9,37 @@ type ButtonType =
   | 'danger'
   | 'default';
 
-class Button extends React.Component<Props> {
-  render() {
-    return (
-      <button
-        onClick={this.props.onClick}
-        className={
-          this.props.className
-            ? `${styles.button} ${this.props.className}`
-            : `${styles.button} ${styles[this.props.buttonType]}`
-        }
-        aria-label={this.props.ariaLabel}
-      >
-        {this.props.text}
-      </button>
-    );
-  }
+interface Props {
+  text: string;
+  onClick: () => void;
+  buttonType: ButtonType;
+  ariaLabel?: string;
+  className?: string;
+  disabled?: boolean;
 }
+
+const Button: React.FC<Props> = ({
+  text,
+  onClick,
+  buttonType,
+  ariaLabel,
+  className,
+  disabled,
+}) => {
+  const buttonClass = className
+    ? `${styles.button} ${className}`
+    : `${styles.button} ${styles[buttonType]}`;
+
+  return (
+    <button
+      onClick={onClick}
+      className={buttonClass}
+      aria-label={ariaLabel}
+      disabled={disabled}
+    >
+      {text}
+    </button>
+  );
+};
 
 export default Button;

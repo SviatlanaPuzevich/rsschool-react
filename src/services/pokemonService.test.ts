@@ -44,6 +44,8 @@ describe('PokemonService', () => {
       weight: 60,
       abilities: ['static', 'lightning-rod'],
       types: ['electric'],
+      imgUrl:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
 
       sprites: {
         frontDefault: 'pikachu-front.png',
@@ -94,11 +96,11 @@ describe('PokemonService', () => {
         return new HttpResponse(null, {
           status: 500,
         });
-      }),
+      })
     );
 
     await expect(pokemonService.getAll()).rejects.toThrow(
-      'Failed to fetch pokemons',
+      'Failed to fetch pokemons'
     );
   });
 
@@ -108,11 +110,11 @@ describe('PokemonService', () => {
         return new HttpResponse(null, {
           status: 500,
         });
-      }),
+      })
     );
 
     await expect(pokemonService.getById(25)).rejects.toThrow(
-      'Failed to fetch pokemon details',
+      'Failed to fetch pokemon details'
     );
   });
 });

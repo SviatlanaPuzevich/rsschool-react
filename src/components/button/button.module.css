@@ -14,7 +14,7 @@
 }
 
 .primary {
-  background-color: coral;
+  background-color: var(--primary);
 }
 
 .warning {

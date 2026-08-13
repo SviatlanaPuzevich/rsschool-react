@@ -42,11 +42,11 @@ const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
       <div className={styles.container}>
         <div className={styles.list}>
           {currentPokemons.map((item: Pokemon) => (
-            <PokemonCard
-              pokemon={item}
-              key={item.id}
-              isSelected={selectedPokemonId === item.id}
-            />
+              <PokemonCard
+                key={item.id}
+                pokemon={item}
+                isSelected={selectedPokemonId === item.id}
+              />
           ))}
         </div>
 

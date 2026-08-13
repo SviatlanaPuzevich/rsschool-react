@@ -50,9 +50,7 @@ const pokemons: Pokemon[] = [
   },
 ];
 
-const renderSearchResult = (
-  initialEntry = '/search?page=1'
-) => {
+const renderSearchResult = (initialEntry = '/search?page=1') => {
   return render(
     <MemoryRouter initialEntries={[initialEntry]}>
       <SearchResult pokemons={pokemons} />
@@ -89,9 +87,7 @@ describe('SearchResult', () => {
   it('should show choose a pokemon when no pokemon is selected', () => {
     renderSearchResult();
 
-    expect(
-      screen.getByText('Choose a pokemon')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Choose a pokemon')).toBeInTheDocument();
   });
 
   it('should display selected pokemon details', async () => {
@@ -105,13 +101,10 @@ describe('SearchResult', () => {
 
     expect(screen.getByText('#25')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('static, lightning-rod')
-    ).toBeInTheDocument();
+    expect(screen.getByText('static, lightning-rod')).toBeInTheDocument();
 
     expect(screen.getByText('electric')).toBeInTheDocument();
   });
-
 
   it('should not select pokemon when details parameter is absent', () => {
     renderSearchResult('/search?page=1');
@@ -150,8 +143,6 @@ describe('SearchResult', () => {
       </MemoryRouter>
     );
 
-    expect(
-      screen.getByText('No such pokemon')
-    ).toBeInTheDocument();
+    expect(screen.getByText('No such pokemon')).toBeInTheDocument();
   });
 });

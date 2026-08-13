@@ -28,30 +28,27 @@ const renderPokemonDetail = (
 describe('PokemonDetail', () => {
   it('should show skeleton while pokemon details are loading', async () => {
     server.use(
-      http.get(
-        'https://pokeapi.co/api/v2/pokemon/:id',
-        async () => {
-          await delay(100);
-          return HttpResponse.json({
-            id: 25,
-            name: 'pikachu',
-            height: 4,
-            weight: 60,
-            cries: {
-              latest: 'pikachu.mp3',
-            },
-            abilities: [],
-            types: [],
-            sprites: {
-              front_default: null,
-              back_default: null,
-              front_shiny: null,
-              back_shiny: null,
-            },
-            stats: [],
-          });
-        }
-      )
+      http.get('https://pokeapi.co/api/v2/pokemon/:id', async () => {
+        await delay(100);
+        return HttpResponse.json({
+          id: 25,
+          name: 'pikachu',
+          height: 4,
+          weight: 60,
+          cries: {
+            latest: 'pikachu.mp3',
+          },
+          abilities: [],
+          types: [],
+          sprites: {
+            front_default: null,
+            back_default: null,
+            front_shiny: null,
+            back_shiny: null,
+          },
+          stats: [],
+        });
+      })
     );
 
     renderPokemonDetail();
@@ -75,9 +72,7 @@ describe('PokemonDetail', () => {
     expect(screen.getByText('0.4 m')).toBeInTheDocument();
     expect(screen.getByText('6 kg')).toBeInTheDocument();
 
-    expect(
-      screen.getByText('static, lightning-rod')
-    ).toBeInTheDocument();
+    expect(screen.getByText('static, lightning-rod')).toBeInTheDocument();
   });
 
   it('should display pokemon types', async () => {
@@ -93,13 +88,15 @@ describe('PokemonDetail', () => {
 
     await screen.findByRole('heading', { name: 'pikachu' });
 
-    expect(
-      screen.getByRole('img', { name: 'pikachu front' })
-    ).toHaveAttribute('src', 'pikachu-front.png');
+    expect(screen.getByRole('img', { name: 'pikachu front' })).toHaveAttribute(
+      'src',
+      'pikachu-front.png'
+    );
 
-    expect(
-      screen.getByRole('img', { name: 'pikachu back' })
-    ).toHaveAttribute('src', 'pikachu-back.png');
+    expect(screen.getByRole('img', { name: 'pikachu back' })).toHaveAttribute(
+      'src',
+      'pikachu-back.png'
+    );
 
     expect(
       screen.getByRole('img', { name: 'pikachu shiny front' })
@@ -111,7 +108,7 @@ describe('PokemonDetail', () => {
   });
 
   it('should display pokemon cry', async () => {
-    const {container} = renderPokemonDetail();
+    const { container } = renderPokemonDetail();
 
     await screen.findByRole('heading', { name: 'pikachu' });
 
@@ -165,14 +162,11 @@ describe('PokemonDetail', () => {
 
   it('should show error when pokemon details cannot be loaded', async () => {
     server.use(
-      http.get(
-        'https://pokeapi.co/api/v2/pokemon/:id',
-        () => {
-          return new HttpResponse(null, {
-            status: 500,
-          });
-        }
-      )
+      http.get('https://pokeapi.co/api/v2/pokemon/:id', () => {
+        return new HttpResponse(null, {
+          status: 500,
+        });
+      })
     );
 
     renderPokemonDetail();

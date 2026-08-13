@@ -1,6 +1,4 @@
 .card {
-  display: inline-block;
-  text-align: center;
   margin: 5px;
   border: cornflowerblue 2px solid;
   padding: 5px;
@@ -10,6 +8,12 @@
     transform 0.2s ease,
     box-shadow 0.2s ease;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.wrapper {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 
 .card:hover {

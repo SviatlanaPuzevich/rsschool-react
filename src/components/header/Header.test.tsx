@@ -1,65 +1,78 @@
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
+import styles from './header.module.css';
+
 import Header from './Header';
 
-vi.mock('./header.module.css', () => ({
-  default: {
-    header: 'mocked-header',
-    nav: 'mocked-nav',
-    link: 'mocked-link',
-    activeLink: 'mocked-active-link',
-  },
+vi.mock('../themeToggle/ThemeToggle.tsx', () => ({
+  default: () => <button>Theme toggle</button>,
 }));
 
-describe('Header Component', () => {
-  it('should render navigation links with correct text and attributes', () => {
+describe('Header', () => {
+  it('renders navigation links', () => {
     render(
       <MemoryRouter>
         <Header />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
-    const searchLink = screen.getByRole('link', { name: /pokemon search/i });
-    expect(searchLink).toBeInTheDocument();
-    expect(searchLink).toHaveAttribute('href', '/search');
+    expect(
+      screen.getByRole('link', { name: 'Pokemon Search' }),
+    ).toBeInTheDocument();
 
-    const aboutLink = screen.getByRole('link', { name: /about creators/i });
-    expect(aboutLink).toBeInTheDocument();
-    expect(aboutLink).toHaveAttribute('href', '/about');
+    expect(
+      screen.getByRole('link', { name: 'About creators' }),
+    ).toBeInTheDocument();
   });
 
-  it('should apply active class to the Search link when URL is /search', () => {
+  it('renders correct links', () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    expect(
+      screen.getByRole('link', { name: 'Pokemon Search' }),
+    ).toHaveAttribute('href', '/search');
+
+    expect(
+      screen.getByRole('link', { name: 'About creators' }),
+    ).toHaveAttribute('href', '/about');
+  });
+
+  it('renders theme toggle', () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    expect(
+      screen.getByRole('button', { name: 'Theme toggle' }),
+    ).toBeInTheDocument();
+  });
+
+  it('marks search link as active on search page', () => {
     render(
       <MemoryRouter initialEntries={['/search']}>
         <Header />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
-    const searchLink = screen.getByRole('link', { name: /pokemon search/i });
-    const aboutLink = screen.getByRole('link', { name: /about creators/i });
-
-    expect(searchLink).toHaveClass('mocked-link');
-    expect(searchLink).toHaveClass('mocked-active-link');
-
-    expect(aboutLink).toHaveClass('mocked-link');
-    expect(aboutLink).not.toHaveClass('mocked-active-link');
+    expect(screen.getByRole('link', { name: /Pokemon Search/i })).toHaveClass(
+      styles.activeLink
+    );
   });
 
-  it('should apply active class to the About link when URL is /about', () => {
+  it('marks about link as active on about page', () => {
     render(
       <MemoryRouter initialEntries={['/about']}>
         <Header />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
-    const searchLink = screen.getByRole('link', { name: /pokemon search/i });
-    const aboutLink = screen.getByRole('link', { name: /about creators/i });
-
-    expect(aboutLink).toHaveClass('mocked-link');
-    expect(aboutLink).toHaveClass('mocked-active-link');
-
-    expect(searchLink).toHaveClass('mocked-link');
-    expect(searchLink).not.toHaveClass('mocked-active-link');
+    expect(screen.getByRole('link', { name: /About creators/i })).toHaveClass(styles.activeLink);
   });
 });
