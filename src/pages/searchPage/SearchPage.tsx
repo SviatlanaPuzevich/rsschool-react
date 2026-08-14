@@ -1,57 +1,39 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './search.page.module.css';
 import SearchBar from '../../components/searchBar/SearchBar.tsx';
 import SearchResult from '../../components/searchResult/SearchResult.tsx';
-import type { Pokemon } from '../../types.ts';
 import Alert from '../../components/error/Alert.tsx';
 import Loader from '../../components/loader/Loader.tsx';
 import { pokemonService } from '../../services/pokemonService.ts';
 import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
 import Flyout from '../../components/flyout/Flyout.tsx';
+import { useQuery } from '@tanstack/react-query';
 
 const SearchPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useLocalStorage<string>('query', '');
   const [query, setQuery] = useState(searchQuery);
 
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: pokemons = [],
+    isLoading,
+    error,
+    isError,
+  } = useQuery({
+    queryKey: ['pokemons'],
+    queryFn: () => pokemonService.getAll(),
+    select: (pokemons) => {
+      const trimmedQuery = searchQuery.trim().toLowerCase();
+      if (!trimmedQuery) return pokemons;
+      return pokemons.filter((pokemon) =>
+        pokemon.name.toLowerCase().startsWith(trimmedQuery)
+      );
+    },
+  });
+
   const [generateError, setGenerateError] = useState(false);
 
   const { setParam, deleteParam } = useUpdateSearchParams();
-
-  useEffect(() => {
-    const fetchPokemons = async (): Promise<void> => {
-      setLoaded(false);
-      setError(null);
-
-      try {
-        const allPokemons = await pokemonService.getAll();
-        setPokemons(allPokemons);
-      } catch (e: unknown) {
-        setError(
-          e instanceof Error
-            ? e.message
-            : 'Can not load pokemons. Please try to reload'
-        );
-      } finally {
-        setLoaded(true);
-      }
-    };
-
-    fetchPokemons();
-  }, []);
-
-  const foundPokemons = useMemo(() => {
-    const trimmedQuery = searchQuery.trim().toLowerCase();
-
-    if (!trimmedQuery) {
-      return pokemons;
-    }
-
-    return pokemons.filter((pokemon) => pokemon.name.startsWith(trimmedQuery));
-  }, [pokemons, searchQuery]);
 
   const handleQueryChange = (value: string): void => {
     setQuery(value);
@@ -80,12 +62,12 @@ const SearchPage: React.FC = () => {
         />
 
         <section className={styles.result}>
-          {!loaded && <Loader />}
+          {isLoading && <Loader />}
 
-          {loaded && error && <Alert message={error} show />}
+          {isError && <Alert message={error.message} show />}
 
-          {loaded && !error && (
-            <SearchResult pokemons={foundPokemons} error={generateError} />
+          {!isLoading && !isError && (
+            <SearchResult pokemons={pokemons} error={generateError} />
           )}
         </section>
       </div>

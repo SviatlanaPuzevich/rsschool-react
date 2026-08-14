@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-
+import { renderWithQueryClient } from '../../util/tests/testUtils.tsx';
 import SearchResult from './SearchResult';
 import type { Pokemon } from '../../types';
 
@@ -51,7 +51,7 @@ const pokemons: Pokemon[] = [
 ];
 
 const renderSearchResult = (initialEntry = '/search?page=1') => {
-  return render(
+  return renderWithQueryClient(
     <MemoryRouter initialEntries={[initialEntry]}>
       <SearchResult pokemons={pokemons} />
     </MemoryRouter>

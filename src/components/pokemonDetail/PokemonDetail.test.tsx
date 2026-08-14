@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { http, HttpResponse, delay } from 'msw';
+import { screen } from '@testing-library/react';
+import { MemoryRouter, useLocation } from 'react-router-dom';
+import { delay, http, HttpResponse } from 'msw';
 import userEvent from '@testing-library/user-event';
 import PokemonDetail from './PokemonDetail';
 import { server } from '../../mocks/server';
-import { useLocation } from 'react-router-dom';
+import { renderWithQueryClient } from '../../util/tests/testUtils.tsx';
 
 const LocationDisplay = () => {
   const location = useLocation();
@@ -17,7 +17,7 @@ const renderPokemonDetail = (
   id = 25,
   initialEntry = '/search?page=2&details=25'
 ) => {
-  return render(
+  return renderWithQueryClient(
     <MemoryRouter initialEntries={[initialEntry]}>
       <PokemonDetail id={id} />
       <LocationDisplay />

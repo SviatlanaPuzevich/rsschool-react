@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import styles from './pokemon.card.module.css';
+import { renderWithQueryClient } from '../../util/tests/testUtils.tsx';
 
 import PokemonCard from './PokemonCard';
 import type { Pokemon } from '../../types';
@@ -26,7 +27,7 @@ const LocationDisplay = () => {
 };
 
 const renderCard = (isSelected = false, initialEntry = '/search?page=2') => {
-  return render(
+  return renderWithQueryClient(
     <MemoryRouter initialEntries={[initialEntry]}>
       <PokemonCard pokemon={pokemon} isSelected={isSelected} />
       <LocationDisplay />
