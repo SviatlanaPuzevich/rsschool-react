@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import { routerConfig } from './router';
-import ThemeProvider from './context/ContextThemeProvider.tsx';
+import { routerConfig } from './router.tsx';
+import ThemeProvider from '../context/ContextThemeProvider.tsx';
+import { renderWithQueryClient } from '../util/tests/testUtils.tsx';
 
 const renderRouter = (initialEntries: string[]) => {
   const memoryRouter = createMemoryRouter(routerConfig, {
@@ -11,7 +12,7 @@ const renderRouter = (initialEntries: string[]) => {
     basename: import.meta.env.BASE_URL || '/',
   });
 
-  return render(
+  return renderWithQueryClient(
     <ThemeProvider>
       <RouterProvider router={memoryRouter} />
     </ThemeProvider>

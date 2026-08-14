@@ -1,8 +1,8 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-
+import { renderWithQueryClient } from '../../util/tests/testUtils.tsx';
 import SearchPage from './SearchPage';
 import { pokemonService } from '../../services/pokemonService';
 import type { Pokemon } from '../../types';
@@ -78,7 +78,7 @@ const pokemons: Pokemon[] = [
 ];
 
 const renderSearchPage = () =>
-  render(
+  renderWithQueryClient(
     <MemoryRouter>
       <SearchPage />
     </MemoryRouter>
