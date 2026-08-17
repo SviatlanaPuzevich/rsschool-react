@@ -3,6 +3,7 @@ import styles from './pokemon.card.module.css';
 import type { Pokemon } from '@/types';
 import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
 import usePokemonStore from '../../stores/usePokemonStore';
+import Image from 'next/image';
 
 interface Props {
   pokemon: Pokemon;
@@ -46,7 +47,12 @@ const PokemonCard: React.FC<Props> = ({ pokemon, isSelected }) => {
           onChange={handleCheckPokemon}
         />
         <figure>
-          <img src={pokemon.image} alt={pokemon.name} />
+          <Image
+            src={pokemon.image}
+            alt={pokemon.name}
+            width={96}
+            height={96}
+          />
           <figcaption>{pokemon.name}</figcaption>
         </figure>
       </div>

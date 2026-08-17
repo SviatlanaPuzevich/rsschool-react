@@ -8,6 +8,7 @@ import Button from '../button/Button';
 import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
 import { useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
+import Image from 'next/image';
 
 interface Props {
   id: number;
@@ -66,9 +67,11 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
       <div className={styles.sprites}>
         {details.sprites.frontDefault && (
           <figure>
-            <img
+            <Image
               src={details.sprites.frontDefault}
               alt={`${details.name} front`}
+              width={96}
+              height={96}
             />
             <figcaption>Front</figcaption>
           </figure>
@@ -76,9 +79,11 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
 
         {details.sprites.backDefault && (
           <figure>
-            <img
+            <Image
               src={details.sprites.backDefault}
               alt={`${details.name} back`}
+              width={96}
+              height={96}
             />
             <figcaption>Back</figcaption>
           </figure>
@@ -86,9 +91,11 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
 
         {details.sprites.frontShiny && (
           <figure>
-            <img
+            <Image
               src={details.sprites.frontShiny}
               alt={`${details.name} shiny front`}
+              width={96}
+              height={96}
             />
             <figcaption>Shiny front</figcaption>
           </figure>
@@ -96,9 +103,11 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
 
         {details.sprites.backShiny && (
           <figure>
-            <img
+            <Image
               src={details.sprites.backShiny}
               alt={`${details.name} shiny back`}
+              width={96}
+              height={96}
             />
             <figcaption>Shiny back</figcaption>
           </figure>
