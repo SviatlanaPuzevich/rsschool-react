@@ -1,0 +1,44 @@
+'use client';
+
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { ThemeContext } from './ContextTheme';
+
+type Props = {
+  children: ReactNode;
+};
+
+type Theme = 'light' | 'dark';
+
+const ThemeProvider = ({ children }: Props) => {
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('theme') as Theme) || 'light';
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      document.body.dataset.theme = theme;
+      localStorage.setItem('theme', theme);
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  const value = useMemo(
+    () => ({
+      theme,
+      toggleTheme,
+    }),
+    [theme]
+  );
+
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
+};
+
+export default ThemeProvider;
