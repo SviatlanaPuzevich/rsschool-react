@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d4c9912a-c2fb-4f78-9508-a67c48a0ebad" name="Changes" comment="fix: api queries and tests">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/layout.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="app-state-management" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;SviatlanaPuzevich&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/SviatlanaPuzevich/rsschool-react&quot;,
+    &quot;accountId&quot;: &quot;df7e2a93-b9ce-4499-8b23-5e3ed74ef40b&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="3DGATbiLv1gBtlLp3kRM4Mgkojy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\puzevich\\AppData\\Roaming\\JetBrains\\WebStorm2025.3\\plugins\\Shell Script\\shellcheck.exe&quot;,
+    &quot;Vitest.AboutPage.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Alert Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Alert Component.should be closed when clicked on close button.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Alert Component.should call onClick handler when clicked.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Alert Component.should hide Alert component when show false.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Alert Component.should remove Alert component when clicked close.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Alert Component.shows error message when server request fails (1).executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Alert Component.shows error message when server request fails.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.App Component Integration.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.App Routing (1).executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.App Routing.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.App Routing.should render AboutPage on /about path.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Button Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Error Boundary Component.catches and handles JavaScript errors in child components.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Error Boundary Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Error Boundary Component.should log an error to the console.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.ErrorBoundary.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Flyout.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Flyout.should call resetSelected on click.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Header Component.about link has correct href.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Header Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Header Component.should add the active link class to the current route.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Header Component.should insert the current page into the search link href.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Header.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Loader Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Loader Component.should render loading.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.MainLayout.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Navigation buttons.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Navigation buttons.should navigate between pages correct.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.NotFoundPage.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.NotFoundPage.should render the image and the button correctly.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.On the search page.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.On the search page.shows loading message while data is loading.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination component.should navigate when clicking page number.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination element.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination element.should not render if count of pages equals 1.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination element.should render disabled back button if the current page is the first page .executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination element.should render disabled forward button if current page less tha .executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination element.should render first 5 pages and navigation links if count of pages more or equals 5 .executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination element.should render first 5 pages if count of pages more or equals 5 .executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination element.should render navigation buttons if count of pages more than one .executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.Pagination.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonCard.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonCard.navigates back to page on close click.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonCard.renders nothing when pokemonId is undefined.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonCard.renders pokemon details.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonCard.should have selected class when pokemon is selected.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonDetail.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonDetail.should display pokemon cry.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonDetail.should show error when pokemon details cannot be loaded.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonDetailSkeleton (1).executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonDetailSkeleton Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonDetailSkeleton.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonItem (1).executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonItem Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonItem.applies selected class when pokemon is selected.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonItem.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonService.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokemonService.should throw error when API fails.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokenCard element.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.PokenCard element.should render the card with correct name and URL.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchBar Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchBar.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchBar.should render the input field and buttons correctly.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchPage (1).executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchPage Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchPage.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchPage.initializes query from localStorage.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchPage.keeps checked pokemon selected after page change.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchPage.shows fallback error message.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchPage.updates query and navigates on search.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchResult Component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchResult component.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchResult component.should render pagination with correct page count.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchResult element.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.SearchResult.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.ThemeProvider.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.TypeTag.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.should render loading text correctly.executor&quot;: &quot;Run&quot;,
+    &quot;Vitest.useUpdateSearchParams.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#5 on api-queries&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/puzevich/WebstormProjects/rsschool-react/src/assets/imgs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.coverage.executor&quot;: &quot;Run&quot;,
+    &quot;npm.deploy (1).executor&quot;: &quot;Run&quot;,
+    &quot;npm.deploy.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev (1).executor&quot;: &quot;Debug&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.format:fix.executor&quot;: &quot;Run&quot;,
+    &quot;npm.lint-fix.executor&quot;: &quot;Run&quot;,
+    &quot;npm.lint.executor&quot;: &quot;Run&quot;,
+    &quot;npm.predeploy (1).executor&quot;: &quot;Run&quot;,
+    &quot;npm.predeploy.executor&quot;: &quot;Run&quot;,
+    &quot;npm.prepare.executor&quot;: &quot;Run&quot;,
+    &quot;npm.preview.executor&quot;: &quot;Run&quot;,
+    &quot;npm.test.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\puzevich\\WebstormProjects\\rsschool-react\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.stylesheets&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\puzevich\\WebstormProjects\\rsschool-react\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\assets\imgs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\util\tests" />
+      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\util" />
+      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\routing" />
+      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\layouts\main" />
+      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.coverage">
+    <configuration name="App Routing" type="JavaScriptTestRunnerVitest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <vitest-package value="$PROJECT_DIR$/node_modules/vitest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <vitest-options value="--run" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/src/routing/router.test.tsx" />
+      <test-names>
+        <test-name value="App Routing" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Button Component" type="JavaScriptTestRunnerVitest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <vitest-package value="$PROJECT_DIR$/node_modules/vitest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <vitest-options value="--run" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/src/components/button/Button.test.tsx" />
+      <test-names>
+        <test-name value="Button Component" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="SearchPage" type="JavaScriptTestRunnerVitest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <vitest-package value="$PROJECT_DIR$/node_modules/vitest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <vitest-options value="--run" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/src/pages/searchPage/SearchPage.test.tsx" />
+      <test-names>
+        <test-name value="SearchPage" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="coverage" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="coverage" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.coverage" />
+        <item itemvalue="Vitest.App Routing" />
+        <item itemvalue="Vitest.SearchPage" />
+        <item itemvalue="npm.test" />
+        <item itemvalue="Vitest.Button Component" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.30387.83" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d4c9912a-c2fb-4f78-9508-a67c48a0ebad" name="Changes" comment="" />
+      <created>1777898041340</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1777898041340</updated>
+      <workItem from="1777898042467" duration="4050000" />
+      <workItem from="1777908390082" duration="8714000" />
+      <workItem from="1777972099904" duration="33060000" />
+      <workItem from="1778491588716" duration="30259000" />
+      <workItem from="1778756445309" duration="1127000" />
+      <workItem from="1778761677229" duration="28163000" />
+      <workItem from="1778870923047" duration="42131000" />
+      <workItem from="1779203895052" duration="4806000" />
+      <workItem from="1779303222183" duration="3129000" />
+      <workItem from="1779344078590" duration="851000" />
+      <workItem from="1779474717153" duration="29838000" />
+      <workItem from="1779699526387" duration="6320000" />
+      <workItem from="1779798786971" duration="1603000" />
+      <workItem from="1779805777507" duration="2479000" />
+      <workItem from="1780312811044" duration="1820000" />
+      <workItem from="1780340378413" duration="8406000" />
+      <workItem from="1780500174969" duration="3223000" />
+      <workItem from="1780581938161" duration="1906000" />
+      <workItem from="1780643695122" duration="618000" />
+      <workItem from="1780665630546" duration="8852000" />
+      <workItem from="1780945633290" duration="11313000" />
+      <workItem from="1781248033210" duration="16000" />
+      <workItem from="1783954396258" duration="8553000" />
+      <workItem from="1784568592719" duration="3542000" />
+      <workItem from="1784572178693" duration="807000" />
+      <workItem from="1784573090691" duration="18563000" />
+      <workItem from="1785012814501" duration="1709000" />
+      <workItem from="1785162676610" duration="13512000" />
+      <workItem from="1785263097590" duration="627000" />
+      <workItem from="1785343894359" duration="375000" />
+      <workItem from="1785656598371" duration="495000" />
+      <workItem from="1785767765785" duration="5339000" />
+      <workItem from="1786351608611" duration="30077000" />
+      <workItem from="1786520131613" duration="11795000" />
+      <workItem from="1786567050014" duration="9182000" />
+      <workItem from="1786699137399" duration="1855000" />
+      <workItem from="1786701145309" duration="10688000" />
+    </task>
+    <task id="LOCAL-00012" summary="fix: deploy">
+      <option name="closed" value="true" />
+      <created>1778083030888</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1778083030888</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: refactor styles and structure">
+      <option name="closed" value="true" />
+      <created>1778267989201</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1778267989201</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fix: pagination">
+      <option name="closed" value="true" />
+      <created>1778494642785</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1778494642785</updated>
+    </task>
+    <task id="LOCAL-00015" summary="init: vitest">
+      <option name="closed" value="true" />
+      <created>1778501702846</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1778501702846</updated>
+    </task>
+    <task id="LOCAL-00016" summary="init: test for components">
+      <option name="closed" value="true" />
+      <created>1778531847651</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1778531847651</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat: SearchBar Component Tests">
+      <option name="closed" value="true" />
+      <created>1778535582320</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1778535582320</updated>
+    </task>
+    <task id="LOCAL-00018" summary="feat: Error Boundary test">
+      <option name="closed" value="true" />
+      <created>1778580189046</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1778580189046</updated>
+    </task>
+    <task id="LOCAL-00019" summary="feat: error and loading tests">
+      <option name="closed" value="true" />
+      <created>1778580936372</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1778580936372</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fix: linter errors">
+      <option name="closed" value="true" />
+      <created>1778582340750</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1778582340750</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fix: tests">
+      <option name="closed" value="true" />
+      <created>1778583802057</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1778583802057</updated>
+    </task>
+    <task id="LOCAL-00022" summary="refactor: constants">
+      <option name="closed" value="true" />
+      <created>1778776895430</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1778776895430</updated>
+    </task>
+    <task id="LOCAL-00023" summary="feat: add routing, 404 Page, About page">
+      <option name="closed" value="true" />
+      <created>1778785697326</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1778785697326</updated>
+    </task>
+    <task id="LOCAL-00024" summary="fix: layouts">
+      <option name="closed" value="true" />
+      <created>1778833774736</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1778833774736</updated>
+    </task>
+    <task id="LOCAL-00025" summary="refactor: change class component to functional">
+      <option name="closed" value="true" />
+      <created>1778841880383</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1778841880383</updated>
+    </task>
+    <task id="LOCAL-00026" summary="feat: pagination with navigation">
+      <option name="closed" value="true" />
+      <created>1778857414217</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1778857414217</updated>
+    </task>
+    <task id="LOCAL-00027" summary="feat: change main layout">
+      <option name="closed" value="true" />
+      <created>1778875928863</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1778875928863</updated>
+    </task>
+    <task id="LOCAL-00028" summary="feat: add plain card">
+      <option name="closed" value="true" />
+      <created>1778880981774</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1778880981774</updated>
+    </task>
+    <task id="LOCAL-00029" summary="fix: pokemon details navigation">
+      <option name="closed" value="true" />
+      <created>1779025168362</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1779025168362</updated>
+    </task>
+    <task id="LOCAL-00030" summary="fix: tests">
+      <option name="closed" value="true" />
+      <created>1779136255758</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1779136255758</updated>
+    </task>
+    <task id="LOCAL-00031" summary="fix: typification">
+      <option name="closed" value="true" />
+      <created>1779210886925</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1779210886925</updated>
+    </task>
+    <task id="LOCAL-00032" summary="fix: class component">
+      <option name="closed" value="true" />
+      <created>1779211401233</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1779211401233</updated>
+    </task>
+    <task id="LOCAL-00033" summary="fix: linter config">
+      <option name="closed" value="true" />
+      <created>1779303434734</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1779303434734</updated>
+    </task>
+    <task id="LOCAL-00034" summary="fix: dynamic routing for search">
+      <option name="closed" value="true" />
+      <created>1779306084651</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1779306084651</updated>
+    </task>
+    <task id="LOCAL-00035" summary="feat: add zustand store&#10;feat: add more details to card&#10;fix: search&#10;fix: navigation">
+      <option name="closed" value="true" />
+      <created>1779535999294</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1779535999294</updated>
+    </task>
+    <task id="LOCAL-00036" summary="feat: add select state&#10;fix: search page tests">
+      <option name="closed" value="true" />
+      <created>1779543082589</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1779543082589</updated>
+    </task>
+    <task id="LOCAL-00037" summary="feat: add flyout">
+      <option name="closed" value="true" />
+      <created>1779547877707</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1779547877707</updated>
+    </task>
+    <task id="LOCAL-00038" summary="feat: theme context provider">
+      <option name="closed" value="true" />
+      <created>1779660713224</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1779660713224</updated>
+    </task>
+    <task id="LOCAL-00039" summary="feat: add tests">
+      <option name="closed" value="true" />
+      <created>1779731395545</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1779731395545</updated>
+    </task>
+    <task id="LOCAL-00040" summary="feat: add tanstack">
+      <option name="closed" value="true" />
+      <created>1780340481554</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1780340481554</updated>
+    </task>
+    <task id="LOCAL-00041" summary="feat: data caching and loading states&#10;fix: tests">
+      <option name="closed" value="true" />
+      <created>1780347480891</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1780347480891</updated>
+    </task>
+    <task id="LOCAL-00042" summary="feat: invalidate cache">
+      <option name="closed" value="true" />
+      <created>1780350775812</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1780350775812</updated>
+    </task>
+    <task id="LOCAL-00043" summary="feat: add test on cache invalidation&#10;fix: routing">
+      <option name="closed" value="true" />
+      <created>1780502746296</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1780502746296</updated>
+    </task>
+    <task id="LOCAL-00044" summary="fix: navigation&#10;fix: update styles">
+      <option name="closed" value="true" />
+      <created>1780695709335</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1780695709335</updated>
+    </task>
+    <task id="LOCAL-00045" summary="fix: useLocalStorage hook">
+      <option name="closed" value="true" />
+      <created>1780697336416</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1780697336416</updated>
+    </task>
+    <task id="LOCAL-00046" summary="init: empty project">
+      <option name="closed" value="true" />
+      <created>1780947876251</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1780947876251</updated>
+    </task>
+    <task id="LOCAL-00047" summary="feat: create modal with forms">
+      <option name="closed" value="true" />
+      <created>1780951443546</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1780951443546</updated>
+    </task>
+    <task id="LOCAL-00048" summary="feat: save forms">
+      <option name="closed" value="true" />
+      <created>1780954795432</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1780954795432</updated>
+    </task>
+    <task id="LOCAL-00049" summary="feat: add zod schema">
+      <option name="closed" value="true" />
+      <created>1780956731439</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1780956731439</updated>
+    </task>
+    <task id="LOCAL-00050" summary="feat: validation for uncontrolled form">
+      <option name="closed" value="true" />
+      <created>1780958627766</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1780958627769</updated>
+    </task>
+    <task id="LOCAL-00051" summary="refactoring">
+      <option name="closed" value="true" />
+      <created>1783964577082</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1783964577085</updated>
+    </task>
+    <task id="LOCAL-00052" summary="fix: buttons and alert">
+      <option name="closed" value="true" />
+      <created>1783965971964</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1783965971964</updated>
+    </task>
+    <task id="LOCAL-00053" summary="feat: add test to components">
+      <option name="closed" value="true" />
+      <created>1784583101686</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1784583101686</updated>
+    </task>
+    <task id="LOCAL-00054" summary="feat: add pagination tests&#10;fix:vite config&#10;prettier">
+      <option name="closed" value="true" />
+      <created>1784818980934</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1784818980934</updated>
+    </task>
+    <task id="LOCAL-00055" summary="fix: base-url">
+      <option name="closed" value="true" />
+      <created>1785008576607</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1785008576607</updated>
+    </task>
+    <task id="LOCAL-00056" summary="feat: make all component functional">
+      <option name="closed" value="true" />
+      <created>1785187737692</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1785187737694</updated>
+    </task>
+    <task id="LOCAL-00057" summary="fix: update routing&#10;fix tests">
+      <option name="closed" value="true" />
+      <created>1786353670896</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1786353670898</updated>
+    </task>
+    <task id="LOCAL-00058" summary="feat: add skeleton&#10;pagination for details">
+      <option name="closed" value="true" />
+      <created>1786395194617</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1786395194617</updated>
+    </task>
+    <task id="LOCAL-00059" summary="fix: selected pokemon">
+      <option name="closed" value="true" />
+      <created>1786622807890</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1786622807890</updated>
+    </task>
+    <task id="LOCAL-00060" summary="fix: api queries and tests">
+      <option name="closed" value="true" />
+      <created>1786715638301</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1786715638301</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/app-state-management" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: add tests" />
+    <MESSAGE value="feat: add tanstack" />
+    <MESSAGE value="feat: data caching and loading states" />
+    <MESSAGE value="feat: data caching and loading states&#10;fix: tests" />
+    <MESSAGE value="feat: invalidate cache" />
+    <MESSAGE value="feat: add test on cache invalidation&#10;fix: routing" />
+    <MESSAGE value="fix: navigation&#10;fix: update styles" />
+    <MESSAGE value="fix: useLocalStorage hook" />
+    <MESSAGE value="init: empty project" />
+    <MESSAGE value="feat: create modal with forms" />
+    <MESSAGE value="feat: save forms" />
+    <MESSAGE value="feat: add zod schema" />
+    <MESSAGE value="feat: validation for uncontrolled form" />
+    <MESSAGE value="refactoring" />
+    <MESSAGE value="fix: buttons and alert" />
+    <MESSAGE value="feat: add test to components" />
+    <MESSAGE value="feat: add pagination tests&#10;fix:vite config&#10;prettier" />
+    <MESSAGE value="fix: base-url" />
+    <MESSAGE value="feat: make all component functional" />
+    <MESSAGE value="fix: update routing&#10;fix tests" />
+    <MESSAGE value="feat: add skeleton&#10;pagination for details" />
+    <MESSAGE value="merege" />
+    <MESSAGE value="fix: selected pokemon" />
+    <MESSAGE value="merge" />
+    <MESSAGE value="fix: api queries and tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: api queries and tests" />
+  </component>
+</project>
