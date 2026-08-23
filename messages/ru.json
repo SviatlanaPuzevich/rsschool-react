@@ -1,0 +1,18 @@
+
+{
+  "HomePage": {
+    "title": "Поиск покемонов",
+    "searchPlaceholder": "Введите имя покемона...",
+    "search": "Найти",
+    "results": "Результаты",
+    "noResults": "Покемоны не найдены",
+    "loading": "Загрузка...",
+    "light": "светлая",
+    "dark": "тёмная"
+  },
+  "LanguageSwitcher": {
+    "label": "Язык",
+    "english": "Английский",
+    "russian": "Русский"
+  }
+}

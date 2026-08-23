@@ -1,7 +1,4 @@
 import { create } from 'zustand';
-import { pokemonService } from '@/services/pokemonService';
-import { ERROR_MESSAGE } from '@/constants/messages';
-import { downloadPokemonsCsv } from '@/util/downloadPokemonsCsv';
 
 interface PokemonState {
   selectedPokemons: (string | number)[];
@@ -49,29 +46,38 @@ const usePokemonStore = create<PokemonState>((set, get) => ({
       return;
     }
 
-    set({
-      isDownloading: true,
-    });
+    set({ isDownloading: true });
 
     try {
-      const details = await Promise.all(
-        selectedPokemons.map((id) => pokemonService.getById(id))
-      );
-
-      downloadPokemonsCsv(details);
-
-      set({
-        selectedPokemons: [],
+      const response = await fetch('/api/pokemons/export', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pokemonIds: selectedPokemons,
+        }),
       });
-    } catch (error: unknown) {
-      set({
-        error:
-          error instanceof Error ? error.message : ERROR_MESSAGE.SERVER_ERROR,
-      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate CSV');
+      }
+
+      const blob = await response.blob();
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+
+      link.href = url;
+      link.download = `${selectedPokemons.length}_items.csv`;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(url);
     } finally {
-      set({
-        isDownloading: false,
-      });
+      set({ isDownloading: false });
     }
   },
 }));

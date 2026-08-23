@@ -4,127 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4c9912a-c2fb-4f78-9508-a67c48a0ebad" name="Changes" comment="fix: api queries and tests">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eslint.config.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(site)/about/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(site)/layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(site)/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(site)/search/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/not-found.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/providers.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/styles/globals.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/header/Header.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/useUpdateSearchParams.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/.prettierrc" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/eslint.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/normalize.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/styles/normalize.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/public/favicon.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/public/icons.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/App.test.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/App.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/assets/imgs/Gemini_Generated_About_Avatar.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/imgs/Gemini_Generated_About_Avatar.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/assets/imgs/Gemini_Generated_NOT_FOUND.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/imgs/Gemini_Generated_NOT_FOUND.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/assets/imgs/Gemini_Generated_NOT_FOUND_dark.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/imgs/Gemini_Generated_NOT_FOUND_dark.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/button/Button.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/button/Button.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/button/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/button/Button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/button/button.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/button/button.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/error/Alert.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/error/Alert.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/error/Alert.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/error/Alert.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/error/error.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/error/error.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/errorBoundary/ErrorBoundary.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/errorBoundary/ErrorBoundary.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/errorBoundary/ErrorBoundary.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/errorBoundary/ErrorBoundary.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/errorBoundary/error.boundary.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/errorBoundary/error.boundary.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/flyout/Flyout.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/flyout/Flyout.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/flyout/Flyout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/flyout/Flyout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/flyout/flyout.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/flyout/flyout.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/header/Header.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/header/Header.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/header/header.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/header.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/loader/Loader.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/loader/Loader.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/loader/Loader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/loader/Loader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/loader/loader.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/loader/loader.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pagination/Pagination.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pagination/Pagination.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pagination/Pagination.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pagination/Pagination.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pagination/pagination.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pagination/pagination.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonCard/PokemonCard.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonCard/PokemonCard.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonCard/PokemonCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonCard/PokemonCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonCard/pokemon.card.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonCard/pokemon.card.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonDetail/PokemonDetail.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonDetail/PokemonDetail.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonDetail/PokemonDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonDetail/PokemonDetail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonDetail/pokemon.detail.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonDetail/pokemon.detail.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonDetailSkeleton/PokemonDetailSkeleton.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonDetailSkeleton/PokemonDetailSkeleton.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonDetailSkeleton/PokemonDetailSkeleton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonDetailSkeleton/PokemonDetailSkeleton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonDetailSkeleton/__snapshots__/PokemonDetailSkeleton.test.tsx.snap" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/pokemonDetailSkeleton/pokemon.detail.skeleton.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonDetailSkeleton/pokemon.detail.skeleton.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/searchBar/SearchBar.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchBar/SearchBar.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/searchBar/SearchBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchBar/SearchBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/searchBar/search.bar.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchBar/search.bar.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/searchResult/SearchResult.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchResult/SearchResult.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/searchResult/SearchResult.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchResult/SearchResult.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/searchResult/search.result.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchResult/search.result.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/themeToggle/ThemeToggle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/themeToggle/ThemeToggle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/themeToggle/ThemeToogle.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/themeToggle/ThemeToogle.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/themeToggle/themeToggle.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/themeToggle/themeToggle.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/typeTag/TypeTag.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/typeTag/TypeTag.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/typeTag/TypeTag.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/typeTag/TypeTag.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/components/typeTag/type.tag.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/typeTag/type.tag.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/constants/messages.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/messages.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/context/ContextTheme.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/context/ContextTheme.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/context/ContextThemeProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/context/ContextThemeProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/context/ThemeProviderContext.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/context/ThemeProviderContext.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/global.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/hooks/useLocalStorage.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useLocalStorage.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/hooks/useLocalStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useLocalStorage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/hooks/useTheme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useTheme.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/hooks/useUpdateSearchParams.test.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/hooks/useUpdateSearchParams.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/layouts/empty/EmptyLayout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/layouts/empty/empty.layout.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/layouts/main/MainLayout.test.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/layouts/main/MainLayout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/layouts/main/main.layout.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(site)/main.layout.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/lib/queryClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/queryClient.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/main.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/mocks/handlers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/mocks/handlers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/mocks/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/mocks/server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/pages/about/About.test.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/pages/about/AboutPage.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/pages/about/about.page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(site)/about/about.page.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/pages/notFound/NotFoundPage.test.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/pages/notFound/NotFoundPage.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/pages/notFound/not.found.page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/styles/not.found.page.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/pages/searchPage/SearchPage.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(site)/search/SearchPage.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/pages/searchPage/SearchPage.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/pages/searchPage/search.page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(site)/search/search.page.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/routing/router.test.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/routing/router.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/services/pokemonService.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/pokemonService.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/services/pokemonService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/pokemonService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/stores/usePokemonStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/usePokemonStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/styles/theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/styles/theme.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/util/downloadPokemonsCsv.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/downloadPokemonsCsv.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/util/downloadPokemonsCsv.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/downloadPokemonsCsv.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/util/linkHelper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/linkHelper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/src/util/tests/testUtils.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/tests/testUtils.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/tsconfig.app.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/tsconfig.node.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/vite.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old-vite-app/vitest.setup.ts" beforeDir="false" />
+    <list default="true" id="d4c9912a-c2fb-4f78-9508-a67c48a0ebad" name="Changes" comment="feat: use next/image&#10;remove tests">
+      <change afterPath="$PROJECT_DIR$/messages/en.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/messages/ru.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/middleware.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/[locale]/layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/api/pokemons/export/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/languageSwitcher/LanguageSwitcher.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/i18n/request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/i18n/routing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(site)/about/about.page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/about/about.page.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(site)/about/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/about/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(site)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(site)/main.layout.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/main.layout.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(site)/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(site)/search/SearchPage.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/search/SearchPage.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(site)/search/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/search/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(site)/search/search.page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/search/search.page.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/loader/Loader.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/loader/Loader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/loader/Loader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/searchBar/SearchBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchBar/SearchBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/searchResult/SearchResult.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchResult/SearchResult.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useTheme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useTheme.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/usePokemonStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/usePokemonStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/downloadPokemonsCsv.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/downloadPokemonsCsv.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,9 +160,10 @@
     "Vitest.TypeTag.executor": "Run",
     "Vitest.should render loading text correctly.executor": "Run",
     "Vitest.useUpdateSearchParams.executor": "Run",
-    "git-widget-placeholder": "nextjs-ssr",
+    "git-widget-placeholder": "#7 on nextjs-ssr",
     "ignore.virus.scanning.warn.message": "true",
     "javascript.preferred.runtime.type.id": "node",
+    "js.debugger.nextJs.config.created.client": "true",
     "last_opened_file_path": "C:/Users/puzevich/WebstormProjects/rsschool-react/src/assets/imgs",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -286,14 +195,14 @@
       <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\assets\imgs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\app\[locale]\(site)" />
+      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\app\[locale]" />
+      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react" />
       <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\app\styles" />
       <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\app\(site)" />
-      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src" />
-      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\util" />
-      <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\app" />
     </key>
   </component>
-  <component name="RunManager" selected="Vitest.AboutPage Server Component">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="AboutPage Server Component" type="JavaScriptTestRunnerVitest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <vitest-package value="$PROJECT_DIR$/node_modules/vitest" />
@@ -333,6 +242,9 @@
       </test-names>
       <method v="2" />
     </configuration>
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
     <configuration name="coverage" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -355,9 +267,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev" />
         <item itemvalue="Vitest.AboutPage Server Component" />
         <item itemvalue="Vitest.AboutPage" />
-        <item itemvalue="npm.dev" />
         <item itemvalue="npm.coverage" />
         <item itemvalue="Vitest.App Routing" />
       </list>
@@ -414,23 +326,8 @@
       <workItem from="1786567050014" duration="9182000" />
       <workItem from="1786699137399" duration="1855000" />
       <workItem from="1786701145309" duration="10688000" />
-      <workItem from="1786772326580" duration="19095000" />
-    </task>
-    <task id="LOCAL-00012" summary="fix: deploy">
-      <option name="closed" value="true" />
-      <created>1778083030888</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1778083030888</updated>
-    </task>
-    <task id="LOCAL-00013" summary="feat: refactor styles and structure">
-      <option name="closed" value="true" />
-      <created>1778267989201</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1778267989201</updated>
+      <workItem from="1786772326580" duration="23505000" />
+      <workItem from="1787426491385" duration="6674000" />
     </task>
     <task id="LOCAL-00014" summary="fix: pagination">
       <option name="closed" value="true" />
@@ -808,7 +705,23 @@
       <option name="project" value="LOCAL" />
       <updated>1786715638301</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="feat: Application Rebuild in Next.js with Preserved Behavior">
+      <option name="closed" value="true" />
+      <created>1786995131864</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1786995131865</updated>
+    </task>
+    <task id="LOCAL-00062" summary="feat: use next/image&#10;remove tests">
+      <option name="closed" value="true" />
+      <created>1786997479180</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1786997479180</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -838,8 +751,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add tests" />
-    <MESSAGE value="feat: add tanstack" />
     <MESSAGE value="feat: data caching and loading states" />
     <MESSAGE value="feat: data caching and loading states&#10;fix: tests" />
     <MESSAGE value="feat: invalidate cache" />
@@ -863,6 +774,8 @@
     <MESSAGE value="fix: selected pokemon" />
     <MESSAGE value="merge" />
     <MESSAGE value="fix: api queries and tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: api queries and tests" />
+    <MESSAGE value="feat: Application Rebuild in Next.js with Preserved Behavior" />
+    <MESSAGE value="feat: use next/image&#10;remove tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: use next/image&#10;remove tests" />
   </component>
 </project>

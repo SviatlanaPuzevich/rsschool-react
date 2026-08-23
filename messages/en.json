@@ -1,0 +1,17 @@
+{
+  "HomePage": {
+    "title": "Pokemon Search",
+    "searchPlaceholder": "Search pokemon...",
+    "search": "Search",
+    "results": "Results",
+    "noResults": "No pokemon found",
+    "loading": "Loading...",
+    "light": "light",
+    "dark": "dark"
+  },
+  "LanguageSwitcher": {
+    "label": "Language",
+    "english": "English",
+    "russian": "Russian"
+  }
+}

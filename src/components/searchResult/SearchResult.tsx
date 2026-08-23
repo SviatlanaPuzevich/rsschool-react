@@ -5,6 +5,7 @@ import Pagination from '../pagination/Pagination';
 import PokemonCard from '../pokemonCard/PokemonCard';
 import PokemonDetail from '../pokemonDetail/PokemonDetail';
 import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
+import { useTranslations } from 'use-intl';
 
 interface Props {
   pokemons: Pokemon[];
@@ -15,6 +16,7 @@ const PAGE_SIZE = 5;
 
 const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
   const { searchParams } = useUpdateSearchParams();
+  const t = useTranslations('HomePage');
 
   const selectedPokemonId = searchParams.get('details')
     ? Number(searchParams.get('details'))
@@ -28,7 +30,7 @@ const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
   }
 
   if (pokemons.length === 0) {
-    return <div>No such pokemon</div>;
+    return <div>{t('noResults')}</div>;
   }
 
   const startIndex = (currentPage - 1) * PAGE_SIZE;
@@ -38,7 +40,7 @@ const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
 
   return (
     <>
-      <h2>List of pokemons</h2>
+      <h2>{t('title')}</h2>
       <div className={styles.container}>
         <div className={styles.list}>
           {currentPokemons.map((item: Pokemon) => (

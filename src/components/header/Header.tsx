@@ -5,6 +5,7 @@ import Link from 'next/link';
 import styles from './header.module.css';
 import ThemeToggle from '../themeToggle/ThemeToggle';
 import { getActiveLinkClasses } from '@/util/linkHelper';
+import LanguageSwitcher from '@/components/languageSwitcher/LanguageSwitcher';
 
 const Header = () => {
   const pathname = usePathname();
@@ -26,6 +27,7 @@ const Header = () => {
           About creators
         </Link>
       </nav>
+      <LanguageSwitcher />
       <div className={styles.theme}>
         <ThemeToggle />
       </div>
