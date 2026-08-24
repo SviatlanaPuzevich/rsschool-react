@@ -1,81 +1,25 @@
-'use client';
-
-import React, { useState } from 'react';
-import styles from './search.page.module.css';
-import { useQuery } from '@tanstack/react-query';
-import { pokemonService } from '@/services/pokemonService';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
-import SearchBar from '@/components/searchBar/SearchBar';
+import { Suspense } from 'react';
+import { setRequestLocale } from 'next-intl/server';
+import type { Locale } from '@/i18n/routing';
 import Loader from '@/components/loader/Loader';
-import SearchResult from '@/components/searchResult/SearchResult';
-import Alert from '@/components/error/Alert';
-import Flyout from '@/components/flyout/Flyout';
-import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
+import SearchPage from './SearchPage';
 
-const SearchPage: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useLocalStorage<string>('query', '');
-  const [query, setQuery] = useState(searchQuery);
+type Props = {
+  params: Promise<{ locale: string }>;
+};
 
-  const {
-    data: pokemons = [],
-    isLoading,
-    error,
-    isError,
-  } = useQuery({
-    queryKey: ['pokemons'],
-    queryFn: () => pokemonService.getAll(),
-    select: (pokemons) => {
-      const trimmedQuery = searchQuery.trim().toLowerCase();
-      if (!trimmedQuery) return pokemons;
-      return pokemons.filter((pokemon) =>
-        pokemon.name.toLowerCase().startsWith(trimmedQuery),
-      );
-    },
-  });
+const Page = async ({ params }: Props) => {
+  const { locale } = await params;
 
-  const [generateError, setGenerateError] = useState(false);
+  setRequestLocale(locale as Locale);
 
-  const { setParam, deleteParam } = useUpdateSearchParams();
-
-  const handleQueryChange = (value: string): void => {
-    setQuery(value);
-  };
-
-  const handleSearchSubmit = (): void => {
-    setSearchQuery(query.trim().toLowerCase());
-    setParam('page', '1');
-    deleteParam('details');
-  };
-
-  const handleErrorGeneration = (): void => {
-    setGenerateError(true);
-  };
-
+  // `SearchPage` reads the query string, which needs a suspense boundary
+  // so that the surrounding page can still be prerendered.
   return (
-    <>
-      <div className={styles.container}>
-        <h1>Find your pokemon</h1>
-
-        <SearchBar
-          query={query}
-          onQueryChange={handleQueryChange}
-          onSearch={handleSearchSubmit}
-          onError={handleErrorGeneration}
-        />
-
-        <section className={styles.result}>
-          {isLoading && <Loader />}
-
-          {isError && <Alert message={error.message} show />}
-
-          {!isLoading && !isError && (
-            <SearchResult pokemons={pokemons} error={generateError} />
-          )}
-        </section>
-      </div>
-      <Flyout />
-    </>
+    <Suspense fallback={<Loader />}>
+      <SearchPage />
+    </Suspense>
   );
 };
 
-export default SearchPage;
+export default Page;

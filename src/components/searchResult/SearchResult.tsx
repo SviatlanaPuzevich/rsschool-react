@@ -5,7 +5,7 @@ import Pagination from '../pagination/Pagination';
 import PokemonCard from '../pokemonCard/PokemonCard';
 import PokemonDetail from '../pokemonDetail/PokemonDetail';
 import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
-import { useTranslations } from 'use-intl';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   pokemons: Pokemon[];
@@ -16,7 +16,8 @@ const PAGE_SIZE = 5;
 
 const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
   const { searchParams } = useUpdateSearchParams();
-  const t = useTranslations('HomePage');
+  const t = useTranslations('Search');
+  const tErrors = useTranslations('Errors');
 
   const selectedPokemonId = searchParams.get('details')
     ? Number(searchParams.get('details'))
@@ -26,7 +27,7 @@ const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
   const pagesCount = Math.ceil(pokemons.length / PAGE_SIZE);
 
   if (error) {
-    throw new Error('This error was generated');
+    throw new Error(tErrors('generated'));
   }
 
   if (pokemons.length === 0) {
@@ -40,7 +41,7 @@ const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
 
   return (
     <>
-      <h2>{t('title')}</h2>
+      <h2>{t('results')}</h2>
       <div className={styles.container}>
         <div className={styles.list}>
           {currentPokemons.map((item: Pokemon) => (
@@ -56,7 +57,7 @@ const SearchResult: React.FC<Props> = ({ pokemons, error }) => {
           {selectedPokemonId ? (
             <PokemonDetail id={selectedPokemonId} />
           ) : (
-            <div>Choose a pokemon</div>
+            <div>{t('choosePokemon')}</div>
           )}
         </div>
       </div>

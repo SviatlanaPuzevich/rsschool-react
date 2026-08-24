@@ -6,8 +6,8 @@ import TypeTag from '../typeTag/TypeTag';
 import PokemonDetailSkeleton from '../pokemonDetailSkeleton/PokemonDetailSkeleton';
 import Button from '../button/Button';
 import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
-import { useQuery } from '@tanstack/react-query';
-import { queryClient } from '@/lib/queryClient';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 interface Props {
@@ -18,6 +18,8 @@ const MAX_STAT_VALUE = 255;
 
 export const PokemonDetail: React.FC<Props> = ({ id }) => {
   const { deleteParam } = useUpdateSearchParams();
+  const queryClient = useQueryClient();
+  const t = useTranslations('Pokemon');
 
   const {
     data: details,
@@ -55,11 +57,16 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
         <h2>{details.name}</h2>
         <Button
           onClick={handleInvalidation}
-          text="Invalidate cache"
+          text={t('invalidateCache')}
           buttonType="primary"
         />
 
-        <Button onClick={handleClose} text="×" buttonType="danger" />
+        <Button
+          onClick={handleClose}
+          text="×"
+          ariaLabel={t('close')}
+          buttonType="danger"
+        />
       </div>
 
       <p className={styles.id}>#{details.id}</p>
@@ -73,7 +80,7 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
               width={96}
               height={96}
             />
-            <figcaption>Front</figcaption>
+            <figcaption>{t('front')}</figcaption>
           </figure>
         )}
 
@@ -85,7 +92,7 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
               width={96}
               height={96}
             />
-            <figcaption>Back</figcaption>
+            <figcaption>{t('back')}</figcaption>
           </figure>
         )}
 
@@ -97,7 +104,7 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
               width={96}
               height={96}
             />
-            <figcaption>Shiny front</figcaption>
+            <figcaption>{t('shinyFront')}</figcaption>
           </figure>
         )}
 
@@ -109,7 +116,7 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
               width={96}
               height={96}
             />
-            <figcaption>Shiny back</figcaption>
+            <figcaption>{t('shinyBack')}</figcaption>
           </figure>
         )}
       </div>
@@ -122,29 +129,29 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
 
       {details.soundUrl && (
         <audio controls src={details.soundUrl}>
-          Your browser does not support audio.
+          {t('audioUnsupported')}
         </audio>
       )}
 
       <dl className={styles.info}>
         <div>
-          <dt>Height</dt>
-          <dd>{details.height / 10} m</dd>
+          <dt>{t('height')}</dt>
+          <dd>{t('meters', { value: details.height / 10 })}</dd>
         </div>
 
         <div>
-          <dt>Weight</dt>
-          <dd>{details.weight / 10} kg</dd>
+          <dt>{t('weight')}</dt>
+          <dd>{t('kilograms', { value: details.weight / 10 })}</dd>
         </div>
 
         <div>
-          <dt>Abilities</dt>
+          <dt>{t('abilities')}</dt>
           <dd>{details.abilities.join(', ')}</dd>
         </div>
       </dl>
 
       <section className={styles.stats}>
-        <h3>Base stats</h3>
+        <h3>{t('baseStats')}</h3>
 
         {details.stats.map((stat) => {
           const percentage = Math.min((stat.value / MAX_STAT_VALUE) * 100, 100);

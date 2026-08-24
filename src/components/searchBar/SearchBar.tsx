@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../button/Button';
 import styles from './search.bar.module.css';
-import { useTranslations } from 'use-intl';
+import { useTranslations } from 'next-intl';
 
 interface SearchInputProps {
   query: string;
@@ -16,7 +16,7 @@ const SearchBar: React.FC<SearchInputProps> = ({
   onQueryChange,
   onError,
 }) => {
-  const t = useTranslations('HomePage');
+  const t = useTranslations('Search');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     onQueryChange(e.target.value);
@@ -40,7 +40,11 @@ const SearchBar: React.FC<SearchInputProps> = ({
         autoComplete="off"
       />
       <Button text={t('search')} onClick={onSearch} buttonType="primary" />
-      <Button onClick={onError} text="Generate Exception" buttonType="danger" />
+      <Button
+        onClick={onError}
+        text={t('generateException')}
+        buttonType="danger"
+      />
     </section>
   );
 };

@@ -1,8 +1,9 @@
 import styles from './loader.module.css';
-import { useTranslations } from 'use-intl';
+import { useTranslations } from 'next-intl';
 
 const Loader = () => {
-  const t = useTranslations('HomePage');
+  const t = useTranslations('Search');
+
   return <p className={styles.loader}>{t('loading')}</p>;
 };
 

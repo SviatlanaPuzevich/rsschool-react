@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import styles from './pagination.module.css';
 import { getActiveLinkClasses } from '@/util/linkHelper';
 import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
@@ -8,6 +9,7 @@ interface Props {
 
 const Pagination = ({ count }: Props) => {
   const { searchParams, deleteParam, setParam } = useUpdateSearchParams();
+  const t = useTranslations('Pagination');
 
   const currentPage = Math.max(1, Number(searchParams.get('page')) || 1);
 
@@ -40,13 +42,13 @@ const Pagination = ({ count }: Props) => {
   );
 
   return (
-    <nav className={styles.pagination} aria-label="Pagination">
+    <nav className={styles.pagination} aria-label={t('label')}>
       <button
         type="button"
         className={`${styles.link} ${styles.back}`}
         disabled={currentPage === 1}
         onClick={() => updatePage(currentPage - 1)}
-        aria-label="Previous page"
+        aria-label={t('previous')}
       >
         &lt;
       </button>
@@ -68,7 +70,7 @@ const Pagination = ({ count }: Props) => {
         className={`${styles.link} ${styles.forward}`}
         disabled={currentPage === count}
         onClick={() => updatePage(currentPage + 1)}
-        aria-label="Next page"
+        aria-label={t('next')}
       >
         &gt;
       </button>
