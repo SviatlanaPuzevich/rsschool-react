@@ -1,27 +1,28 @@
-import { useSearchParams } from 'react-router-dom';
+'use client';
+
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export const useUpdateSearchParams = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const setParam = (key: string, value: string) => {
-    if (searchParams.get(key) === value) return;
+  const updateParams = (updates: Record<string, string | null>) => {
+    const currentParams = new URLSearchParams(searchParams.toString());
 
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.set(key, value);
-      return next;
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === '') {
+        currentParams.delete(key);
+      } else {
+        currentParams.set(key, value);
+      }
     });
+
+    router.push(`${pathname}?${currentParams.toString()}`);
   };
 
-  const deleteParam = (key: string) => {
-    if (!searchParams.has(key)) return;
-
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.delete(key);
-      return next;
-    });
+  return {
+    searchParams,
+    updateParams,
   };
-
-  return { searchParams, setParam, deleteParam };
 };

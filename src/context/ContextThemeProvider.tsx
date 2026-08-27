@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { ThemeContext } from './ContextTheme';
 
@@ -9,12 +11,17 @@ type Theme = 'light' | 'dark';
 
 const ThemeProvider = ({ children }: Props) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem('theme') as Theme) || 'light';
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('theme') as Theme) || 'light';
+    }
+    return 'light';
   });
 
   useEffect(() => {
-    document.body.dataset.theme = theme;
-    localStorage.setItem('theme', theme);
+    if (typeof window !== 'undefined') {
+      document.body.dataset.theme = theme;
+      localStorage.setItem('theme', theme);
+    }
   }, [theme]);
 
   const toggleTheme = () => {

@@ -1,13 +1,17 @@
+'use client';
+
 import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import styles from './error.module.css';
-import Button from '../button/Button.tsx';
+import Button from '../button/Button';
 
 interface Props {
   show: boolean;
   message?: string;
 }
 
-const Alert: React.FC<Props> = ({ show, message = 'Something went wrong' }) => {
+const Alert: React.FC<Props> = ({ show, message }) => {
+  const t = useTranslations('Errors');
   const [state, setState] = useState({
     isVisible: show,
     prevShow: show,
@@ -28,12 +32,12 @@ const Alert: React.FC<Props> = ({ show, message = 'Something went wrong' }) => {
 
   return (
     <div className={`${styles.alert}`}>
-      <div className={styles.alert__content}>{message}</div>
+      <div className={styles.alert__content}>{message ?? t('generic')}</div>
       <Button
         text="×"
         buttonType="default"
         onClick={handleClose}
-        ariaLabel="Close alert"
+        ariaLabel={t('closeAlert')}
         className={styles.alert__close}
       />
     </div>

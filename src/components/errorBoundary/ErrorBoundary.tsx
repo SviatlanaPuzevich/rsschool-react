@@ -1,5 +1,5 @@
 import React, { type ErrorInfo, type ReactNode } from 'react';
-import Button from '../button/Button.tsx';
+import Button from '../button/Button';
 import styles from './error.boundary.module.css';
 
 interface Props {

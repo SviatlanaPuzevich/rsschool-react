@@ -1,21 +1,26 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import styles from './header.module.css';
 import Header from './Header';
-import { renderWithQueryClient } from '../../util/tests/testUtils.tsx';
+import { renderWithQueryClient } from '@/util/tests/testUtils';
+
+const mockUsePathname = vi.fn();
+
+vi.mock('next/navigation', () => ({
+  usePathname: () => mockUsePathname(),
+}));
 
 vi.mock('../themeToggle/ThemeToggle.tsx', () => ({
   default: () => <button>Theme toggle</button>,
 }));
 
 describe('Header', () => {
+  beforeEach(() => {
+    mockUsePathname.mockReturnValue('/');
+  });
+
   it('renders navigation links', () => {
-    renderWithQueryClient(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
+    renderWithQueryClient(<Header />);
 
     expect(
       screen.getByRole('link', { name: 'Pokemon Search' })
@@ -27,11 +32,7 @@ describe('Header', () => {
   });
 
   it('renders correct links', () => {
-    renderWithQueryClient(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
+    renderWithQueryClient(<Header />);
 
     expect(
       screen.getByRole('link', { name: 'Pokemon Search' })
@@ -43,11 +44,7 @@ describe('Header', () => {
   });
 
   it('renders theme toggle', () => {
-    renderWithQueryClient(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    );
+    renderWithQueryClient(<Header />);
 
     expect(
       screen.getByRole('button', { name: 'Theme toggle' })
@@ -55,26 +52,30 @@ describe('Header', () => {
   });
 
   it('marks search link as active on search page', () => {
-    renderWithQueryClient(
-      <MemoryRouter initialEntries={['/search']}>
-        <Header />
-      </MemoryRouter>
-    );
+    mockUsePathname.mockReturnValue('/search');
+
+    renderWithQueryClient(<Header />);
 
     expect(screen.getByRole('link', { name: /Pokemon Search/i })).toHaveClass(
       styles.activeLink
     );
+
+    expect(
+      screen.getByRole('link', { name: /About creators/i })
+    ).not.toHaveClass(styles.activeLink);
   });
 
   it('marks about link as active on about page', () => {
-    renderWithQueryClient(
-      <MemoryRouter initialEntries={['/about']}>
-        <Header />
-      </MemoryRouter>
-    );
+    mockUsePathname.mockReturnValue('/about');
+
+    renderWithQueryClient(<Header />);
 
     expect(screen.getByRole('link', { name: /About creators/i })).toHaveClass(
       styles.activeLink
     );
+
+    expect(
+      screen.getByRole('link', { name: /Pokemon Search/i })
+    ).not.toHaveClass(styles.activeLink);
   });
 });

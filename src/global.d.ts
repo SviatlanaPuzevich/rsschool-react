@@ -1,9 +1,9 @@
-declare module '*.module.css' {
-  const classes: { [key: string]: string };
-  export default classes;
-}
+import type messages from '../messages/en.json';
+import type { routing } from '@/i18n/routing';
 
-declare module '*.module.scss' {
-  const classes: { [key: string]: string };
-  export default classes;
+declare module 'next-intl' {
+  interface AppConfig {
+    Locale: (typeof routing.locales)[number];
+    Messages: typeof messages;
+  }
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import styles from './button.module.css';
 
@@ -11,11 +13,12 @@ type ButtonType =
 
 interface Props {
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
   buttonType: ButtonType;
   ariaLabel?: string;
   className?: string;
   disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const Button: React.FC<Props> = ({
@@ -25,6 +28,7 @@ const Button: React.FC<Props> = ({
   ariaLabel,
   className,
   disabled,
+  type = 'button',
 }) => {
   const buttonClass = className
     ? `${styles.button} ${className}`
@@ -32,6 +36,7 @@ const Button: React.FC<Props> = ({
 
   return (
     <button
+      type={type}
       onClick={onClick}
       className={buttonClass}
       aria-label={ariaLabel}

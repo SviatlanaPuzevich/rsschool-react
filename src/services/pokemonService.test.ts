@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { http, HttpResponse } from 'msw';
 
 import { pokemonService } from './pokemonService';
-import { server } from '../mocks/server';
+import { server } from '@/mocks/server';
 
 describe('PokemonService', () => {
   it('should get all pokemons', async () => {

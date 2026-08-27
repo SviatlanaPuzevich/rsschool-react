@@ -1,0 +1,87 @@
+{
+  "Metadata": {
+    "title": "Pokemon Search",
+    "description": "Search pokemons, inspect their stats and export them to CSV",
+    "aboutTitle": "About Creator",
+    "aboutDescription": "Statically generated about page"
+  },
+  "Header": {
+    "search": "Pokemon Search",
+    "about": "About creators"
+  },
+  "LanguageSwitcher": {
+    "label": "Language",
+    "en": "English",
+    "ru": "Russian"
+  },
+  "Theme": {
+    "toDark": "🌙 Dark",
+    "toLight": "☀️ Light",
+    "label": "Toggle theme"
+  },
+  "Search": {
+    "title": "Find your pokemon",
+    "searchPlaceholder": "Search pokemon...",
+    "search": "Search",
+    "generateException": "Generate Exception",
+    "results": "Results",
+    "noResults": "No pokemon found",
+    "loading": "Loading...",
+    "choosePokemon": "Choose a pokemon"
+  },
+  "Pagination": {
+    "label": "Pagination",
+    "previous": "Previous page",
+    "next": "Next page"
+  },
+  "Pokemon": {
+    "front": "Front",
+    "back": "Back",
+    "shinyFront": "Shiny front",
+    "shinyBack": "Shiny back",
+    "height": "Height",
+    "weight": "Weight",
+    "abilities": "Abilities",
+    "baseStats": "Base stats",
+    "invalidateCache": "Invalidate cache",
+    "close": "Close",
+    "audioUnsupported": "Your browser does not support audio.",
+    "meters": "{value} m",
+    "kilograms": "{value} kg"
+  },
+  "Flyout": {
+    "selected": "{count, plural, one {# selected pokemon} other {# selected pokemons}}",
+    "unselectAll": "Unselect all",
+    "download": "Download",
+    "downloading": "Downloading...",
+    "downloadFailed": "Failed to generate CSV. Please try again."
+  },
+  "Errors": {
+    "generic": "Something went wrong",
+    "generated": "This error was generated",
+    "closeAlert": "Close alert",
+    "boundary": "Here is test for error boundary. Instead of pokemon items you can see this text. Reload page to continue",
+    "backToApp": "Back to application"
+  },
+  "NotFound": {
+    "imageAlt": "Resource not found",
+    "title": "Page not found",
+    "backHome": "Return to home"
+  },
+  "About": {
+    "avatarAlt": "Snorlax-programmer",
+    "intro": "Sup. I'm Snorlax, but my git commit history calls me The Human Bottleneck.",
+    "rest": "I specialize in <b>RESTful</b> APIs—mostly because rest is the only part of the documentation I actually follow. My coding style is best described as Efficiently Inert. Why write a 50-line function today when I can sleep for 18 hours and let Copilot hallucinate the solution for me?",
+    "senior": "I'm a Senior Heavyweight Developer with a 100% success rate in crashing chairs and a 0% success rate in standing desks. My favorite framework is Hibernate (for obvious reasons), and I consider <b>Garbage Collection</b> a personal attack on my desk snacks.",
+    "deadlines": "People ask me how I handle tight deadlines. Simple: I use a <strong>Body Slam</strong> approach to debugging—I just throw my entire weight at the keyboard until the tests pass or the hardware breaks. If you see me staring blankly at three monitors, I'm not <i>stuck</i> or <i>contemplating system architecture</i>. I'm just waiting for my coffee to compile.",
+    "techStack": "Tech Stack:",
+    "languagesTerm": "Languages:",
+    "languagesValue": "Python (it's slow, like me), CSS (Can't Stop Sleeping).",
+    "toolsTerm": "Tools:",
+    "toolsValue": "Noise-canceling headphones to block out Jira notifications.",
+    "statusTerm": "Status:",
+    "statusValue": "408 Request Timeout. Always.",
+    "outro": "If you want to collaborate, just open a PR or leave a trail of Poké Puffs leading to my workstation. Just don't expect a reply until my next waking cycle in 2027. Zzz..",
+    "rsSchool": "Go to RS school"
+  }
+}

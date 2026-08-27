@@ -1,8 +1,11 @@
+'use client';
+
 import React from 'react';
 import styles from './pokemon.card.module.css';
-import type { Pokemon } from '../../types.ts';
-import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
-import usePokemonStore from '../../stores/usePokemonStore.ts';
+import type { Pokemon } from '@/types';
+import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
+import usePokemonStore from '../../stores/usePokemonStore';
+import Image from 'next/image';
 
 interface Props {
   pokemon: Pokemon;
@@ -10,7 +13,8 @@ interface Props {
 }
 
 const PokemonCard: React.FC<Props> = ({ pokemon, isSelected }) => {
-  const { setParam, deleteParam } = useUpdateSearchParams();
+  const { updateParams } = useUpdateSearchParams();
+
   const selectedPokemons = usePokemonStore((state) => state.selectedPokemons);
   const selectPokemon = usePokemonStore((state) => state.selectPokemon);
   const unselectPokemon = usePokemonStore((state) => state.unselectPokemon);
@@ -26,11 +30,9 @@ const PokemonCard: React.FC<Props> = ({ pokemon, isSelected }) => {
   };
 
   const selectHandle = () => {
-    if (isSelected) {
-      deleteParam('details');
-    } else {
-      setParam('details', pokemon.id.toString());
-    }
+    updateParams({
+      id: isSelected ? null : pokemon.id.toString(),
+    });
   };
 
   return (
@@ -46,7 +48,12 @@ const PokemonCard: React.FC<Props> = ({ pokemon, isSelected }) => {
           onChange={handleCheckPokemon}
         />
         <figure>
-          <img src={pokemon.image} alt={pokemon.name} />
+          <Image
+            src={pokemon.image}
+            alt={pokemon.name}
+            width={96}
+            height={96}
+          />
           <figcaption>{pokemon.name}</figcaption>
         </figure>
       </div>

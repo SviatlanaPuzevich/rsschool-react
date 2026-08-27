@@ -1,64 +1,50 @@
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import styles from './pokemon.detail.module.css';
-import { pokemonService } from '../../services/pokemonService.ts';
-import Alert from '../error/Alert.tsx';
-import TypeTag from '../typeTag/TypeTag.tsx';
-import PokemonDetailSkeleton from '../pokemonDetailSkeleton/PokemonDetailSkeleton.tsx';
-import Button from '../button/Button.tsx';
-import { useUpdateSearchParams } from '../../hooks/useUpdateSearchParams.ts';
-import { useQuery } from '@tanstack/react-query';
-import { queryClient } from '../../lib/queryClient.ts';
+import { pokemonService } from '@/services/pokemonService';
+import Alert from '../error/Alert';
+import TypeTag from '../typeTag/TypeTag';
+import { getTranslations } from 'next-intl/server';
 
 interface Props {
   id: number;
+  closeHref: string;
 }
 
 const MAX_STAT_VALUE = 255;
 
-export const PokemonDetail: React.FC<Props> = ({ id }) => {
-  const { deleteParam } = useUpdateSearchParams();
+export const PokemonDetail = async ({ id, closeHref }: Props) => {
+  const t = await getTranslations('Pokemon');
 
-  const {
-    data: details,
-    isError,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['details', id],
-    queryFn: () => pokemonService.getById(id),
-  });
+  let details = null;
+  let errorMessage = null;
 
-  const handleClose = (): void => {
-    deleteParam('details');
-  };
-
-  const handleInvalidation = () => {
-    queryClient.invalidateQueries({ queryKey: ['details', id] });
-  };
-
-  if (isLoading) {
-    return <PokemonDetailSkeleton />;
+  // 1. В try/catch оставляем ТОЛЬКО логику получения данных
+  try {
+    details = await pokemonService.getById(id);
+  } catch (error) {
+    errorMessage =
+      error instanceof Error ? error.message : 'Failed to fetch pokemon';
   }
 
-  if (isError) {
-    return <Alert message={error.message} show />;
+  // 2. Рендерим ошибку вне блока try/catch
+  if (errorMessage || !details) {
+    return <Alert message={errorMessage || 'Failed to fetch pokemon'} show />;
   }
 
-  if (!details) {
-    return null;
-  }
-
+  // 3. Основной JSX рендерится в обычном потоке компонента
   return (
     <article className={styles.detail}>
       <div className={styles.header}>
         <h2>{details.name}</h2>
-        <Button
-          onClick={handleInvalidation}
-          text="Invalidate cache"
-          buttonType="primary"
-        />
-
-        <Button onClick={handleClose} text="×" buttonType="danger" />
+        <Link
+          href={closeHref}
+          className={styles.closeButton}
+          aria-label={t('close')}
+        >
+          ×
+        </Link>
       </div>
 
       <p className={styles.id}>#{details.id}</p>
@@ -66,41 +52,46 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
       <div className={styles.sprites}>
         {details.sprites.frontDefault && (
           <figure>
-            <img
+            <Image
               src={details.sprites.frontDefault}
               alt={`${details.name} front`}
+              width={96}
+              height={96}
             />
-            <figcaption>Front</figcaption>
+            <figcaption>{t('front')}</figcaption>
           </figure>
         )}
-
         {details.sprites.backDefault && (
           <figure>
-            <img
+            <Image
               src={details.sprites.backDefault}
               alt={`${details.name} back`}
+              width={96}
+              height={96}
             />
-            <figcaption>Back</figcaption>
+            <figcaption>{t('back')}</figcaption>
           </figure>
         )}
-
         {details.sprites.frontShiny && (
           <figure>
-            <img
+            <Image
               src={details.sprites.frontShiny}
               alt={`${details.name} shiny front`}
+              width={96}
+              height={96}
             />
-            <figcaption>Shiny front</figcaption>
+            <figcaption>{t('shinyFront')}</figcaption>
           </figure>
         )}
-
         {details.sprites.backShiny && (
           <figure>
-            <img
+            <Image
               src={details.sprites.backShiny}
               alt={`${details.name} shiny back`}
+              width={96}
+              height={96}
             />
-            <figcaption>Shiny back</figcaption>
+            <figcaption>{t('shinyBack')}</figcaption>
           </figure>
         )}
       </div>
@@ -113,40 +104,35 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
 
       {details.soundUrl && (
         <audio controls src={details.soundUrl}>
-          Your browser does not support audio.
+          {t('audioUnsupported')}
         </audio>
       )}
 
       <dl className={styles.info}>
         <div>
-          <dt>Height</dt>
-          <dd>{details.height / 10} m</dd>
+          <dt>{t('height')}</dt>
+          <dd>{t('meters', { value: details.height / 10 })}</dd>
         </div>
-
         <div>
-          <dt>Weight</dt>
-          <dd>{details.weight / 10} kg</dd>
+          <dt>{t('weight')}</dt>
+          <dd>{t('kilograms', { value: details.weight / 10 })}</dd>
         </div>
-
         <div>
-          <dt>Abilities</dt>
+          <dt>{t('abilities')}</dt>
           <dd>{details.abilities.join(', ')}</dd>
         </div>
       </dl>
 
       <section className={styles.stats}>
-        <h3>Base stats</h3>
-
+        <h3>{t('baseStats')}</h3>
         {details.stats.map((stat) => {
           const percentage = Math.min((stat.value / MAX_STAT_VALUE) * 100, 100);
-
           return (
             <div className={styles.stat} key={stat.name}>
               <div className={styles.statInfo}>
                 <span>{stat.name}</span>
                 <span>{stat.value}</span>
               </div>
-
               <div
                 className={styles.progress}
                 role="progressbar"

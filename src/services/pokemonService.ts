@@ -1,4 +1,4 @@
-import type { Pokemon, PokemonDetails } from '../types.ts';
+import type { Pokemon, PokemonDetails } from '@/types';
 
 type PokemonApiResponse = {
   id: number;

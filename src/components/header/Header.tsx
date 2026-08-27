@@ -1,25 +1,38 @@
-import { NavLink } from 'react-router-dom';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import styles from './header.module.css';
-import ThemeToggle from '../themeToggle/ThemeToggle.tsx';
-import { getActiveLinkClasses } from '../../util/linkHelper.ts';
+import ThemeToggle from '../themeToggle/ThemeToggle';
+import { getActiveLinkClasses } from '@/util/linkHelper';
+import LanguageSwitcher from '@/components/languageSwitcher/LanguageSwitcher';
+import { Link, usePathname } from '@/i18n/routing';
 
 const Header = () => {
+  // Locale-aware: returns the pathname without the locale prefix.
+  const pathname = usePathname();
+  const t = useTranslations('Header');
+
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <NavLink
-          to={`/search`}
-          className={({ isActive }) => getActiveLinkClasses(isActive, styles)}
+        <Link
+          href="/search"
+          className={getActiveLinkClasses(
+            pathname === '/search' || pathname === '/',
+            styles
+          )}
         >
-          Pokemon Search
-        </NavLink>
-        <NavLink
-          to={`/about`}
-          className={({ isActive }) => getActiveLinkClasses(isActive, styles)}
+          {t('search')}
+        </Link>
+
+        <Link
+          href="/about"
+          className={getActiveLinkClasses(pathname === '/about', styles)}
         >
-          About creators
-        </NavLink>
+          {t('about')}
+        </Link>
       </nav>
+      <LanguageSwitcher />
       <div className={styles.theme}>
         <ThemeToggle />
       </div>
