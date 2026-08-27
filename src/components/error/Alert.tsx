@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import styles from './error.module.css';

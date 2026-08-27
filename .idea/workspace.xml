@@ -4,48 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4c9912a-c2fb-4f78-9508-a67c48a0ebad" name="Changes" comment="feat: use next/image&#10;remove tests">
-      <change afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/error.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/search/SearchPage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/[locale]/[...rest]/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/[locale]/not-found.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/actions/exportPokemonsCsv.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/fonts.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/languageSwitcher/languageSwitcher.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/global.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/exportCsvState.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/pokemonsCsv.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/util/downloadCsv.ts" afterDir="false" />
+    <list default="true" id="d4c9912a-c2fb-4f78-9508-a67c48a0ebad" name="Changes" comment="feat: Search Results Page with Server Components">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/messages/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/messages/ru.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/ru.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(site)/about/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/about/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(site)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/eslint.config.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(site)/error.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/error.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/[locale]/(site)/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(site)/search/SearchPage.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(site)/search/SearchPage.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/[locale]/(site)/search/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/search/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/[locale]/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/pokemons/export/route.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/not-found.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/not-found.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/providers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/providers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(site)/search/search.page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(site)/search/search.page.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/[...rest]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/[...rest]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/not-found.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/not-found.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/actions/exportPokemonsCsv.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/actions/exportPokemonsCsv.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/fonts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/fonts.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/styles/theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/styles/theme.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/button/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/button/Button.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/error/Alert.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/error/Alert.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/flyout/Flyout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/flyout/Flyout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/languageSwitcher/LanguageSwitcher.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/languageSwitcher/LanguageSwitcher.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/loader/Loader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/loader/Loader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/languageSwitcher/languageSwitcher.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/languageSwitcher/languageSwitcher.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/pagination/Pagination.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pagination/Pagination.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pokemonCard/PokemonCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonCard/PokemonCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/pokemonDetail/PokemonDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonDetail/PokemonDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pokemonDetail/pokemon.detail.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pokemonDetail/pokemon.detail.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/searchBar/SearchBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchBar/SearchBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/searchResult/SearchResult.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/searchResult/SearchResult.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/themeToggle/ThemeToggle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/themeToggle/ThemeToggle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/searchResult/SearchResult.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/searchResult/search.result.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/global.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useUpdateSearchParams.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useUpdateSearchParams.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/i18n/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n/request.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/i18n/routing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n/routing.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/queryClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/queryClient.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/usePokemonStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/usePokemonStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/downloadPokemonsCsv.test.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/downloadPokemonsCsv.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/exportCsvState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/exportCsvState.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/pokemonsCsv.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/pokemonsCsv.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/downloadCsv.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/downloadCsv.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +46,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="api-queries" />
+        <entry key="$PROJECT_DIR$" value="ai-tools" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -83,126 +74,127 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\puzevich\\AppData\\Roaming\\JetBrains\\WebStorm2025.3\\plugins\\Shell Script\\shellcheck.exe&quot;,
-    &quot;Vitest.AboutPage Server Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.AboutPage.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Alert Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Alert Component.should be closed when clicked on close button.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Alert Component.should call onClick handler when clicked.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Alert Component.should hide Alert component when show false.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Alert Component.should remove Alert component when clicked close.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Alert Component.shows error message when server request fails (1).executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Alert Component.shows error message when server request fails.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.App Component Integration.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.App Routing (1).executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.App Routing.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.App Routing.should render AboutPage on /about path.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Button Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Error Boundary Component.catches and handles JavaScript errors in child components.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Error Boundary Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Error Boundary Component.should log an error to the console.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.ErrorBoundary.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Flyout.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Flyout.should call resetSelected on click.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Header Component.about link has correct href.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Header Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Header Component.should add the active link class to the current route.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Header Component.should insert the current page into the search link href.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Header.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Loader Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Loader Component.should render loading.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.MainLayout.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Navigation buttons.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Navigation buttons.should navigate between pages correct.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.NotFoundPage.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.NotFoundPage.should render the image and the button correctly.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.On the search page.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.On the search page.shows loading message while data is loading.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination component.should navigate when clicking page number.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination element.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination element.should not render if count of pages equals 1.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination element.should render disabled back button if the current page is the first page .executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination element.should render disabled forward button if current page less tha .executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination element.should render first 5 pages and navigation links if count of pages more or equals 5 .executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination element.should render first 5 pages if count of pages more or equals 5 .executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination element.should render navigation buttons if count of pages more than one .executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.Pagination.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonCard.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonCard.navigates back to page on close click.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonCard.renders nothing when pokemonId is undefined.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonCard.renders pokemon details.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonCard.should have selected class when pokemon is selected.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonDetail.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonDetail.should display pokemon cry.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonDetail.should show error when pokemon details cannot be loaded.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonDetailSkeleton (1).executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonDetailSkeleton Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonDetailSkeleton.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonItem (1).executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonItem Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonItem.applies selected class when pokemon is selected.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonItem.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonService.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokemonService.should throw error when API fails.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokenCard element.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.PokenCard element.should render the card with correct name and URL.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchBar Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchBar.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchBar.should render the input field and buttons correctly.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchPage (1).executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchPage Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchPage.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchPage.initializes query from localStorage.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchPage.keeps checked pokemon selected after page change.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchPage.shows fallback error message.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchPage.updates query and navigates on search.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchResult Component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchResult component.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchResult component.should render pagination with correct page count.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchResult element.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.SearchResult.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.ThemeProvider.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.TypeTag.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.should render loading text correctly.executor&quot;: &quot;Run&quot;,
-    &quot;Vitest.useUpdateSearchParams.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#7 on nextjs-ssr&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
-    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/puzevich/WebstormProjects/rsschool-react/src/assets/imgs&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.coverage.executor&quot;: &quot;Run&quot;,
-    &quot;npm.deploy (1).executor&quot;: &quot;Run&quot;,
-    &quot;npm.deploy.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev (1).executor&quot;: &quot;Debug&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.format:fix.executor&quot;: &quot;Run&quot;,
-    &quot;npm.lint-fix.executor&quot;: &quot;Run&quot;,
-    &quot;npm.lint.executor&quot;: &quot;Run&quot;,
-    &quot;npm.predeploy (1).executor&quot;: &quot;Run&quot;,
-    &quot;npm.predeploy.executor&quot;: &quot;Run&quot;,
-    &quot;npm.prepare.executor&quot;: &quot;Run&quot;,
-    &quot;npm.preview.executor&quot;: &quot;Run&quot;,
-    &quot;npm.test.executor&quot;: &quot;Run&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\puzevich\\WebstormProjects\\rsschool-react\\node_modules\\prettier&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.stylesheets&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\puzevich\\WebstormProjects\\rsschool-react\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHELLCHECK.PATH": "C:\\Users\\puzevich\\AppData\\Roaming\\JetBrains\\WebStorm2025.3\\plugins\\Shell Script\\shellcheck.exe",
+    "Vitest.AboutPage Server Component.executor": "Run",
+    "Vitest.AboutPage.executor": "Run",
+    "Vitest.Alert Component.executor": "Run",
+    "Vitest.Alert Component.should be closed when clicked on close button.executor": "Run",
+    "Vitest.Alert Component.should call onClick handler when clicked.executor": "Run",
+    "Vitest.Alert Component.should hide Alert component when show false.executor": "Run",
+    "Vitest.Alert Component.should remove Alert component when clicked close.executor": "Run",
+    "Vitest.Alert Component.shows error message when server request fails (1).executor": "Run",
+    "Vitest.Alert Component.shows error message when server request fails.executor": "Run",
+    "Vitest.App Component Integration.executor": "Run",
+    "Vitest.App Routing (1).executor": "Run",
+    "Vitest.App Routing.executor": "Run",
+    "Vitest.App Routing.should render AboutPage on /about path.executor": "Run",
+    "Vitest.Button Component.executor": "Run",
+    "Vitest.Error Boundary Component.catches and handles JavaScript errors in child components.executor": "Run",
+    "Vitest.Error Boundary Component.executor": "Run",
+    "Vitest.Error Boundary Component.should log an error to the console.executor": "Run",
+    "Vitest.ErrorBoundary.executor": "Run",
+    "Vitest.Flyout.executor": "Run",
+    "Vitest.Flyout.should call resetSelected on click.executor": "Run",
+    "Vitest.Header Component.about link has correct href.executor": "Run",
+    "Vitest.Header Component.executor": "Run",
+    "Vitest.Header Component.should add the active link class to the current route.executor": "Run",
+    "Vitest.Header Component.should insert the current page into the search link href.executor": "Run",
+    "Vitest.Header.executor": "Run",
+    "Vitest.Loader Component.executor": "Run",
+    "Vitest.Loader Component.should render loading.executor": "Run",
+    "Vitest.MainLayout.executor": "Run",
+    "Vitest.Navigation buttons.executor": "Run",
+    "Vitest.Navigation buttons.should navigate between pages correct.executor": "Run",
+    "Vitest.NotFoundPage.executor": "Run",
+    "Vitest.NotFoundPage.should render the image and the button correctly.executor": "Run",
+    "Vitest.On the search page.executor": "Run",
+    "Vitest.On the search page.shows loading message while data is loading.executor": "Run",
+    "Vitest.Pagination component.executor": "Run",
+    "Vitest.Pagination component.should navigate when clicking page number.executor": "Run",
+    "Vitest.Pagination element.executor": "Run",
+    "Vitest.Pagination element.should not render if count of pages equals 1.executor": "Run",
+    "Vitest.Pagination element.should render disabled back button if the current page is the first page .executor": "Run",
+    "Vitest.Pagination element.should render disabled forward button if current page less tha .executor": "Run",
+    "Vitest.Pagination element.should render first 5 pages and navigation links if count of pages more or equals 5 .executor": "Run",
+    "Vitest.Pagination element.should render first 5 pages if count of pages more or equals 5 .executor": "Run",
+    "Vitest.Pagination element.should render navigation buttons if count of pages more than one .executor": "Run",
+    "Vitest.Pagination.executor": "Run",
+    "Vitest.PokemonCard.executor": "Run",
+    "Vitest.PokemonCard.navigates back to page on close click.executor": "Run",
+    "Vitest.PokemonCard.renders nothing when pokemonId is undefined.executor": "Run",
+    "Vitest.PokemonCard.renders pokemon details.executor": "Run",
+    "Vitest.PokemonCard.should have selected class when pokemon is selected.executor": "Run",
+    "Vitest.PokemonDetail.executor": "Run",
+    "Vitest.PokemonDetail.should display pokemon cry.executor": "Run",
+    "Vitest.PokemonDetail.should show error when pokemon details cannot be loaded.executor": "Run",
+    "Vitest.PokemonDetailSkeleton (1).executor": "Run",
+    "Vitest.PokemonDetailSkeleton Component.executor": "Run",
+    "Vitest.PokemonDetailSkeleton.executor": "Run",
+    "Vitest.PokemonItem (1).executor": "Run",
+    "Vitest.PokemonItem Component.executor": "Run",
+    "Vitest.PokemonItem.applies selected class when pokemon is selected.executor": "Run",
+    "Vitest.PokemonItem.executor": "Run",
+    "Vitest.PokemonService.executor": "Run",
+    "Vitest.PokemonService.should throw error when API fails.executor": "Run",
+    "Vitest.PokenCard element.executor": "Run",
+    "Vitest.PokenCard element.should render the card with correct name and URL.executor": "Run",
+    "Vitest.SearchBar Component.executor": "Run",
+    "Vitest.SearchBar.executor": "Run",
+    "Vitest.SearchBar.should render the input field and buttons correctly.executor": "Run",
+    "Vitest.SearchPage (1).executor": "Run",
+    "Vitest.SearchPage Component.executor": "Run",
+    "Vitest.SearchPage.executor": "Run",
+    "Vitest.SearchPage.initializes query from localStorage.executor": "Run",
+    "Vitest.SearchPage.keeps checked pokemon selected after page change.executor": "Run",
+    "Vitest.SearchPage.shows fallback error message.executor": "Run",
+    "Vitest.SearchPage.updates query and navigates on search.executor": "Run",
+    "Vitest.SearchResult Component.executor": "Run",
+    "Vitest.SearchResult component.executor": "Run",
+    "Vitest.SearchResult component.should render pagination with correct page count.executor": "Run",
+    "Vitest.SearchResult element.executor": "Run",
+    "Vitest.SearchResult.executor": "Run",
+    "Vitest.ThemeProvider.executor": "Run",
+    "Vitest.TypeTag.executor": "Run",
+    "Vitest.should render loading text correctly.executor": "Run",
+    "Vitest.useUpdateSearchParams.executor": "Run",
+    "git-widget-placeholder": "#7 on nextjs-ssr",
+    "ignore.virus.scanning.warn.message": "true",
+    "javascript.preferred.runtime.type.id": "node",
+    "js.debugger.nextJs.config.created.client": "true",
+    "last_opened_file_path": "C:/Users/puzevich/WebstormProjects/rsschool-react/src/assets/imgs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.build.executor": "Run",
+    "npm.coverage.executor": "Run",
+    "npm.deploy (1).executor": "Run",
+    "npm.deploy.executor": "Run",
+    "npm.dev (1).executor": "Debug",
+    "npm.dev.executor": "Run",
+    "npm.format.executor": "Run",
+    "npm.format:fix.executor": "Run",
+    "npm.lint-fix.executor": "Run",
+    "npm.lint.executor": "Run",
+    "npm.predeploy (1).executor": "Run",
+    "npm.predeploy.executor": "Run",
+    "npm.prepare.executor": "Run",
+    "npm.preview.executor": "Run",
+    "npm.test.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\puzevich\\WebstormProjects\\rsschool-react\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "configurable.stylesheets",
+    "ts.external.directory.path": "C:\\Users\\puzevich\\WebstormProjects\\rsschool-react\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\puzevich\WebstormProjects\rsschool-react\src\assets\imgs" />
@@ -258,16 +250,6 @@
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
     </configuration>
-    <configuration name="coverage" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="coverage" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -278,13 +260,23 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="format" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="format" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.format" />
+        <item itemvalue="Vitest.App Routing" />
         <item itemvalue="Vitest.AboutPage Server Component" />
         <item itemvalue="Vitest.AboutPage" />
-        <item itemvalue="npm.coverage" />
-        <item itemvalue="Vitest.App Routing" />
       </list>
     </recent_temporary>
   </component>
@@ -341,15 +333,7 @@
       <workItem from="1786701145309" duration="10688000" />
       <workItem from="1786772326580" duration="23505000" />
       <workItem from="1787426491385" duration="6674000" />
-      <workItem from="1787566808849" duration="2384000" />
-    </task>
-    <task id="LOCAL-00014" summary="fix: pagination">
-      <option name="closed" value="true" />
-      <created>1778494642785</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1778494642785</updated>
+      <workItem from="1787566808849" duration="23950000" />
     </task>
     <task id="LOCAL-00015" summary="init: vitest">
       <option name="closed" value="true" />
@@ -735,7 +719,15 @@
       <option name="project" value="LOCAL" />
       <updated>1786997479180</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="feat: update translation">
+      <option name="closed" value="true" />
+      <created>1787572106883</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1787572106883</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -765,8 +757,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: data caching and loading states" />
-    <MESSAGE value="feat: data caching and loading states&#10;fix: tests" />
     <MESSAGE value="feat: invalidate cache" />
     <MESSAGE value="feat: add test on cache invalidation&#10;fix: routing" />
     <MESSAGE value="fix: navigation&#10;fix: update styles" />
@@ -790,6 +780,8 @@
     <MESSAGE value="fix: api queries and tests" />
     <MESSAGE value="feat: Application Rebuild in Next.js with Preserved Behavior" />
     <MESSAGE value="feat: use next/image&#10;remove tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: use next/image&#10;remove tests" />
+    <MESSAGE value="feat: update translation" />
+    <MESSAGE value="feat: Search Results Page with Server Components" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Search Results Page with Server Components" />
   </component>
 </project>

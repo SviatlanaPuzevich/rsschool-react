@@ -8,3 +8,15 @@
   border: 1px solid gray;
   box-shadow: 0 4px 10px rgba(156, 151, 151, 0.4);
 }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.resultContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+

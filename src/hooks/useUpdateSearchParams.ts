@@ -7,21 +7,22 @@ export const useUpdateSearchParams = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentParams = new URLSearchParams(searchParams.toString());
+  const updateParams = (updates: Record<string, string | null>) => {
+    const currentParams = new URLSearchParams(searchParams.toString());
 
-  const setParam = (key: string, value: string) => {
-    currentParams.set(key, value);
-    router.push(`${pathname}?${currentParams.toString()}`);
-  };
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === '') {
+        currentParams.delete(key);
+      } else {
+        currentParams.set(key, value);
+      }
+    });
 
-  const deleteParam = (key: string) => {
-    currentParams.delete(key);
     router.push(`${pathname}?${currentParams.toString()}`);
   };
 
   return {
     searchParams,
-    setParam,
-    deleteParam,
+    updateParams,
   };
 };

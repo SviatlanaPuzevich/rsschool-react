@@ -6,12 +6,12 @@
   --accent: #ffcb05;
   --primary: coral;
   --rainbow: linear-gradient(
-          90deg,
-          #a855f7,
-          #3b82f6,
-          #22c55e,
-          #eab308,
-          #ef4444
+    90deg,
+    #a855f7,
+    #3b82f6,
+    #22c55e,
+    #eab308,
+    #ef4444
   );
 }
 
@@ -23,12 +23,12 @@ body[data-theme='dark'] {
   --accent: #ffcb05;
   --primary: #567edd;
   --rainbow: linear-gradient(
-          90deg,
-          #a855f7,
-          #3b82f6,
-          #22c55e,
-          #eab308,
-          #ef4444
+    90deg,
+    #a855f7,
+    #3b82f6,
+    #22c55e,
+    #eab308,
+    #ef4444
   );
 }
 

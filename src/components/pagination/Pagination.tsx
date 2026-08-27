@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 import styles from './pagination.module.css';
 import { getActiveLinkClasses } from '@/util/linkHelper';
@@ -5,26 +7,22 @@ import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
 
 interface Props {
   count: number;
+  currentPage: number;
 }
 
-const Pagination = ({ count }: Props) => {
-  const { searchParams, deleteParam, setParam } = useUpdateSearchParams();
+const Pagination = ({ count, currentPage }: Props) => {
   const t = useTranslations('Pagination');
-
-  const currentPage = Math.max(1, Number(searchParams.get('page')) || 1);
+  const { updateParams } = useUpdateSearchParams();
 
   if (count <= 1) {
     return null;
   }
 
   const updatePage = (page: number): void => {
-    if (page <= 1) {
-      deleteParam('page');
-    } else {
-      setParam('page', page.toString());
-    }
-
-    deleteParam('details');
+    updateParams({
+      page: page <= 1 ? null : page.toString(),
+      id: null,
+    });
   };
 
   let startPage = Math.max(1, currentPage - 2);

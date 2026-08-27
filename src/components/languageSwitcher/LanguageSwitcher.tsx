@@ -16,8 +16,7 @@ const LanguageSwitcher = () => {
     const nextLocale = event.target.value as Locale;
 
     // Keep the current query string (page/details/...) when switching locales.
-    const search =
-      typeof window === 'undefined' ? '' : window.location.search;
+    const search = typeof window === 'undefined' ? '' : window.location.search;
 
     startTransition(() => {
       router.replace(`${pathname}${search}`, { locale: nextLocale });

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import styles from './pokemon.card.module.css';
 import type { Pokemon } from '@/types';
@@ -11,7 +13,8 @@ interface Props {
 }
 
 const PokemonCard: React.FC<Props> = ({ pokemon, isSelected }) => {
-  const { setParam, deleteParam } = useUpdateSearchParams();
+  const { updateParams } = useUpdateSearchParams();
+
   const selectedPokemons = usePokemonStore((state) => state.selectedPokemons);
   const selectPokemon = usePokemonStore((state) => state.selectPokemon);
   const unselectPokemon = usePokemonStore((state) => state.unselectPokemon);
@@ -27,11 +30,9 @@ const PokemonCard: React.FC<Props> = ({ pokemon, isSelected }) => {
   };
 
   const selectHandle = () => {
-    if (isSelected) {
-      deleteParam('details');
-    } else {
-      setParam('details', pokemon.id.toString());
-    }
+    updateParams({
+      id: isSelected ? null : pokemon.id.toString(),
+    });
   };
 
   return (

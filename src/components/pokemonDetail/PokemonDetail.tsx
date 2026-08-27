@@ -1,72 +1,50 @@
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import styles from './pokemon.detail.module.css';
 import { pokemonService } from '@/services/pokemonService';
 import Alert from '../error/Alert';
 import TypeTag from '../typeTag/TypeTag';
-import PokemonDetailSkeleton from '../pokemonDetailSkeleton/PokemonDetailSkeleton';
-import Button from '../button/Button';
-import { useUpdateSearchParams } from '@/hooks/useUpdateSearchParams';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useTranslations } from 'next-intl';
-import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 
 interface Props {
   id: number;
+  closeHref: string;
 }
 
 const MAX_STAT_VALUE = 255;
 
-export const PokemonDetail: React.FC<Props> = ({ id }) => {
-  const { deleteParam } = useUpdateSearchParams();
-  const queryClient = useQueryClient();
-  const t = useTranslations('Pokemon');
+export const PokemonDetail = async ({ id, closeHref }: Props) => {
+  const t = await getTranslations('Pokemon');
 
-  const {
-    data: details,
-    isError,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['details', id],
-    queryFn: () => pokemonService.getById(id),
-  });
+  let details = null;
+  let errorMessage = null;
 
-  const handleClose = (): void => {
-    deleteParam('details');
-  };
-
-  const handleInvalidation = () => {
-    queryClient.invalidateQueries({ queryKey: ['details', id] });
-  };
-
-  if (isLoading) {
-    return <PokemonDetailSkeleton />;
+  // 1. В try/catch оставляем ТОЛЬКО логику получения данных
+  try {
+    details = await pokemonService.getById(id);
+  } catch (error) {
+    errorMessage =
+      error instanceof Error ? error.message : 'Failed to fetch pokemon';
   }
 
-  if (isError) {
-    return <Alert message={error.message} show />;
+  // 2. Рендерим ошибку вне блока try/catch
+  if (errorMessage || !details) {
+    return <Alert message={errorMessage || 'Failed to fetch pokemon'} show />;
   }
 
-  if (!details) {
-    return null;
-  }
-
+  // 3. Основной JSX рендерится в обычном потоке компонента
   return (
     <article className={styles.detail}>
       <div className={styles.header}>
         <h2>{details.name}</h2>
-        <Button
-          onClick={handleInvalidation}
-          text={t('invalidateCache')}
-          buttonType="primary"
-        />
-
-        <Button
-          onClick={handleClose}
-          text="×"
-          ariaLabel={t('close')}
-          buttonType="danger"
-        />
+        <Link
+          href={closeHref}
+          className={styles.closeButton}
+          aria-label={t('close')}
+        >
+          ×
+        </Link>
       </div>
 
       <p className={styles.id}>#{details.id}</p>
@@ -83,7 +61,6 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
             <figcaption>{t('front')}</figcaption>
           </figure>
         )}
-
         {details.sprites.backDefault && (
           <figure>
             <Image
@@ -95,7 +72,6 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
             <figcaption>{t('back')}</figcaption>
           </figure>
         )}
-
         {details.sprites.frontShiny && (
           <figure>
             <Image
@@ -107,7 +83,6 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
             <figcaption>{t('shinyFront')}</figcaption>
           </figure>
         )}
-
         {details.sprites.backShiny && (
           <figure>
             <Image
@@ -138,12 +113,10 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
           <dt>{t('height')}</dt>
           <dd>{t('meters', { value: details.height / 10 })}</dd>
         </div>
-
         <div>
           <dt>{t('weight')}</dt>
           <dd>{t('kilograms', { value: details.weight / 10 })}</dd>
         </div>
-
         <div>
           <dt>{t('abilities')}</dt>
           <dd>{details.abilities.join(', ')}</dd>
@@ -152,17 +125,14 @@ export const PokemonDetail: React.FC<Props> = ({ id }) => {
 
       <section className={styles.stats}>
         <h3>{t('baseStats')}</h3>
-
         {details.stats.map((stat) => {
           const percentage = Math.min((stat.value / MAX_STAT_VALUE) * 100, 100);
-
           return (
             <div className={styles.stat} key={stat.name}>
               <div className={styles.statInfo}>
                 <span>{stat.name}</span>
                 <span>{stat.value}</span>
               </div>
-
               <div
                 className={styles.progress}
                 role="progressbar"
