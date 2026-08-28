@@ -1,0 +1,29 @@
+.alert {
+  padding: 12px;
+  background: #ffdddd;
+  border: 1px solid red;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.alert__content {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.alert__close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: red;
+  opacity: 0.6;
+  margin-left: 15px;
+  padding: 0;
+  transition: opacity 0.2s ease;
+}
+
+.alert__close:hover {
+  opacity: 1;
+}

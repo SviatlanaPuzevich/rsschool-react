@@ -1,0 +1,14 @@
+.toggle {
+  border-radius: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  background: transparent;
+  border: 2px solid var(--bg-color);
+  color: var(--text-color);
+  transition: 0.2s ease;
+}
+
+.toggle:hover {
+  transform: translateY(-1px);
+}
